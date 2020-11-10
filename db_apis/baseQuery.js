@@ -1,5 +1,24 @@
 const database = require('../services/database');
 
+function getSQL(map, tableName){
+    let object = map[tableName];
+    let sqlCab = 'SELECT ';
+    let first = true;
+    for (const key in object) {
+        if (first){
+            first = false;
+        }
+        else{
+            sqlCab += ', ';            
+        }
+        sqlCab += key + ' as ' + object[key];
+    }
+    sqlCab += '\nFROM ' + tableName;
+
+    return sqlCab;
+}
+
+
 async function find(query, context) {
     const binds = {};
 
@@ -47,5 +66,7 @@ async function count(query){
 }
 
 module.exports.find = find;
+
+module.exports.getSelect = getSQL;
 
 module.exports.count = count;

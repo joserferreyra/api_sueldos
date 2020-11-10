@@ -1,10 +1,9 @@
 const database = require('../services/database');
 const baseQ = require('./baseQuery');
+const mapper = require('../config/mapper');
 
 async function find(context){
-    let query = `select IDESTADOHOJA as EstadoHoja,IDGRUPOADI,IDHOJANOV as Id,PERIODO,
-                    IDTIPOLIQ,IDTIPOHOJA ,IDTIPOCARGA as tipocarga,FECHAALTA as FechaGrabacion 
-                from hoja_nov`;
+    let query = baseQ.getSelect(mapper.jsonEntityMap,'hoja_nov');
     return baseQ.find(query,context)
 };
 
