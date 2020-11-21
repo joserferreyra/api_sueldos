@@ -1,16 +1,23 @@
 module.exports.jsonEntityMap = {
-    hoja_nov:{
-            FECHAALTA: 'FechaGrabacion',
-            IDTIPOCARGA: 'TipoCarga',
-            IDESTADOHOJA: 'EstadoHoja',
-            IDGRUPOADI: 'GrupoAdicional',
-            IDTIPOLIQ: 'TipoLiquidacino',
-            PERIODO: 'Periodo',
-            IDTIPOHOJA: 'TipoHoja',
-            IDHOJANOV: 'Id'
+    hoja: {
+        table: 'hoja_nov',
+        fields: {
+            FechaGrabacion: 'FECHAALTA',
+            TipoCarga: 'IDTIPOCARGA',
+            EstadoHoja: 'IDESTADOHOJA',
+            GrupoAdicional: 'IDGRUPOADI',
+            TipoLiquidacion: 'IDTIPOLIQ',
+            Periodo: 'PERIODO',
+            TipoHoja: 'IDTIPOHOJA',
+            Id: 'IDHOJANOV'
+        },
+        sequence: {field: "Id", seq:'HOJA_NOV_SEQ.NEXTVAL'}
     },
-    tipoliq:{
-        IDTIPOLIQ: 'Id',
-        DESCRIPCION: 'Descripcion'
-    }   
+    tipoliq: {
+        table: 'tipoliquidacion',
+        fields: {
+            Id: 'IDTIPOLIQ',
+            Descripcion: 'DESCRIPCION'
+        }
+    }
 };

@@ -55,4 +55,3 @@ function simpleExecute(statement, binds = [], opts = {}) {
 }
 
 module.exports.simpleExecute = simpleExecute;
-

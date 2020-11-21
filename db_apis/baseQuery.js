@@ -1,37 +1,84 @@
 const database = require('../services/database');
 
-function getSQL(map, tableName){
-    let object = map[tableName];
+//private func
+
+function getSQLselect(entity) {
     let sqlCab = 'SELECT ';
     let first = true;
-    for (const key in object) {
-        if (first){
+    for (const key in entity.fields) {
+        if (first) {
             first = false;
         }
-        else{
-            sqlCab += ', ';            
+        else {
+            sqlCab += ', ';
         }
-        sqlCab += key + ' as ' + object[key];
+        sqlCab += entity.fields[key] + ' as ' + key;
     }
-    sqlCab += '\nFROM ' + tableName;
+    sqlCab += '\nFROM ' + entity.table;
 
     return sqlCab;
 }
 
+function getSQLinsert(entity) {
+    let sqlCab = 'INSERT INTO ' + entity.table;
+    let strValues = '';
+    let first = true;
+    for (const key in entity.fields) {
+        if (first) {
+            first = false;
+            sqlCab += ' (';
+            strValues = ' VALUES ('
+        } else {
+            sqlCab += ', ';
+            strValues += ', ';
+        }
+        sqlCab += entity.fields[key];
 
-async function find(query, context) {
+        if (entity['sequence']) {
+            if (entity['sequence'].field == key){
+                strValues += entity.sequence.seq;    
+            }else{
+                strValues += ':' + key;
+            }
+        }else{
+            strValues += ':' + key;
+        }
+    }
+
+    strValues += ')';
+    sqlCab += ') ' + strValues;
+
+    return sqlCab;
+}
+
+// public func
+
+async function create(context, entity) {
+    let query = getSQLinsert(entity);
     const binds = {};
+
+    for (const key in context) {
+        binds[key] = context[key];
+    }
+    let result = await database.simpleExecute(query, binds);
+    return result;
+
+}
+
+async function find(context, entity) {
+    const binds = {};
+    let query = getSQLselect(entity);
 
     let firstWhere = true;
 
     for (const key in context) {
         if (key != 'limit' & key != 'offset') {
-            binds[key] = context[key];
+            binds[entity.fields[key]] = context[key];
             if (firstWhere) {
-                query += `\nwhere ` + key + `= :` + key;
+                query += `\nwhere ` + entity.fields[key] + `= :` + entity.fields[key];
                 firstWhere = false;
             } else {
-                query += `\nand ` + key + `= :` + key;
+                query += `\nand ` + entity.fields[key] + `= :` + entity.fields[key];
             }
         } else {
             binds[key] = context[key];
@@ -39,34 +86,9 @@ async function find(query, context) {
     }
 
     const result = await database.simpleExecute(query, binds);
-
     return result.rows;
-}
 
-async function count(query){
-    const binds = {};
-
-    let firstWhere = true;
-
-    for (const key in context) {
-        if (key != 'limit' & key != 'offset') {
-            binds[key] = context[key];
-            if (firstWhere) {
-                query += `\nwhere ` + key + `= :` + key;
-                firstWhere = false;
-            } else {
-                query += `\nand ` + key + `= :` + key;
-            }
-        }
-    }
-
-    const result = await database.simpleExecute(query, binds);
-
-    return result.rows;
 }
 
 module.exports.find = find;
-
-module.exports.getSelect = getSQL;
-
-module.exports.count = count;
+module.exports.create = create;
