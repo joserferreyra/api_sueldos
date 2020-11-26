@@ -1,15 +1,14 @@
 const express = require('express');
-const router = new express.Router();
-const tipoliq = require('../controllers/tipoliq');
-const novhaberes = require('../controllers/novhaberes');
-const hojanov = require('../controllers/hojanov');
- 
-router.route('/tipoliq').get(tipoliq.get);
+const bodyParser = require("body-parser");
+const app = new express.Router();
 
-router.route('/novhaberes').get(novhaberes.get);
+const control = require('../controllers/control');
 
-router.route('/hojanov').get(hojanov.get);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-//router.route('/hojanovcount').get(hojanov.get);
+app.route('/*')
+    .get(control.get)
+    .post(control.post);
 
-module.exports = router;
+module.exports = app;
