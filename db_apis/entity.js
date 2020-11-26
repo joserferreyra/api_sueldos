@@ -1,8 +1,7 @@
 const baseQ = require('./baseQuery');
 
-async function find(context, entityName, entity) {
+async function find(context, entity) {
     return baseQ.find(context, entity);
-    //return baseQ.show(context, entityName, entity);
 };
 
 async function create(context, entity) {

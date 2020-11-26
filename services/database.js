@@ -35,9 +35,7 @@ function simpleExecute(statement, binds = [], opts = {}) {
                 query = getQueryLimits(statement);
             } else {
                 query = statement;
-            }
-            console.log(query);
-            console.log(binds);
+            }            
             const result = await conn.execute(query, binds, opts);
             resolve(result);
         } catch (err) {

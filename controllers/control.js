@@ -23,9 +23,6 @@ async function get(req, res, next) {
 
         let entityName = req.path.substring(1,);
 
-        console.log(mapper.jsonEntityMap[entityName]);
-        console.log(entityName['table']);
-
         if (mapper.jsonEntityMap[entityName]) {
             rows = await entityapi.find(context, mapper.jsonEntityMap[entityName]);
         }
@@ -45,10 +42,7 @@ async function post(req, res, next) {
     try {
         let entityName = req.path.substring(1,);
         let context = getEntityValues(req, mapper.jsonEntityMap[entityName].fields);
-
         let result = await entityapi.create(context, mapper.jsonEntityMap[entityName]);
-
-        console.log(result);
 
         if (result) {
             res.status(200).json(result.rowsAffected);
