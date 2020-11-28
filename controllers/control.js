@@ -6,9 +6,11 @@ const mapper = require('../config/mapper');
 function getEntityValues(req, entity) {
     let object = {};
     for (const key in entity) {
-        if (req.body[key]){
-            object[key] = req.body[key];
-        }        
+        if (typeof entity[key] != object) {
+            if (req.body[key]) {
+                object[key] = req.body[key];
+            }
+        }
     }
     return object;
 }
@@ -41,7 +43,9 @@ async function get(req, res, next) {
 async function post(req, res, next) {
     try {
         let entityName = req.path.substring(1,);
+
         let context = getEntityValues(req, mapper.jsonEntityMap[entityName].fields);
+
         let result = await entityapi.create(context, mapper.jsonEntityMap[entityName]);
 
         if (result) {

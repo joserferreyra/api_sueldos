@@ -49,26 +49,28 @@ function getSQLinsert(entity) {
     let strValues = '';
     let first = true;
     for (const key in entity.fields) {
-        if (first) {
-            first = false;
-            sqlCab += ' (';
-            strValues = ' VALUES ('
-        } else {
-            sqlCab += ', ';
-            strValues += ', ';
-        }
         if (typeof entity.fields[key] != 'object') {
-            sqlCab += entity.fields[key];
-        }
+            if (first) {
+                first = false;
+                sqlCab += ' (';
+                strValues = ' VALUES ('
+            } else {
+                sqlCab += ', ';
+                strValues += ', ';
+            }
+            if (typeof entity.fields[key] != 'object') {
+                sqlCab += entity.fields[key];
+            }
 
-        if (entity['sequence']) {
-            if (entity['sequence'].field == key) {
-                strValues += entity.sequence.seq;
+            if (entity['sequence']) {
+                if (entity['sequence'].field == key) {
+                    strValues += entity.sequence.seq;
+                } else {
+                    strValues += ':' + key;
+                }
             } else {
                 strValues += ':' + key;
             }
-        } else {
-            strValues += ':' + key;
         }
     }
 
@@ -87,6 +89,10 @@ async function create(context, entity) {
     for (const key in context) {
         binds[key] = context[key];
     }
+
+    console.log(query);
+    console.log(binds);
+
     let result = await database.simpleExecute(query, binds);
     return result;
 
@@ -94,7 +100,7 @@ async function create(context, entity) {
 
 async function find(context, entity) {
     const binds = {};
-    
+
     let query = getSQLcomplexSelect(entity);
 
     let firstWhere = true;

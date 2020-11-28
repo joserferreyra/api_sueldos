@@ -85,5 +85,4 @@ module.exports.jsonEntityMap = {
         },
         sequence: { field: "Id", seq: 'NOVHABERES_SEQ.NEXTVAL' }
     }
-
 };
