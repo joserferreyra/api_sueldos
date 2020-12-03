@@ -126,6 +126,7 @@ http://www.duckdns.org:3000/api/tipoliq
 | Segmento url |Sintaxis|Observación|
 | --- |---:| ---:|
 | where |?field=value&field=value...| Se puede agregar n condiciones|
+|order by | sort={"atributo obj","asc/desc"} |
 | limites y corrimiento |&limit=value&offset=value | limit obligatorio, offset opcional |
 
 ---

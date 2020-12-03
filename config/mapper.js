@@ -84,5 +84,25 @@ module.exports.jsonEntityMap = {
             Id: 'IDNOVHAB'
         },
         sequence: { field: "Id", seq: 'NOVHABERES_SEQ.NEXTVAL' }
+    },
+    persona:{
+        table:"PERSONAS",
+        fields:{
+            Id: 'IDPERS',
+            Documento: 'DNI',
+            ApellidoYNombre: 'APEYNOM',
+            Sexo: 'SEXO',
+            CUIL: 'CUIL',
+            FechaNacimiento:'FECHANAC',
+            Telefono: 'TELEFONO',
+            EMail:'EMAIL',
+            FechaIngreso: 'FECHAINGRESO',
+            DomicilioCalle: 'DOMICILIO', 
+            DomicilioNumero: 'NRO',
+            Localidad: 'LOCALIDAD',
+            CodigoPostal: 'CODPOSTAL',
+            Provincia: 'PROVINCIA'
+        },
+        sequence: { field: "Id", seq: 'PERSONAS_SEQ.NEXTVAL' }
     }
 };
