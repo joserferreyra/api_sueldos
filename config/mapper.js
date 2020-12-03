@@ -2,20 +2,20 @@ module.exports.jsonEntityMap = {
     hoja: {
         table: 'hoja_nov',
         fields: {
-            FechaGrabacion: 'FECHAALTA',
-            TipoCarga: 'IDTIPOCARGA',
-            DescripcionTipoCarga: {
-                table: 'tabtipocarga',
-                parentKey: 'IDTIPOCARGA',
-                foringKey: 'IDTIPOCARGA',
+            //FechaGrabacion: 'FECHAALTA',
+            TipoCargaId: 'IDTIPOCARGA',
+            TipoHojaDescripcion: {
+                table: 'tabtipohoja',
+                parentKey: 'IDTIPOHOJA',
+                foringKey: 'IDTIPOHOJA',
                 fields: {
                     Descripcion: 'DESCRIPCION'
                 }
             },
-            EstadoHoja: 'IDESTADOHOJA',
+            EstadoHojaId: 'IDESTADOHOJA',
             GrupoAdicional: 'IDGRUPOADI',
-            TipoLiquidacion: 'IDTIPOLIQ',
-            DescripcionTipoLiquidacion: {
+            TipoLiquidacionId: 'IDTIPOLIQ',
+            TipoLiquidacionDescripcion: {
                 table: 'tipoliquidacion',
                 parentKey: 'IDTIPOLIQ',
                 foringKey: 'IDTIPOLIQ',
@@ -23,8 +23,8 @@ module.exports.jsonEntityMap = {
                     Descripcion: 'DESCRIPCION'
                 }
             },
-            Periodo: 'PERIODO',
-            TipoHoja: 'IDTIPOHOJA',
+            PeriodoId: 'PERIODO',
+            TipoHojaId: 'IDTIPOHOJA',
             Id: 'IDHOJANOV'
         },
         sequence: { field: "Id", seq: 'HOJA_NOV_SEQ.NEXTVAL' }
