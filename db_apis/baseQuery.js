@@ -44,12 +44,12 @@ function getSQLselect(entity) {
 }
 
 
-function getSQLinsert(entity) {
+function getSQLinsert(context, entity) {   
     let sqlCab = 'INSERT INTO ' + entity.table;
     let strValues = '';
     let first = true;
     for (const key in entity.fields) {
-        if (typeof entity.fields[key] != 'object') {
+        if (typeof entity.fields[key] != 'object' && (key in context || key == entity['sequence'].field)) {
             if (first) {
                 first = false;
                 sqlCab += ' (';
@@ -83,19 +83,17 @@ function getSQLinsert(entity) {
 // public func
 
 async function create(context, entity) {
-    let query = getSQLinsert(entity);
+    let query = getSQLinsert(context, entity);
     const binds = {};
 
     for (const key in context) {
         binds[key] = context[key];
     }
 
-    console.log(query);
-    console.log(binds);
+    //console.log(query);
 
     let result = await database.simpleExecute(query, binds);
     return result;
-
 }
 
 async function find(context, entity) {
@@ -106,7 +104,7 @@ async function find(context, entity) {
     let firstWhere = true;
 
     for (const key in context) {
-        if (key != 'limit' & key != 'offset') {
+        if (key != 'limit' & key != 'offset' & key != 'sort') {
             binds[entity.fields[key]] = context[key];
             if (firstWhere) {
                 query += `\nwhere ` + entity.fields[key] + `= :` + entity.fields[key];
@@ -115,9 +113,41 @@ async function find(context, entity) {
                 query += `\nand ` + entity.fields[key] + `= :` + entity.fields[key];
             }
         } else {
-            binds[key] = context[key];
+            if (key != 'sort') {
+                binds[key] = context[key];
+            }
         }
     }
+
+    if (context.sort !== undefined) {
+        let jsonSort = JSON.parse(context.sort)
+        let orderStr = '';
+        let first = true
+        for (const key in jsonSort) {
+            if (!first){
+                orderStr += ', ';
+            }else{                
+                first = false;
+            }
+            orderStr += key + ' ' + jsonSort[key];            
+        }
+
+        // Bloque en caso de un solo ordenamiento
+        /*
+        let [column, order] = context.sort.split(':');
+        if (order === undefined) {
+            order = 'asc';
+        }
+        if (order !== 'asc' && order !== 'desc') {
+            throw new Error('Ordenamiento invalido');
+        }        
+        query += `\norder by ${column} ${order} `;
+        */
+        query += `\norder by ${orderStr}`;
+    }
+
+    //Para debug
+    //console.log(query);
 
     const result = await database.simpleExecute(query, binds);
 
