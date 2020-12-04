@@ -59,5 +59,25 @@ async function post(req, res, next) {
     }
 }
 
+async function put(req, res, next) {
+    try {
+        let entityName = req.path.substring(1,);
+
+        let context = getEntityValues(req, mapper.jsonEntityMap[entityName].fields);
+
+        let result = await entityapi.modify(context, mapper.jsonEntityMap[entityName]);
+
+        if (result) {
+            res.status(200).json(result.rowsAffected);
+        } else {
+            res.status(404).end();
+        }
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports.get = get;
 module.exports.post = post;
+module.exports.put = put;

@@ -44,7 +44,7 @@ function getSQLselect(entity) {
 }
 
 
-function getSQLinsert(context, entity) {   
+function getSQLinsert(context, entity) {
     let sqlCab = 'INSERT INTO ' + entity.table;
     let strValues = '';
     let first = true;
@@ -80,7 +80,42 @@ function getSQLinsert(context, entity) {
     return sqlCab;
 }
 
+function getSQLupdate(context, entity) {
+    let sqlCab = 'UPDATE ' + entity.table;
+    let first = true;
+    for (const key in entity.fields) {
+        if (typeof entity.fields[key] != 'object' && (key in context && key != entity['sequence'].field)) {
+            if (first) {
+                first = false;
+                sqlCab += ' SET ';
+            } else {
+                sqlCab += ', ';
+            }
+            if (typeof entity.fields[key] != 'object') {
+                sqlCab += entity.fields[key] + '= :' + key;
+            }
+        }
+    }
+    sqlCab += ' WHERE ' + entity.fields[entity['sequence'].field] + '= :' + entity['sequence'].field;
+
+    return sqlCab;
+}
+
 // public func
+
+async function modify(context, entity) {
+    let query = getSQLupdate(context, entity);
+    const binds = {};
+
+    for (const key in context) {
+        binds[key] = context[key];
+    }
+
+    //console.log(query);
+
+    let result = await database.simpleExecute(query, binds);
+    return result;
+}
 
 async function create(context, entity) {
     let query = getSQLinsert(context, entity);
@@ -124,12 +159,12 @@ async function find(context, entity) {
         let orderStr = '';
         let first = true
         for (const key in jsonSort) {
-            if (!first){
+            if (!first) {
                 orderStr += ', ';
-            }else{                
+            } else {
                 first = false;
             }
-            orderStr += key + ' ' + jsonSort[key];            
+            orderStr += key + ' ' + jsonSort[key];
         }
 
         // Bloque en caso de un solo ordenamiento
@@ -157,3 +192,4 @@ async function find(context, entity) {
 
 module.exports.find = find;
 module.exports.create = create;
+module.exports.modify = modify;

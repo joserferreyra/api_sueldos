@@ -9,6 +9,7 @@ app.use(bodyParser.json());
 
 app.route('/*')
     .get(control.get)
-    .post(control.post);
+    .post(control.post)
+    .put(control.put);
 
 module.exports = app;
