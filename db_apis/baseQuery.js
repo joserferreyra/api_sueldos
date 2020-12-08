@@ -108,10 +108,13 @@ async function modify(context, entity) {
     const binds = {};
 
     for (const key in context) {
-        binds[key] = context[key];
+        if (typeof entity.fields[key] != 'object') {
+            binds[key] = context[key];
+        }
     }
 
     //console.log(query);
+    //console.log(binds);
 
     let result = await database.simpleExecute(query, binds);
     return result;
@@ -122,7 +125,9 @@ async function create(context, entity) {
     const binds = {};
 
     for (const key in context) {
-        binds[key] = context[key];
+        if (typeof entity.fields[key] != 'object') {
+            binds[key] = context[key];
+        }
     }
 
     //console.log(query);
