@@ -83,8 +83,11 @@ function getSQLinsert(context, entity) {
 function getSQLupdate(context, entity) {
     let sqlCab = 'UPDATE ' + entity.table;
     let first = true;
+    
+    console.log(context);
+
     for (const key in entity.fields) {
-        if (typeof entity.fields[key] != 'object' && (key in context && key != entity['sequence'].field)) {
+        if ((typeof entity.fields[key] != 'object') && (key in context && key != entity['sequence'].field)) {
             if (first) {
                 first = false;
                 sqlCab += ' SET ';
@@ -113,8 +116,8 @@ async function modify(context, entity) {
         }
     }
 
-    //console.log(query);
-    //console.log(binds);
+    console.log(query);
+    console.log(binds);
 
     let result = await database.simpleExecute(query, binds);
     return result;
