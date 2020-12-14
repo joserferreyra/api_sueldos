@@ -114,7 +114,7 @@ module.exports.jsonEntityMap = {
     },
     cargo: {
         table: "CARGOS",
-        fileds: {
+        fields: {
             Id: 'IDCARGO',
             PersonaId: 'IDPERS',
             PersonaDocumento: {
@@ -147,7 +147,7 @@ module.exports.jsonEntityMap = {
             TipoEmpleoId: 'IDTE',
             TipoEmpleoDescripcion: {
                 table: 'tabtipoempleo',
-                parentKey: 'TE',
+                parentKey: 'IDTE',
                 foringKey: 'IDTE',
                 fields: {
                     Descripcion: 'DESCRIPCION'
@@ -158,7 +158,7 @@ module.exports.jsonEntityMap = {
             SituacionRevistaId: 'IDSITREV',
             SituacionRevistaDescripcion: {
                 table: 'tabsitrevista',
-                parentKey: 'SITREV',
+                parentKey: 'IDSITREV',
                 foringKey: 'IDSITREV',
                 fields: {
                     Descripcion: 'DESCRIPCION'
@@ -173,7 +173,6 @@ module.exports.jsonEntityMap = {
                 parentKey: 'IDTIPOOS',
                 foringKey: 'IDTIPOOS',
                 fields: {
-                    Id: 'IDTIPOOS',
                     Descripcion: 'DESCRIPCION'
                 }
             },
@@ -222,19 +221,3 @@ concepto: {
         sequence: { field: "Id", seq: 'CONCEPTO_SEQ.NEXTVAL' }        
 }
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

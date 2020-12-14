@@ -190,7 +190,7 @@ async function find(context, entity) {
     }
 
     //Para debug
-    //console.log(query);
+    console.log(query);
 
     const result = await database.simpleExecute(query, binds);
 
