@@ -4,14 +4,20 @@ const mapper = require('../config/mapper');
 // private func
 
 function getEntityValues(req, entity) {
+    console.log('----- get entity ---');
+    console.log(req.body);
     let object = {};
     for (const key in entity) {
         if (typeof entity[key] != object) {
-            if (req.body[key]) {
+            if (req.body[key] != undefined) {
+                //if (typeof req.body[key] == Date){
+                    //console.log(typeof req.body[key])
+;                //}
                 object[key] = req.body[key];
             }
         }
     }
+    //console.log(object);
     return object;
 }
 

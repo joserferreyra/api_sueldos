@@ -187,37 +187,39 @@ module.exports.jsonEntityMap = {
             },
         },
         sequence: { field: "Id", seq: 'CARGOS_SEQ.NEXTVAL' }
+    },
+    concepto: {
+        table: "CONCEPTO",
+        fields: {
+            Id: 'IDCONCEPTO',
+            Codigo: 'CODIGO',
+            SubCodigo: 'SUBCOD',
+            DescBreve: 'DESC_BREVE',
+            AcumulaGanancia: 'ACUM_GAN',
+            AcumulaRemunerativo: 'ACUM_REM',
+            TipoConceptoId: 'IDTIPOCONCEPTO',
+            AcumulaJubilacion: 'ACUM_JUB',
+            CalculaPorPesona: 'CALC_PERSONA',
+            CalculaTicket: 'TICKET',
+            Bonificable: 'BONIFICABLE',
+            AcumulaOSocial: 'ACUM_OS',
+            Basico: 'BASICO',
+            Especial: 'ESPECIAL',
+            DeduceJubilacion: 'DEDUC_JUB',
+            DeducePension: 'DEDUC_PEN',
+            Reliquidar: 'RELIQUIDA',
+            DescBoleta: 'DESC_BOLETA',
+            Observacion: 'OBSERVACION',
+            TipoConceptoDescripcion: {
+                table: 'tabtipoconcepto',
+                parentKey: 'IDTIPOCONCEPTO',
+                foringKey: 'IDTIPOCONCEPTO',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            }
+        },
+        sequence: { field: "Id", seq: 'CONCEPTO_SEQ.NEXTVAL' }
     }
 
-
 };
-
-/*
-concepto: {
-        table: "CONCEPTO",
-        fileds: {
-            Id:'IDCONCEPTO',
-            Codigo :'CODIGO',
-            SubCodigo :'SUBCOD',
-            DescBreve :'DESC_BREVE',
-            AcumulaGanancia :'ACUM_GAN',
-            AcumulaRemunerativo :'ACUM_REM',
-            TipoConceptoId :'IDTIPOCONCEPTO',
-            AcumulaJubilacion :'ACUM_JUB',
-            CalculaPorPesona :'CALC_PERSONA',
-            CalculaTicket :'TICKET',
-            MesesACalcular :'',
-            Bonificable :'BONIFICABLE',
-            AcumulaOSocial :'ACUM_OS',
-            Basico :'BASICO',
-            Especial :'ESPECIAL',
-            DeduceJubilacion :'DEDUC_JUB',
-            DeducePension :'DEDUC_PEN',
-            Reliquidar :'RELIQUIDA',
-            DescBoleta :'DESC_BOLETA',
-            Observacion :'OBSERVACION',
-            TipoConceptoDescripcion:''
-        }
-        sequence: { field: "Id", seq: 'CONCEPTO_SEQ.NEXTVAL' }        
-}
-*/
