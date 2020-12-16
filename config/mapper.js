@@ -2,7 +2,7 @@ module.exports.jsonEntityMap = {
     hoja: {
         table: 'hoja_nov',
         fields: {
-            //FechaGrabacion: 'FECHAALTA',
+            FechaCreacion: 'FECHAALTA',
             TipoCargaId: 'IDTIPOCARGA',
             TipoHojaDescripcion: {
                 table: 'tabtipohoja',
@@ -27,21 +27,33 @@ module.exports.jsonEntityMap = {
             TipoHojaId: 'IDTIPOHOJA',
             Id: 'IDHOJANOV'
         },
-        sequence: { field: "Id", seq: 'HOJA_NOV_SEQ.NEXTVAL' }
+        key: { field: "Id", seq: 'HOJA_NOV_SEQ.NEXTVAL' }
     },
     tipoliq: {
         table: 'tipoliquidacion',
         fields: {
             Id: 'IDTIPOLIQ',
             Descripcion: 'DESCRIPCION'
-        }
+        },
+        key: { field: "Id" }
     },
     tipoos: {
         table: 'TABTIPOOS',
         fields: {
             Id: 'IDTIPOOS',
             Descripcion: 'DESCRIPCION'
-        }
+        },
+        key: { field: "Id" }
+    },
+    sitrevista: {
+        table: 'tabsitrevista',
+        fields: {
+            Id: 'IDSITREV',
+            Descripcion: 'DESCRIPCION',
+            TipoRevistaId: 'IDTIPOREVISTA',
+            Porcentaje: 'PORCENTAJE'
+        },
+        key: { field: 'Id' }
     },
     novhaberes: {
         table: 'NOVHABERES',
@@ -90,7 +102,7 @@ module.exports.jsonEntityMap = {
             HojaId: 'IDHOJANOV',
             Id: 'IDNOVHAB'
         },
-        sequence: { field: "Id", seq: 'NOVHABERES_SEQ.NEXTVAL' }
+        key: { field: "Id", seq: 'NOVHABERES_SEQ.NEXTVAL' }
     },
     persona: {
         table: "PERSONAS",
@@ -110,7 +122,7 @@ module.exports.jsonEntityMap = {
             CodigoPostal: 'CODPOSTAL',
             Provincia: 'PROVINCIA'
         },
-        sequence: { field: "Id", seq: 'PERSONAS_SEQ.NEXTVAL' }
+        key: { field: "Id", seq: 'PERSONAS_SEQ.NEXTVAL' }
     },
     cargo: {
         table: "CARGOS",
@@ -186,7 +198,7 @@ module.exports.jsonEntityMap = {
                 }
             },
         },
-        sequence: { field: "Id", seq: 'CARGOS_SEQ.NEXTVAL' }
+        key: { field: "Id", seq: 'CARGOS_SEQ.NEXTVAL' }
     },
     concepto: {
         table: "CONCEPTO",
@@ -219,7 +231,17 @@ module.exports.jsonEntityMap = {
                 }
             }
         },
-        sequence: { field: "Id", seq: 'CONCEPTO_SEQ.NEXTVAL' }
+        key: { field: "Id", seq: 'CONCEPTO_SEQ.NEXTVAL' }
+    },
+    reparticion: {
+        table: "REPARTICION",
+        fields: {
+            Id: 'IDREP',
+            Descripcion: 'DESCRIPCION',
+            Direccion: 'DIRECCION',
+            CUIT: 'CUIT',
+            GrupoReparticionId: 'IDGRUPOREPARTICION'
+        },
+        key: { field: "Id" }
     }
-
 };

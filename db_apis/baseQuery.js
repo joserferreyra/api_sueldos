@@ -48,8 +48,11 @@ function getSQLinsert(context, entity) {
     let sqlCab = 'INSERT INTO ' + entity.table;
     let strValues = '';
     let first = true;
+    let hasSeq = false;
+
     for (const key in entity.fields) {
-        if (typeof entity.fields[key] != 'object' && (key in context || key == entity['sequence'].field)) {
+        if (typeof entity.fields[key] != 'object' && key in context) {
+            // || (entity['sequence'] && key == entity['sequence'].field))) {
             if (first) {
                 first = false;
                 sqlCab += ' (';
@@ -58,13 +61,13 @@ function getSQLinsert(context, entity) {
                 sqlCab += ', ';
                 strValues += ', ';
             }
-            if (typeof entity.fields[key] != 'object') {
-                sqlCab += entity.fields[key];
-            }
+            //if (typeof entity.fields[key] != 'object') {
+            sqlCab += entity.fields[key];
+            //}
 
-            if (entity['sequence']) {
-                if (entity['sequence'].field == key) {
-                    strValues += entity.sequence.seq;
+            if (entity['key'].field == key) {
+                if (entity['key'].seq) {
+                    strValues += entity.key.seq;
                 } else {
                     strValues += ':' + key;
                 }
@@ -83,11 +86,11 @@ function getSQLinsert(context, entity) {
 function getSQLupdate(context, entity) {
     let sqlCab = 'UPDATE ' + entity.table;
     let first = true;
-    
+
     //console.log(context);
 
     for (const key in entity.fields) {
-        if ((typeof entity.fields[key] != 'object') && (key in context && key != entity['sequence'].field)) {
+        if ((typeof entity.fields[key] != 'object') && (key in context && (key != entity['key'].field))) {
             if (first) {
                 first = false;
                 sqlCab += ' SET ';
@@ -99,7 +102,8 @@ function getSQLupdate(context, entity) {
             }
         }
     }
-    sqlCab += ' WHERE ' + entity.fields[entity['sequence'].field] + '= :' + entity['sequence'].field;
+
+    sqlCab += ' WHERE ' + entity.fields[entity['key'].field] + '= :' + entity['key'].field;
 
     return sqlCab;
 }
@@ -116,11 +120,15 @@ async function modify(context, entity) {
         }
     }
 
-    //console.log(query);
-    //console.log(binds);
+    if (binds[entity["key"].field]) {
+        let result = await database.simpleExecute(query, binds);
+        let json = {'result':result, 'status':200, rows:[]};
+        return json ;
+    }else{
+        let json = {'err':'Key field is not defined', 'status':400};
+        return json ;
+    }
 
-    let result = await database.simpleExecute(query, binds);
-    return result;
 }
 
 async function create(context, entity) {
@@ -129,14 +137,23 @@ async function create(context, entity) {
 
     for (const key in context) {
         if (typeof entity.fields[key] != 'object') {
-            binds[key] = context[key];
+            if (entity['sequence']) {
+                if (key != entity['sequence']['field']) {
+                    binds[key] = context[key];
+                }
+            } else {
+                binds[key] = context[key];
+            }
         }
     }
 
     //console.log(query);
+    //console.log(binds);
 
     let result = await database.simpleExecute(query, binds);
-    return result;
+    let json = {'result':result, 'status':200, rows:[]};
+    return json ;
+    //return result;
 }
 
 async function find(context, entity) {
@@ -174,7 +191,6 @@ async function find(context, entity) {
             }
             orderStr += key + ' ' + jsonSort[key];
         }
-
         // Bloque en caso de un solo ordenamiento
         /*
         let [column, order] = context.sort.split(':');
@@ -190,12 +206,10 @@ async function find(context, entity) {
     }
 
     //Para debug
-    console.log(query);
+    //console.log(query);
 
     const result = await database.simpleExecute(query, binds);
-
-    return result.rows;
-
+    return result;
 }
 
 module.exports.find = find;

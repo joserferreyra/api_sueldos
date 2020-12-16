@@ -3,21 +3,17 @@ const mapper = require('../config/mapper');
 
 // private func
 
-function getEntityValues(req, entity) {
-    console.log('----- get entity ---');
-    console.log(req.body);
+function getEntityValues(req, entity) {    //    //
     let object = {};
     for (const key in entity) {
         if (typeof entity[key] != object) {
             if (req.body[key] != undefined) {
-                //if (typeof req.body[key] == Date){
-                    //console.log(typeof req.body[key])
+                //if (typeof req.body[key] == Date){                    //
 ;                //}
                 object[key] = req.body[key];
             }
         }
-    }
-    //console.log(object);
+    }    //
     return object;
 }
 
@@ -25,18 +21,18 @@ function getEntityValues(req, entity) {
 async function get(req, res, next) {
     try {
         let context = {};
-        let rows = 0;
+        let result;
 
         context = req.query;
 
         let entityName = req.path.substring(1,);
 
         if (mapper.jsonEntityMap[entityName]) {
-            rows = await entityapi.find(context, mapper.jsonEntityMap[entityName]);
+            result = await entityapi.find(context, mapper.jsonEntityMap[entityName]);            
         }
 
-        if (rows.length > 0) {
-            res.status(200).json(rows);
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows);
         } else {
             res.status(404).end();
         }
@@ -53,9 +49,10 @@ async function post(req, res, next) {
         let context = getEntityValues(req, mapper.jsonEntityMap[entityName].fields);
 
         let result = await entityapi.create(context, mapper.jsonEntityMap[entityName]);
-
+        
         if (result) {
-            res.status(200).json(result.rowsAffected);
+            result.rows = [req.body];
+            res.status(result.status).json(result);
         } else {
             res.status(404).end();
         }
@@ -73,8 +70,13 @@ async function put(req, res, next) {
 
         let result = await entityapi.modify(context, mapper.jsonEntityMap[entityName]);
 
-        if (result) {
-            res.status(200).json(result.rowsAffected);
+        if (result) {            
+            if (result.err){
+                res.status(result.status).end();
+            }else{
+                result.rows = [req.body];
+                res.status(200).json(result);    
+            }            
         } else {
             res.status(404).end();
         }
