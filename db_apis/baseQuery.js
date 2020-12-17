@@ -122,11 +122,11 @@ async function modify(context, entity) {
 
     if (binds[entity["key"].field]) {
         let result = await database.simpleExecute(query, binds);
-        let json = {'result':result, 'status':200, rows:[]};
-        return json ;
-    }else{
-        let json = {'err':'Key field is not defined', 'status':400};
-        return json ;
+        let json = { 'result': result, 'status': 200, rows: [] };
+        return json;
+    } else {
+        let json = { 'err': 'Key field is not defined', 'status': 400 };
+        return json;
     }
 
 }
@@ -137,11 +137,7 @@ async function create(context, entity) {
 
     for (const key in context) {
         if (typeof entity.fields[key] != 'object') {
-            if (entity['sequence']) {
-                if (key != entity['sequence']['field']) {
-                    binds[key] = context[key];
-                }
-            } else {
+            if (key != entity['key'].field) {
                 binds[key] = context[key];
             }
         }
@@ -151,8 +147,8 @@ async function create(context, entity) {
     //console.log(binds);
 
     let result = await database.simpleExecute(query, binds);
-    let json = {'result':result, 'status':200, rows:[]};
-    return json ;
+    let json = { 'result': result, 'status': 200, rows: [] };
+    return json;
     //return result;
 }
 
