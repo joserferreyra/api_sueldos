@@ -243,5 +243,20 @@ module.exports.jsonEntityMap = {
             GrupoReparticionId: 'IDGRUPOREPARTICION'
         },
         key: { field: "Id" }
+    },
+    formula: {
+        table: 'FORMULAS',
+        fields: {
+            Id: 'IDFORMULA',
+            Condicion: 'CONDICION',
+            Accion: 'ACCION',
+            Detalle: 'DETALLE',
+            ConceptoId: 'IDCONCEPTO',
+            CondicionInput: 'CONDICION_INPUT',
+            AccionInput: 'ACCION_INPUT',
+            Codigo: 'CODIGO',
+            SpName: 'SPNAME'
+        },
+        key: { field: 'Id', seq: 'FORMULAS_SEQ.NEXTVAL' }
     }
-};
+}
