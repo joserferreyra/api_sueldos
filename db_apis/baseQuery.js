@@ -160,7 +160,7 @@ async function find(context, entity) {
     let firstWhere = true;
 
     for (const key in context) {
-        if (key != 'limit' & key != 'offset' & key != 'sort') {
+        if (key != 'limit' & key != 'offset' & key != 'sort' & key != 'search') {
             binds[entity.fields[key]] = context[key];
             if (firstWhere) {
                 query += `\nwhere ` + entity.fields[key] + `= :` + entity.fields[key];
@@ -169,9 +169,19 @@ async function find(context, entity) {
                 query += `\nand ` + entity.fields[key] + `= :` + entity.fields[key];
             }
         } else {
-            if (key != 'sort') {
+            if (key != 'sort' & key != 'search') {
                 binds[key] = context[key];
             }
+        }
+    }
+
+    if (context.search !== undefined) {
+        let [key, text] = context.search.split(':');
+
+        if (firstWhere) {
+            query += ` \nwhere lower(${entity.fields[key]}) like '%${text.toLowerCase()}%' `;
+        } else {
+            query += `\nand lower(${entity.fields[key]}) like '%${text.toLowerCase()}%' `;
         }
     }
 

@@ -1,5 +1,11 @@
 const express = require('express');
 const bodyParser = require("body-parser");
+const morgan = require("morgan");
+const helmet = require("helmet");
+const cors = require("cors");
+const fs = require("fs");
+const path = require('path');
+
 const app = new express.Router();
 
 const control = require('../controllers/control');
@@ -22,8 +28,30 @@ const options = {
     }
 };
 
-
 app.use(bodyParser.json(options));
+
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+
+app.use(morgan('combined', { stream: accessLogStream }));
+app.use(helmet());
+
+/*
+const whitelist = ['http://localhost:3000','http://sueldos.duckdns.org:8090'];
+const corsOptions = {
+    origin: function (origin, callback) {
+        console.log(origin);
+        if (whitelist.indexOf(origin) !== -1){
+            callback(null, true);
+        }else{
+            callback(new Error('Not allowed by CORDS'))
+        }        
+    }
+};
+*/
+
+//app.options('http://localhost:3000', cors())
+
+app.options(cors());
 
 app.route('/*')
     .get(control.get)
