@@ -2,6 +2,8 @@ const entityapi = require('../db_apis/entity');
 const mapper = require('../config/mapper');
 const mapperViews = require('../config/mapperViews');
 const viewliqapi = require('../db_apis/viewLiq');
+const spmapper = require('../config/spmapper');
+const spapi = require('../db_apis/sp');
 
 // private func
 
@@ -111,6 +113,34 @@ async function getLiqView(req, res, next) {
         next(err);
     }
 }
+
+async function execSP(req, res, next) {
+    try {
+        let context = {};
+        let result;
+
+        context = req.query;
+
+        let spName = req.path.substring(4,);
+        console.log(spName);
+
+        if (spmapper.jsonStoreProcedure[spName]) {
+            console.log("bucle");
+            result = await spapi.execStoreProcedure(context, spmapper.jsonStoreProcedure[spName]);            
+        }
+
+        /*if (result.rows.length > 0) {
+            res.status(200).json(result.rows);
+        } else {
+            res.status(404).end();
+        }*/
+
+    } catch (err) {
+        next(err);
+    }
+}
+
+module.exports.execSP = execSP;
 
 module.exports.getPersonaCargoLiq = getLiqView;
 
