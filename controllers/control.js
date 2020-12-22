@@ -1,5 +1,7 @@
 const entityapi = require('../db_apis/entity');
 const mapper = require('../config/mapper');
+const mapperViews = require('../config/mapperViews');
+const viewliqapi = require('../db_apis/viewLiq');
 
 // private func
 
@@ -85,6 +87,32 @@ async function put(req, res, next) {
         next(err);
     }
 }
+
+async function getLiqView(req, res, next) {
+    try {
+        let context = {};
+        let result;
+
+        context = req.query;
+
+        let entityName = 'personaCargoLiq';
+
+        if (mapperViews.jsonViewMap[entityName]) {
+            result = await viewliqapi.getLiq(context, mapperViews.jsonViewMap[entityName]);            
+        }
+
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows);
+        } else {
+            res.status(404).end();
+        }
+
+    } catch (err) {
+        next(err);
+    }
+}
+
+module.exports.getPersonaCargoLiq = getLiqView;
 
 module.exports.get = get;
 module.exports.post = post;

@@ -53,6 +53,8 @@ const corsOptions = {
 
 app.options(cors());
 
+app.route('/view/personaCargoLiq').get(control.getPersonaCargoLiq);
+
 app.route('/*')
     .get(control.get)
     .post(control.post)
