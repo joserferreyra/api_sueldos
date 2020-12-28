@@ -12,7 +12,7 @@ module.exports.jsonViewMap = {
             Afiliado: 'cargos.AFILIADO', 
             TipoEmpleoId: 'cargos.idte',
             LiquidacionId: 'liq.idliq',
-            Period:'liq.periodo',
+            Periodo:'liq.periodo',
             FechaDev: 'liq.fechadev',
             TipoLiquidacionId: 'liq.idtipoliq',
             TipoLiquidacionDescripcion:'tipoliquidacion.descripcion',
