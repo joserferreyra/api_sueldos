@@ -1,3 +1,4 @@
+const { query } = require('express');
 const { SHUTDOWN_MODE_IMMEDIATE } = require('oracledb');
 const database = require('../services/database');
 
@@ -152,24 +153,24 @@ async function create(context, entity) {
     //return result;
 }
 
-async function find(context, entity) {
+function getWhere(context, entity) {
     const binds = {};
-
-    let query = getSQLcomplexSelect(entity);
+    let query = '';
 
     let firstWhere = true;
 
     for (const key in context) {
-        if (key != 'limit' & key != 'offset' & key != 'sort' & key != 'search') {
-            binds[entity.fields[key]] = context[key];
+        if (key != 'limit' & key != 'offset' & key != 'sort' & key != 'search' & key != 'greatereq' & key != 'lesseq'){
+            //binds[entity.fields[key]] = context[key];
+            binds[key] = context[key];
             if (firstWhere) {
-                query += `\nwhere ` + entity.fields[key] + `= :` + entity.fields[key];
+                query += `\nwhere ` + entity.fields[key] + `= :` + key; // entity.fields[key];
                 firstWhere = false;
             } else {
-                query += `\nand ` + entity.fields[key] + `= :` + entity.fields[key];
+                query += `\nand ` + entity.fields[key] + `= :` + key; // entity.fields[key];
             }
         } else {
-            if (key != 'sort' & key != 'search') {
+            if (key != 'sort' & key != 'search' & key != 'greatereq' & key != 'lesseq') {
                 binds[key] = context[key];
             }
         }
@@ -182,6 +183,26 @@ async function find(context, entity) {
             query += ` \nwhere lower(${entity.fields[key]}) like '%${text.toLowerCase()}%' `;
         } else {
             query += `\nand lower(${entity.fields[key]}) like '%${text.toLowerCase()}%' `;
+        }
+    }
+
+    if (context.greatereq !== undefined) {
+        let [key, value] = context.greatereq.split(':');
+
+        if (firstWhere) {
+            query += ` \nwhere ${entity.fields[key]} >= TO_DATE('${value}','dd/mm/yyyy') `;
+        } else {
+            query += `\nand ${entity.fields[key]} >= TO_DATE('${value}','dd/mm/yyyy') `;
+        }
+    }
+
+    if (context.lesseq !== undefined) {
+        let [key, value] = context.lesseq.split(':');
+
+        if (firstWhere) {
+            query += ` \nwhere ${entity.fields[key]} <= TO_DATE('${value}','dd/mm/yyyy') `;
+        } else {
+            query += `\nand ${entity.fields[key]} <= TO_DATE('${value}','dd/mm/yyyy') `;
         }
     }
 
@@ -211,13 +232,24 @@ async function find(context, entity) {
         query += `\norder by ${orderStr}`;
     }
 
-    //Para debug
-    //console.log(query);
+    return {'where':query, 'binds':binds};
 
-    const result = await database.simpleExecute(query, binds);
+}
+
+async function find(context, entity) {
+
+    let query = getSQLcomplexSelect(entity);
+
+    let queryWhere = getWhere(context, entity);
+
+    let fullQuery = query + queryWhere.where;
+
+    const result = await database.simpleExecute(fullQuery, queryWhere.binds);
+
     return result;
 }
 
 module.exports.find = find;
 module.exports.create = create;
 module.exports.modify = modify;
+module.exports.getWhere = getWhere;
