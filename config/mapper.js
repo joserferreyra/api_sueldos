@@ -258,5 +258,36 @@ module.exports.jsonEntityMap = {
             SpName: 'SPNAME'
         },
         key: { field: 'Id', seq: 'FORMULAS_SEQ.NEXTVAL' }
+    },
+    conceptoLiq: {
+        table: 'CONCEPTOLIQ',
+        fields: {
+            Id: 'IDCONCEPTOLIQ',
+            CargoId: 'IDCARGO',
+            Codigo: 'CODIGO',
+            SubCodigo: 'SUBCOD',
+            Parametro1: 'PARM1',
+            Parametro2: 'PARM2',
+            Vencimiento: 'VTO',
+            Importe: 'IMPORTE',
+            Periodo: 'PERIODO',
+            TipoLiquidacionId: 'IDTIPOLIQ',
+            GrupoAdicionalId: 'IDGRUPOADI',
+            EsLey: 'PENLEY'
+        },
+        key: {field : 'Id', seq: 'CONCEPTOLIQ_SEQ.NEXTVAL'}
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
