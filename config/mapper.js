@@ -271,9 +271,8 @@ module.exports.jsonEntityMap = {
             Vencimiento: 'VTO',
             Importe: 'IMPORTE',
             Periodo: 'PERIODO',
-            TipoLiquidacionId: 'IDTIPOLIQ',
             GrupoAdicionalId: 'IDGRUPOADI',
-            EsLey: 'PENLEY'
+            PenLey: 'PENLEY'
         },
         key: {field : 'Id', seq: 'CONCEPTOLIQ_SEQ.NEXTVAL'}
     }

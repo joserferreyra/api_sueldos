@@ -3,7 +3,9 @@ const mapper = require('../config/mapper');
 const mapperViews = require('../config/mapperViews');
 const viewliqapi = require('../db_apis/viewLiq');
 const spmapper = require('../config/spmapper');
+const fnmapper = require('../config/fnmapper');
 const spapi = require('../db_apis/sp');
+const fnapi = require('../db_apis/fn');
 
 // private func
 
@@ -125,7 +127,6 @@ async function execSP(req, res, next) {
         console.log(spName);
 
         if (spmapper.jsonStoreProcedure[spName]) {
-            console.log("bucle");
             result = await spapi.execStoreProcedure(context, spmapper.jsonStoreProcedure[spName]);            
         }
 
@@ -140,7 +141,30 @@ async function execSP(req, res, next) {
     }
 }
 
+async function execFN(req, res, next) {
+    try {
+        let context = {};
+        let result;
+
+        context = req.query;
+
+        let spName = req.path.substring(4,);
+
+        if (fnmapper.jsonStoreFunction[spName]) {
+            result = await fnapi.execFn(context, fnmapper.jsonStoreFunction[spName]);            
+        }
+
+        const val = result?res.status(200).json(result):res.status(404).end();
+
+        return val;
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports.execSP = execSP;
+module.exports.execFN = execFN;
 
 module.exports.getPersonaCargoLiq = getLiqView;
 

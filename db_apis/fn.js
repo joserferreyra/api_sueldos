@@ -1,44 +1,46 @@
 const database = require('../services/database');
 const oracledb = require('oracledb');
 
-function getSQLcall(sp) {
-    let sqlCab = 'BEGIN ' + sp.sp_name + '(';
+function getSQLcall(fn) {
+    let sqlCab = 'BEGIN  :' + fn.out_param.varName + ' := ' + fn.fn_name + '(';
     let first = true;
-    for (const key in sp.in_param) {
+    for (const key in fn.in_param) {
         if (first) {
             first = false;
         } else {
             sqlCab += ', ';
         }
-        sqlCab += ':'+key;
+        sqlCab += ':' + key;
     }
-    
+
     sqlCab += ');';
     sqlCab += ' END;';
-                
+
     return sqlCab;
 }
 
-async function execStoreProcedure(context, sp) {
-    let query = getSQLcall(sp);
+async function execFn(context, fn) {
+    let query = getSQLcall(fn);
 
     const binds = {};
 
     for (const key in context) {
         binds[key] = context[key];
     }
-    
-    console.log(query);
-    console.log(binds);
-    
+
+    binds[fn.out_param.varName] = { dir: oracledb.BIND_OUT, type: oracledb.NUMBER };
+
+    //console.log(query);
+    //console.log(binds);
+
     let result = await database.simpleExecute(query, binds);
-    
+
     //let json = { 'result': result, 'status': 200, rows: [] };
     //return json;
-    
-    console.log(result);
 
-    return result;
+    //console.log(result);
+
+    return result.outBinds;
 }
 
-module.exports.execStoreProcedure = execStoreProcedure;
+module.exports.execFn = execFn;

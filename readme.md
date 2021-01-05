@@ -144,3 +144,12 @@ Las pruebas fueron realizadas con la herramienta curl en linea de comandos.
 #### Hoja de novedad:
 
 ` curl -X "POST" "http://localhost:3000/api/hoja" -i -H 'Content-Type: application/json' -d $'{"FechaGrabacion":"20-nov-2020", "TipoCarga":"1","EstadoHoja":"1", "GrupoAdicional":"24","TipoLiquidacion":"5","Periodo":"01-dec-2020","TipoHoja":"1"}' `
+
+## Llamadas a procedimientos y funciones
+
+### Ejemplo de prueba (ejecución en terminal):
+
+    curl -X "GET" "http://localhost:3000/api/fn/verifConcepto?Rep=484&Te=1&Codigo=0&SubCodigo=0&Vto=01-nov-2020" -i -H 'Content-Type: application/json'
+
+### Resultado:
+    {"value":1}
