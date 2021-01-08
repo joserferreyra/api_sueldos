@@ -148,7 +148,7 @@ async function execSP(req, res, next) {
         context = req.query;
 
         let spName = req.path.substring(4,);
-        console.log(spName);
+        //console.log(spName);
 
         if (spmapper.jsonStoreProcedure[spName]) {
             result = await spapi.execStoreProcedure(context, spmapper.jsonStoreProcedure[spName]);            

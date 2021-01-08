@@ -25,7 +25,7 @@ async function execStoreProcedure(context, sp) {
 
     const binds = {};
 
-    console.log(context)
+    //console.log(context)
 
     for (const key in context) {
         binds[key] = context[key];

@@ -185,8 +185,8 @@ async function create(context, entity) {
         }
     }
 
-    console.log(query);
-    console.log(binds);
+    //console.log(query);
+    //console.log(binds);
 
     let result = await database.simpleExecute(query, binds);
     let json = { 'result': result, 'status': 200, rows: [] };

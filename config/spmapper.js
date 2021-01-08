@@ -11,5 +11,15 @@ module.exports.jsonStoreProcedure = {
             GrupoAdicional : 'vIdGrupoAdic'
         },
         out_param:{}
+    },
+    transform:{
+        sp_name: 'MOD_TRANS_NOV.PRINCIPAL',
+        in_param:{
+            Periodo : 'vPER',
+            GrupoRep: 'vGRUPOREP',
+            TipoLiq: 'vIDTIPOLIQ',
+            GrupoAdicional : 'vIDGRUPOADI'
+        },
+        out_param:{}       
     }
 }
