@@ -62,6 +62,7 @@ app.route('/fn/*').get(control.execFN);
 app.route('/*')
     .get(control.get)
     .post(control.post)
-    .put(control.put);
+    .put(control.put)
+    .delete(control.del);
 
 module.exports = app;

@@ -92,6 +92,30 @@ async function put(req, res, next) {
     }
 }
 
+async function del(req, res, next) {
+    try {
+        let entityName = req.path.substring(1,);
+
+        let context = getEntityValues(req, mapper.jsonEntityMap[entityName].fields);
+
+        let result = await entityapi.remove(context, mapper.jsonEntityMap[entityName]);
+
+        if (result) {            
+            if (result.err){
+                res.status(result.status).end();
+            }else{
+                result.rows = [req.body];
+                res.status(200).json(result);    
+            }            
+        } else {
+            res.status(404).end();
+        }
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 async function getLiqView(req, res, next) {
     try {
         let context = {};
@@ -130,11 +154,11 @@ async function execSP(req, res, next) {
             result = await spapi.execStoreProcedure(context, spmapper.jsonStoreProcedure[spName]);            
         }
 
-        /*if (result.rows.length > 0) {
-            res.status(200).json(result.rows);
+        if (result) {
+            res.status(200).json(result);
         } else {
             res.status(404).end();
-        }*/
+        }
 
     } catch (err) {
         next(err);
@@ -171,3 +195,4 @@ module.exports.getPersonaCargoLiq = getLiqView;
 module.exports.get = get;
 module.exports.post = post;
 module.exports.put = put;
+module.exports.del = del;

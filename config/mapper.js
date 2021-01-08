@@ -274,7 +274,70 @@ module.exports.jsonEntityMap = {
             GrupoAdicionalId: 'IDGRUPOADI',
             PenLey: 'PENLEY'
         },
-        key: {field : 'Id', seq: 'CONCEPTOLIQ_SEQ.NEXTVAL'}
+        key: { field: 'Id', seq: 'CONCEPTOLIQ_SEQ.NEXTVAL', del: true }
+    },
+    cargaFamiliar: {
+        table: 'CARGA_FAMILIAR',
+        fields: {
+            Id: 'IDCARFAM',
+            PersonaId: 'IDPERS',
+            PersonaDocumento: {
+                table: 'PERSONAS',
+                parentKey: 'IDPERS',
+                foringKey: 'IDPERS',
+                fields: {
+                    Documento: 'DNI'
+                }
+            },
+            PersonaApellidoYNombre: {
+                table: 'PERSONAS',
+                parentKey: 'IDPERS',
+                foringKey: 'IDPERS',
+                fields: {
+                    ApellidoYNombre: 'APEYNOM'
+                }
+            },
+            Documento: 'DNI',
+            ApellidoYNombre: 'APEYNOM',
+            TipoRelacionId: 'IDTABTIPOREL',
+            TipoRelacionDescripcion: {
+                table: 'TABTIPORELACION',
+                parentKey: 'IDTABTIPOREL',
+                foringKey: 'IDTABTIPOREL',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            },
+            FechaNacimiento: 'FECHANAC',
+            TipoEscolaridadId: 'IDTABTIPOESC',
+            TipoEscolaridadDescripcion: {
+                table: 'TABTIPOESCOLARIDAD',
+                parentKey: 'IDTABTIPOESC',
+                foringKey: 'IDTABTIPOESC',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            },
+            Grado: 'GRADO',
+            Discapacitado: 'DISCAPACITADO'
+        },
+        key: { field: "Id", seq: 'CARGA_FAMILIAR_SEQ.NEXTVAL' }
+    },
+    tipoEscolaridad: {
+        table: 'TABTIPOESCOLARIDAD',
+        fields: {
+            Id: 'IDTABTIPOESC',
+            Descripcion: 'DESCRIPCION'
+        },
+        key: { field: "Id" }
+    },
+    tipoRelacion: {
+        table: 'TABTIPORELACION',
+        fields: {
+            Id: 'IDTABTIPOREL',
+            Descripcion: 'DESCRIPCION'
+        },
+        key: { field: "Id" }
     }
 }
 

@@ -44,7 +44,6 @@ function getSQLselect(entity) {
     return sqlCab;
 }
 
-
 function getSQLinsert(context, entity) {
     let sqlCab = 'INSERT INTO ' + entity.table;
     let strValues = '';
@@ -109,6 +108,15 @@ function getSQLupdate(context, entity) {
     return sqlCab;
 }
 
+function getSQLdelete(context, entity) {
+    let sqlCab = 'DELETE ' + entity.table;
+
+    sqlCab += ' WHERE ' + entity.fields[entity['key'].field] + '= :' + entity['key'].field;
+
+    return sqlCab;
+}
+
+
 // public func
 
 async function modify(context, entity) {
@@ -132,6 +140,39 @@ async function modify(context, entity) {
 
 }
 
+async function remove(context, entity) {
+    let query = getSQLdelete(context, entity);
+    const binds = {};
+
+    //console.log(query);
+    //console.log(binds);
+
+    if (entity["key"].del) {
+
+        for (const key in context) {
+            if (typeof entity.fields[key] != 'object') {
+                binds[key] = context[key];
+            }
+        }
+
+        if (binds[entity["key"].field]) {
+            console.log(query);
+            let result = await database.simpleExecute(query, binds);
+            let json = { 'result': result, 'status': 200, rows: [] };
+            return json;
+        } else {
+            let json = { 'err': 'Key field is not defined', 'status': 400 };
+            return json;
+        }
+    } else {
+
+        let json = { 'err': 'delete is not permited', 'status': 400 };
+        return json;
+
+    }
+
+}
+
 async function create(context, entity) {
     let query = getSQLinsert(context, entity);
     const binds = {};
@@ -144,8 +185,8 @@ async function create(context, entity) {
         }
     }
 
-    //console.log(query);
-    //console.log(binds);
+    console.log(query);
+    console.log(binds);
 
     let result = await database.simpleExecute(query, binds);
     let json = { 'result': result, 'status': 200, rows: [] };
@@ -160,7 +201,7 @@ function getWhere(context, entity) {
     let firstWhere = true;
 
     for (const key in context) {
-        if (key != 'limit' & key != 'offset' & key != 'sort' & key != 'search' & key != 'greatereq' & key != 'lesseq'){
+        if (key != 'limit' & key != 'offset' & key != 'sort' & key != 'search' & key != 'greatereq' & key != 'lesseq') {
             //binds[entity.fields[key]] = context[key];
             binds[key] = context[key];
             if (firstWhere) {
@@ -232,7 +273,7 @@ function getWhere(context, entity) {
         query += `\norder by ${orderStr}`;
     }
 
-    return {'where':query, 'binds':binds};
+    return { 'where': query, 'binds': binds };
 
 }
 
@@ -252,4 +293,5 @@ async function find(context, entity) {
 module.exports.find = find;
 module.exports.create = create;
 module.exports.modify = modify;
+module.exports.remove = remove;
 module.exports.getWhere = getWhere;
