@@ -197,6 +197,7 @@ module.exports.jsonEntityMap = {
                     Descripcion: 'DESCRIPCION'
                 }
             },
+            Salario: 'SALARIO'
         },
         key: { field: "Id", seq: 'CARGOS_SEQ.NEXTVAL' }
     },
@@ -321,7 +322,7 @@ module.exports.jsonEntityMap = {
             Grado: 'GRADO',
             Discapacitado: 'DISCAPACITADO'
         },
-        key: { field: "Id", seq: 'CARGA_FAMILIAR_SEQ.NEXTVAL' }
+        key: { field: "Id", seq: 'CARGA_FAMILIAR_SEQ.NEXTVAL', del: true }
     },
     tipoEscolaridad: {
         table: 'TABTIPOESCOLARIDAD',
@@ -339,6 +340,42 @@ module.exports.jsonEntityMap = {
         },
         key: { field: "Id" }
     }
+    /*personaCargoFam: {
+        table: 'PERSONAS_CARGOS_FAM',
+        fields: {
+            Id: 'IDPERS', // Este se vincula a IDPERS
+            PersonaDocumento: {
+                table: 'personas',
+                parentKey: 'IDPERS',
+                foringKey: 'IDPERS',
+                fields: {
+                    Documento: 'DNI'
+                }
+            },
+            PersonaApellidoYNombre: {
+                table: 'personas',
+                parentKey: 'IDPERS',
+                foringKey: 'IDPERS',
+                fields: {
+                    ApellidoYNombre: 'APEYNOM'
+                }
+            },
+            CargoId: 'IDCARGO', // Este se vincula a IDCARGO
+            ReparticionId: '',
+            ReparticionDescripcion: '',
+            Orden: '',
+            Afiliado: '',
+            TipoEmpleoId: '',
+            TipoEmpleoDescripcion: {
+                table: 'tabtipoempleo',
+                parentKey: 'IDTE',
+                foringKey: 'IDTE',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            }
+        }
+    }*/
 }
 
 

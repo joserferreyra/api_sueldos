@@ -59,6 +59,8 @@ app.route('/sp/*').get(control.execSP);
 
 app.route('/fn/*').get(control.execFN);
 
+app.route('/proc/list').get(control.getProc);
+
 app.route('/*')
     .get(control.get)
     .post(control.post)

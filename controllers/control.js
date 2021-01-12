@@ -187,8 +187,37 @@ async function execFN(req, res, next) {
     }
 }
 
+async function getProc(req, res, next) {
+    try {
+        let context = {};
+        let result = {};
+
+        context = req.query;
+
+        //let spName = req.path.substring(6,);
+        //console.log(spName);
+
+        //if (spmapper.jsonStoreProcedure[spName]) {
+            //result = spmapper.jsonStoreProcedure[spName];
+           // console.log(result);        
+        //}
+
+        //const val = result?res.status(200).json(result):res.status(404).end();
+        result = spmapper.jsonStoreProcedure;
+        const val = result?res.status(200).json(result):res.status(404).end();
+
+        return val;
+
+        //return result;
+
+    } catch (err) {
+        next(err);
+    }    
+}
+
 module.exports.execSP = execSP;
 module.exports.execFN = execFN;
+module.exports.getProc = getProc;
 
 module.exports.getPersonaCargoLiq = getLiqView;
 

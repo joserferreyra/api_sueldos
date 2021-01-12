@@ -9,5 +9,13 @@ module.exports.jsonStoreFunction = {
             Vto: 'vFECHA'
         },
         out_param:{varName:'value'}
+    },
+    asociarSalario: {
+        fn_name: 'MOD_FUNCIONES.ASOCIAR_SALARIO',
+        in_param:{
+            PersonaId: 'IDPERS',
+            CargoId: 'IDCARGO'
+        },
+        out_param:{varName:'value'}
     }
 }
