@@ -215,9 +215,23 @@ async function getProc(req, res, next) {
     }    
 }
 
+async function getFunc(req, res, next) {
+    try {
+
+        let result = fnmapper.jsonStoreFunction;
+        const val = result?res.status(200).json(result):res.status(404).end();
+
+        return val;
+
+    } catch (err) {
+        next(err);
+    }    
+}
+
 module.exports.execSP = execSP;
 module.exports.execFN = execFN;
 module.exports.getProc = getProc;
+module.exports.getFunc = getFunc;
 
 module.exports.getPersonaCargoLiq = getLiqView;
 

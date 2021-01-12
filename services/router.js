@@ -55,11 +55,13 @@ app.options(cors());
 
 app.route('/view/personaCargoLiq').get(control.getPersonaCargoLiq);
 
+app.route('/sp/list').get(control.getProc);
+
+app.route('/fn/list').get(control.getFunc);
+
 app.route('/sp/*').get(control.execSP);
 
 app.route('/fn/*').get(control.execFN);
-
-app.route('/proc/list').get(control.getProc);
 
 app.route('/*')
     .get(control.get)
