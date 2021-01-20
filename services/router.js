@@ -59,6 +59,8 @@ app.route('/sp/list').get(control.getProc);
 
 app.route('/fn/list').get(control.getFunc);
 
+app.route('/en/list').get(control.getEntities);
+
 app.route('/sp/*').get(control.execSP);
 
 app.route('/fn/*').get(control.execFN);
