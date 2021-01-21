@@ -372,7 +372,40 @@ module.exports.jsonEntityMap = {
             IdCab: 'IDCABVALCAT'
         },
         key: { field: "Id", seq: 'DESC_VALCAT_SEQ.NEXTVAL'}
+    },
+    escalaSalarial:{
+        table: 'ESCALASALARIAL',
+        fields:{
+            Id: 'IDESCALASAL',
+            Escala: 'IDESCALA',
+            Cat:'NROCAT',
+            Descripcion: 'DESCRIPCION',
+            DetalleDescripcion: 'DESC_DETALLE',
+            Importe: 'IMPORTE'
+        },
+        key: { field: "Id", seq: 'ESCALASALARIAL_SEQ.NEXTVAL'}
+    },
+    valorCategoria:{
+        table: 'VALORCATEGORIA',
+        fields:{
+            Id: 'IDVALCATEGORIA',
+            IdDescCat: 'IDDESC_VALCAT',
+            Cat:'NROCAT',
+            Valor: 'Valor'
+        },
+        key: { field: "Id", seq: 'VALORCATEGORIA_SEQ.NEXTVAL'}
+    },
+    valorUnico:{
+        table: 'VALORUNICO',
+        fields:{
+            Id: 'IDVALUNICO',
+            Descripcion: 'DESCRIPCION',
+            Valor: 'Valor',
+            IdDescFijo:'IDDESCFIJO'
+        },
+        key: { field: "Id", seq: 'VVALORUNICO_SEQ.NEXTVAL'}
     }
+
     /*personaCargoFam: {
         table: 'PERSONAS_CARGOS_FAM',
         fields: {
