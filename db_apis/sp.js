@@ -14,7 +14,12 @@ function getSQLcall(sp) {
         sqlCab += ':' + key;
     }
 
-    sqlCab += ');';
+    const val = sp.out_param['varName']?':'+sp.out_param['varName']: null;
+    if (val){
+        sqlCab += ', ' + val + ');';
+    }else{        
+        sqlCab += ');';
+    }    
     sqlCab += ' END;';
 
     return sqlCab;
@@ -31,6 +36,11 @@ async function execStoreProcedure(context, sp) {
         binds[key] = context[key];
     }
 
+    if (sp.out_param['varName']){
+        binds[sp.out_param.varName] = { dir: oracledb.BIND_OUT};
+        //, type: oracledb.NUMBER };
+    }
+
     //console.log(query);
     //console.log(binds);
 
@@ -40,9 +50,9 @@ async function execStoreProcedure(context, sp) {
 
     const millis = Date.now() - start;
 
-    let json = { 'status': 200, 'params': binds, 'elapsed': Math.floor(millis / 1000) };
+    let json = { 'status': 200, 'params': binds, 'out': result.outBinds, 'elapsed': Math.floor(millis / 1000) };
 
-    //console(json);
+    //console.log(json);
 
     return json;
 

@@ -9,17 +9,16 @@ const fnapi = require('../db_apis/fn');
 
 // private func
 
-function getEntityValues(req, entity) {    //    //
+function getEntityValues(req, entity) {    
     let object = {};
     for (const key in entity) {
         if (typeof entity[key] != object) {
             if (req.body[key] != undefined) {
-                //if (typeof req.body[key] == Date){                    //
-;                //}
+                //if (typeof req.body[key] == Date){}
                 object[key] = req.body[key];
             }
         }
-    }    //
+    }  
     return object;
 }
 
