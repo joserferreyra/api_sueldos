@@ -348,7 +348,7 @@ module.exports.jsonEntityMap = {
         },
         key: { field: "Id", seq: 'ESCALA_SEQ.NEXTVAL'}
     },
-    valFijo:{
+    valUnicoTipo:{
         table: 'DESC_VALORFIJO',
         fields:{
             Id: 'IDDESCFIJO',
@@ -356,7 +356,7 @@ module.exports.jsonEntityMap = {
         },
         key: { field: "Id", seq: 'DESC_VALFIJO_SEQ.NEXTVAL'}
     },
-    cabeceraCat:{
+    valCatTipo:{
         table: 'DESC_CABVALCAT',
         fields:{
             Id: 'IDCABVALCAT',
@@ -364,46 +364,46 @@ module.exports.jsonEntityMap = {
         },
         key: { field: "Id", seq: 'DESC_CABVALCAT_SEQ.NEXTVAL'}
     },
-    valCategoria:{
+    valCatCabecera:{
         table: 'DESC_VALORCATEGORIA',
         fields:{
             Id: 'IDDESC_VALCAT',
             Descripcion: 'DESCRIPCION',
-            IdCab: 'IDCABVALCAT'
+            ValCatTipoId: 'IDCABVALCAT'
         },
         key: { field: "Id", seq: 'DESC_VALCAT_SEQ.NEXTVAL'}
     },
-    escalaSalarial:{
+    escalaSalarialDetalle:{
         table: 'ESCALASALARIAL',
         fields:{
             Id: 'IDESCALASAL',
-            Escala: 'IDESCALA',
-            Cat:'NROCAT',
-            Descripcion: 'DESCRIPCION',
-            DetalleDescripcion: 'DESC_DETALLE',
+            EscalaSalarialId: 'IDESCALA',
+            Categoria:'NROCAT',
+            DescripcionCorta: 'DESCRIPCION',
+            DescripcionLarga: 'DESC_DETALLE',
             Importe: 'IMPORTE'
         },
         key: { field: "Id", seq: 'ESCALASALARIAL_SEQ.NEXTVAL'}
     },
-    valorCategoria:{
+    valCatDetalle:{
         table: 'VALORCATEGORIA',
         fields:{
             Id: 'IDVALCATEGORIA',
-            IdDescCat: 'IDDESC_VALCAT',
-            Cat:'NROCAT',
+            ValCatCabeceraId: 'IDDESC_VALCAT',
+            Categoria:'NROCAT',
             Valor: 'Valor'
         },
         key: { field: "Id", seq: 'VALORCATEGORIA_SEQ.NEXTVAL'}
     },
-    valorUnico:{
+    valUnico:{
         table: 'VALORUNICO',
         fields:{
             Id: 'IDVALUNICO',
             Descripcion: 'DESCRIPCION',
             Valor: 'Valor',
-            IdDescFijo:'IDDESCFIJO'
+            ValUnicoTipoId:'IDDESCFIJO'
         },
-        key: { field: "Id", seq: 'VVALORUNICO_SEQ.NEXTVAL'}
+        key: { field: "Id", seq: 'VALORUNICO_SEQ.NEXTVAL'}
     }
 
     /*personaCargoFam: {
