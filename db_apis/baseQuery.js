@@ -129,6 +129,9 @@ async function modify(context, entity) {
         }
     }
 
+    console.log(query);
+    console.log(binds);
+
     if (binds[entity["key"].field]) {
         let result = await database.simpleExecute(query, binds);
         let json = { 'result': result, 'status': 200, rows: [] };

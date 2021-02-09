@@ -109,7 +109,8 @@ module.exports.jsonEntityMap = {
         fields: {
             Id: 'IDPERS',
             Documento: 'DNI',
-            ApellidoYNombre: 'APEYNOM',
+            Apellido: 'APELLIDO',
+            Nombre: 'NOMBRE',
             Sexo: 'SEXO',
             CUIL: 'CUIL',
             FechaNacimiento: 'FECHANAC',
@@ -118,9 +119,63 @@ module.exports.jsonEntityMap = {
             FechaIngreso: 'FECHAINGRESO',
             DomicilioCalle: 'DOMICILIO',
             DomicilioNumero: 'NRO',
-            Localidad: 'LOCALIDAD',
-            CodigoPostal: 'CODPOSTAL',
-            Provincia: 'PROVINCIA'
+            Piso: 'PISO',
+            Departamento: 'DPTO',
+            LocalidadId:'LOCALIDAD_ID',
+            LocalidadDescripcion: {
+                table: 'LOCALIDADES',
+                parentKey: 'LOCALIDAD_ID',
+                foringKey: 'LOCALIDAD_ID',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            },
+            LocalidadCodigoPostal:{
+                table: 'LOCALIDADES',
+                parentKey: 'LOCALIDAD_ID',
+                foringKey: 'LOCALIDAD_ID',
+                fields: {
+                    CP: 'CODIGO_POSTAL'
+                }
+            },
+            ProvinciaId: 'PROVINCIA_ID',
+            ProvinciaDescripcion:{
+                table: 'PROVINCIAS',
+                parentKey: 'PROVINCIA_ID',
+                foringKey: 'PROVINCIA_ID',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            },
+            PaisId: 'PAIS_ID',
+            PaisDescripcion:{
+                table: 'PAISES',
+                parentKey: 'PAIS_ID',
+                foringKey: 'PAIS_ID',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            },
+            TipoDocumentoId: 'IDTIPODOC',
+            TipoDocumentoDescripcion: {
+                table: 'TABTIPODOC',
+                parentKey: 'IDTIPODOC',
+                foringKey: 'IDTIPODOC',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            },
+            EstadoCivilId: 'IDESTCIVIL',
+            EstadoCivilDescripcion:{
+                table: 'TABESTCIVIL',
+                parentKey: 'IDESTCIVIL',
+                foringKey: 'IDESTCIVIL',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            },
+            CBU: 'CBU',
+            Cuenta: 'CUENTA'
         },
         key: { field: "Id", seq: 'PERSONAS_SEQ.NEXTVAL' }
     },
@@ -130,19 +185,27 @@ module.exports.jsonEntityMap = {
             Id: 'IDCARGO',
             PersonaId: 'IDPERS',
             PersonaDocumento: {
-                table: 'personas',
+                table: 'PERSONAS',
                 parentKey: 'IDPERS',
                 foringKey: 'IDPERS',
                 fields: {
                     Documento: 'DNI'
                 }
             },
-            PersonaApellidoYNombre: {
-                table: 'personas',
+            PersonaApellido: {
+                table: 'PERSONAS',
                 parentKey: 'IDPERS',
                 foringKey: 'IDPERS',
                 fields: {
-                    ApellidoYNombre: 'APEYNOM'
+                    ApellidoYNombre: 'APELLIDO'
+                }
+            },
+            PersonaNombre: {
+                table: 'PERSONAS',
+                parentKey: 'IDPERS',
+                foringKey: 'IDPERS',
+                fields: {
+                    ApellidoYNombre: 'NOMBRE'
                 }
             },
             ReparticionId: 'IDREP',
@@ -290,12 +353,20 @@ module.exports.jsonEntityMap = {
                     Documento: 'DNI'
                 }
             },
-            PersonaApellidoYNombre: {
+            PersonaApellido: {
                 table: 'PERSONAS',
                 parentKey: 'IDPERS',
                 foringKey: 'IDPERS',
                 fields: {
-                    ApellidoYNombre: 'APEYNOM'
+                    ApellidoYNombre: 'APELLIDO'
+                }
+            },
+            PersonaNombre: {
+                table: 'PERSONAS',
+                parentKey: 'IDPERS',
+                foringKey: 'IDPERS',
+                fields: {
+                    ApellidoYNombre: 'NOMBRE'
                 }
             },
             Documento: 'DNI',
@@ -348,7 +419,7 @@ module.exports.jsonEntityMap = {
         },
         key: { field: "Id", seq: 'ESCALA_SEQ.NEXTVAL'}
     },
-    valFijo:{
+    valUnicoTipo:{
         table: 'DESC_VALORFIJO',
         fields:{
             Id: 'IDDESCFIJO',
@@ -356,7 +427,7 @@ module.exports.jsonEntityMap = {
         },
         key: { field: "Id", seq: 'DESC_VALFIJO_SEQ.NEXTVAL'}
     },
-    cabeceraCat:{
+    valCatTipo:{
         table: 'DESC_CABVALCAT',
         fields:{
             Id: 'IDCABVALCAT',
@@ -364,54 +435,110 @@ module.exports.jsonEntityMap = {
         },
         key: { field: "Id", seq: 'DESC_CABVALCAT_SEQ.NEXTVAL'}
     },
-    valCategoria:{
+    valCatCabecera:{
         table: 'DESC_VALORCATEGORIA',
         fields:{
             Id: 'IDDESC_VALCAT',
             Descripcion: 'DESCRIPCION',
-            IdCab: 'IDCABVALCAT'
+            ValCatTipoId: 'IDCABVALCAT'
         },
         key: { field: "Id", seq: 'DESC_VALCAT_SEQ.NEXTVAL'}
     },
-    escalaSalarial:{
+    escalaSalarialDetalle:{
         table: 'ESCALASALARIAL',
         fields:{
             Id: 'IDESCALASAL',
-            Escala: 'IDESCALA',
-            Cat:'NROCAT',
-            Descripcion: 'DESCRIPCION',
-            DetalleDescripcion: 'DESC_DETALLE',
+            EscalaSalarialId: 'IDESCALA',
+            Categoria:'NROCAT',
+            DescripcionCorta: 'DESCRIPCION',
+            DescripcionLarga: 'DESC_DETALLE',
             Importe: 'IMPORTE'
         },
         key: { field: "Id", seq: 'ESCALASALARIAL_SEQ.NEXTVAL'}
     },
-    valorCategoria:{
+    valCatDetalle:{
         table: 'VALORCATEGORIA',
         fields:{
             Id: 'IDVALCATEGORIA',
-            IdDescCat: 'IDDESC_VALCAT',
-            Cat:'NROCAT',
+            ValCatCabeceraId: 'IDDESC_VALCAT',
+            Categoria:'NROCAT',
             Valor: 'Valor'
         },
         key: { field: "Id", seq: 'VALORCATEGORIA_SEQ.NEXTVAL'}
     },
-    valorUnico:{
+    valUnico:{
         table: 'VALORUNICO',
         fields:{
             Id: 'IDVALUNICO',
             Descripcion: 'DESCRIPCION',
             Valor: 'Valor',
-            IdDescFijo:'IDDESCFIJO'
+            ValUnicoTipoId:'IDDESCFIJO'
         },
-        key: { field: "Id", seq: 'VVALORUNICO_SEQ.NEXTVAL'}
-    }
+        key: { field: "Id", seq: 'VALUNICO_SEQ.NEXTVAL'}
+    },
+    provincias:{
+        table: 'PROVINCIAS',
+        fields:{
+            Id: 'PROVINCIA_ID',
+            Descripcion: 'DESCRIPCION',
+            PaisId: 'PAIS_ID',
+            PaisDescripcion: {
+                table: 'PAISES',
+                parentKey: 'PAIS_ID',
+                foringKey: 'PAIS_ID',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            },
+        }        
+    },
+    paises:{
+        table: 'PAISES',
+        fields:{
+            Id: 'PAIS_ID',
+            Descripcion: 'DESCRIPCION'
+        }
+    },
+    localidad:{
+        table: 'LOCALIDADES',
+        fields:{
+            Id: 'LOCALIDAD_ID',
+            Descripcion: 'DESCRIPCION',
+            CP: 'CODIGO_POSTAL',
+            ProvinciaId: 'PROVINCIA_ID',
+            ProvinciaDescripcion:{
+                table: 'PROVINCIAS',
+                parentKey: 'PROVINCIA_ID',
+                foringKey: 'PROVINCIA_ID',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            }
+        }
+    },
+    tipoDoc:{
+        table: 'TABTIPODOC',
+        fields:{
+            Id: 'IDTIPODOC',
+            Descripcion: 'DESCRIPCION',
+            Sintetico: 'SINTETICO'
+        }
+    },
+    estadoCivil:{
+        table: 'TABESTCIVIL',
+        fields:{
+            Id: 'IDESTCIVIL',
+            Descripcion: 'DESCRIPCION',
+            Sintetico: 'SINTETICO'
+        }
+    },
 
     /*personaCargoFam: {
         table: 'PERSONAS_CARGOS_FAM',
         fields: {
             Id: 'IDPERS', // Este se vincula a IDPERS
             PersonaDocumento: {
-                table: 'personas',
+                table: 'PERSONAS',
                 parentKey: 'IDPERS',
                 foringKey: 'IDPERS',
                 fields: {
@@ -419,7 +546,7 @@ module.exports.jsonEntityMap = {
                 }
             },
             PersonaApellidoYNombre: {
-                table: 'personas',
+                table: 'PERSONAS',
                 parentKey: 'IDPERS',
                 foringKey: 'IDPERS',
                 fields: {
@@ -443,11 +570,6 @@ module.exports.jsonEntityMap = {
         }
     }*/
 }
-
-
-
-
-
 
 
 
