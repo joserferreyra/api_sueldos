@@ -403,7 +403,7 @@ module.exports.jsonEntityMap = {
             Valor: 'Valor',
             ValUnicoTipoId:'IDDESCFIJO'
         },
-        key: { field: "Id", seq: 'VALORUNICO_SEQ.NEXTVAL'}
+        key: { field: "Id", seq: 'VALUNICO_SEQ.NEXTVAL'}
     }
 
     /*personaCargoFam: {
