@@ -158,12 +158,12 @@ module.exports.jsonEntityMap = {
                 }
             },
             TipoDocumentoId: 'IDTIPODOC',
-            TipoDocumentoDescripcion: {
+            TipoDocumentoSintetico: {
                 table: 'TABTIPODOC',
                 parentKey: 'IDTIPODOC',
                 foringKey: 'IDTIPODOC',
                 fields: {
-                    Descripcion: 'DESCRIPCION'
+                    Sintetico: 'SINTETICO'
                 }
             },
             EstadoCivilId: 'IDESTCIVIL',
