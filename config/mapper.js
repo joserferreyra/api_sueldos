@@ -76,7 +76,8 @@ module.exports.jsonEntityMap = {
             Vencimiento: 'VTO',
             Importe: 'IMPORTE',
             Documento: 'DNI',
-            NombreCompleto: 'APYNOM',
+            Apellido: 'APELLIDO',
+            Nombre: 'NOMBRE',
             TipoEmpleoId: 'TE',
             TipoEmpleoDescripcion: {
                 table: 'tabtipoempleo',
