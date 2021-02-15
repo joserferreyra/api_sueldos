@@ -465,7 +465,7 @@ module.exports.jsonEntityMap = {
             Categoria:'NROCAT',
             Valor: 'Valor'
         },
-        key: { field: "Id", seq: 'VALORCATEGORIA_SEQ.NEXTVAL'}
+        key: { field: "Id", seq: 'VALCATEGORIA_SEQ.NEXTVAL'}
     },
     valUnico:{
         table: 'VALORUNICO',
