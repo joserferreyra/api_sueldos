@@ -175,6 +175,14 @@ module.exports.jsonEntityMap = {
                     Descripcion: 'DESCRIPCION'
                 }
             },
+            EstadoCivilSintetico:{
+                table: 'TABESTCIVIL',
+                parentKey: 'IDESTCIVIL',
+                foringKey: 'IDESTCIVIL',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            },
             CBU: 'CBU',
             Cuenta: 'CUENTA'
         },
