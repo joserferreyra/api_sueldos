@@ -180,7 +180,7 @@ module.exports.jsonEntityMap = {
                 parentKey: 'IDESTCIVIL',
                 foringKey: 'IDESTCIVIL',
                 fields: {
-                    Descripcion: 'DESCRIPCION'
+                    Sintetico: 'SINTETICO'
                 }
             },
             CBU: 'CBU',
