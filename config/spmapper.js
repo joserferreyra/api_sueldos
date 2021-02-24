@@ -57,37 +57,37 @@ module.exports.jsonStoreProcedure = {
         },
         out_param: { varName: 'value' }
     },
-    escalaSalarial:{
+    escalaSalarial: {
         sp_name: 'MOD_PARAM.P_ESCALASALARIAL',
         in_param: {
             Id: 'vIDESCALASAL',
             IdCabecera: 'vIDESCALA',
-            Cat: 'vNROCAT',            
+            Cat: 'vNROCAT',
             Descripcion: 'vDESCRIPCION',
             Detalle: 'vDESC_DETALLE',
             Importe: 'vIMPORTE'
         },
         out_param: { varName: 'value' }
     },
-    cabeceraValorFijo:{
+    cabeceraValorFijo: {
         sp_name: 'MOD_PARAM.P_DESC_VALORFIJO',
         in_param: {
-            Id: 'vIDDESCFIJO',         
+            Id: 'vIDDESCFIJO',
             Descripcion: 'vDESCRIPCION'
         },
         out_param: { varName: 'value' }
     },
-    valorFijo:{
+    valorFijo: {
         sp_name: 'MOD_PARAM.P_VALORUNICO',
         in_param: {
-            Id: 'vIDVALUNICO',         
+            Id: 'vIDVALUNICO',
             Descripcion: 'vDESCRIPCION',
             Valor: 'vVALOR',
             IdCabecera: 'vIDDESCFIJO'
         },
         out_param: { varName: 'value' }
     },
-    concepto:{
+    concepto: {
         sp_name: 'MOD_PARAM.P_CONCEPTO',
         in_param: {
             Id: 'vIDCONCEPTO',
@@ -97,18 +97,80 @@ module.exports.jsonStoreProcedure = {
             DescBoleta: 'vDESC_BOLETA',
             TipoConcepto: 'vIDTIPOCONCEPTO',
             AcumRem: 'vACUM_REM',
-            AcumJub:'vACUM_JUB',
-            AcumOs:'vACUM_OS',
+            AcumJub: 'vACUM_JUB',
+            AcumOs: 'vACUM_OS',
             Basico: 'vBASICO',
-            Ticket:'vTICKET',
-            Bonificable:'vBONIFICABLE',
-            CalculaPersona:'vCALC_PERSONA',
-            DeduceJubilacion:'vDEDUC_JUB',
-            DeducePension:'vDEDUC_PEN',
-            Especial:'vESPECIAL',
-            Reliquida:'vRELIQUIDA',
+            Ticket: 'vTICKET',
+            Bonificable: 'vBONIFICABLE',
+            CalculaPersona: 'vCALC_PERSONA',
+            DeduceJubilacion: 'vDEDUC_JUB',
+            DeducePension: 'vDEDUC_PEN',
+            Especial: 'vESPECIAL',
+            Reliquida: 'vRELIQUIDA',
             Observacion: 'vOBSERVACION',
-            AcumGan : 'vACUM_GAN'
+            AcumGan: 'vACUM_GAN'
+        },
+        out_param: { varName: 'value' }
+    },
+    histNomenclador:{
+        sp_name: 'P_HIST_NOMENCLADOR',
+        in_param: {
+            Id: 'vIDHISTNOM',
+            FechaInicio: 'vFECHAINICIO',
+            FechaFin: 'vFECHAFIN',
+            IdNomenclador: 'vIDNOM',
+            IdEscala: 'vIDESCALA'
+        },
+        out_param: { varName: 'value' }        
+    },
+    histConcepto:{
+        sp_name: 'P_HIST_CONCEPTO',
+        in_param: {
+            Id: 'vIDHISTNOM',
+            IdConcepto: 'vIDCONCEPTO',
+            Operacion: 'vOPERACION'
+        },
+        out_param: { varName: 'value' }        
+    },
+    histValUnico:{
+        sp_name: 'P_HIST_VALUNICO',
+        in_param: {
+            Id: 'vIDHISTNOM',
+            IdValorUnico: 'vIDVALUNICO',
+            Operacion: 'vOPERACION'
+        },
+        out_param: { varName: 'value' }        
+    },
+    histValCat:{
+        sp_name: 'P_HIST_VALCATEGORIA',
+        in_param: {
+            Id: 'vIDHISTNOM',
+            IdDesc: 'vIDDESC_VALCAT',
+            Operacion: 'vOPERACION'
+        },
+        out_param: { varName: 'value' }        
+    },
+    generaFormula: {
+        sp_name: 'SP_GENERAR_FORMULAS',
+        in_param: {
+            Id: 'vIDFORMULA',
+            Condicion: 'vCONDICION',
+            Accion: 'vACCION',
+            Detalle: 'vDETALLE',
+            IdConcepto: 'vIDCONCEPTO',
+            DescripcionCorta: 'vDESC_BREVE'
+        },
+        out_param: { varName: 'value' }
+    },
+    generaPrimitiva: {
+        sp_name: 'SP_GENERAR_PRIMITIVAS',
+        in_param: {
+            Id: 'vIDPRIMITIVA',
+            Nombre: 'vNOMBRE',
+            Descripcion: 'vDESCRIPCION',
+            Cabecera: 'vCABECERA',
+            Cuerpo: 'vCUERPO',
+            Pie: 'vPIE'
         },
         out_param: { varName: 'value' }
     }

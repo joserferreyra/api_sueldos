@@ -122,7 +122,7 @@ module.exports.jsonEntityMap = {
             DomicilioNumero: 'NRO',
             Piso: 'PISO',
             Departamento: 'DPTO',
-            LocalidadId:'LOCALIDAD_ID',
+            LocalidadId: 'LOCALIDAD_ID',
             LocalidadDescripcion: {
                 table: 'LOCALIDADES',
                 parentKey: 'LOCALIDAD_ID',
@@ -131,7 +131,7 @@ module.exports.jsonEntityMap = {
                     Descripcion: 'DESCRIPCION'
                 }
             },
-            LocalidadCodigoPostal:{
+            LocalidadCodigoPostal: {
                 table: 'LOCALIDADES',
                 parentKey: 'LOCALIDAD_ID',
                 foringKey: 'LOCALIDAD_ID',
@@ -140,7 +140,7 @@ module.exports.jsonEntityMap = {
                 }
             },
             ProvinciaId: 'PROVINCIA_ID',
-            ProvinciaDescripcion:{
+            ProvinciaDescripcion: {
                 table: 'PROVINCIAS',
                 parentKey: 'PROVINCIA_ID',
                 foringKey: 'PROVINCIA_ID',
@@ -149,7 +149,7 @@ module.exports.jsonEntityMap = {
                 }
             },
             PaisId: 'PAIS_ID',
-            PaisDescripcion:{
+            PaisDescripcion: {
                 table: 'PAISES',
                 parentKey: 'PAIS_ID',
                 foringKey: 'PAIS_ID',
@@ -167,7 +167,7 @@ module.exports.jsonEntityMap = {
                 }
             },
             EstadoCivilId: 'IDESTCIVIL',
-            EstadoCivilDescripcion:{
+            EstadoCivilDescripcion: {
                 table: 'TABESTCIVIL',
                 parentKey: 'IDESTCIVIL',
                 foringKey: 'IDESTCIVIL',
@@ -175,7 +175,7 @@ module.exports.jsonEntityMap = {
                     Descripcion: 'DESCRIPCION'
                 }
             },
-            EstadoCivilSintetico:{
+            EstadoCivilSintetico: {
                 table: 'TABESTCIVIL',
                 parentKey: 'IDESTCIVIL',
                 foringKey: 'IDESTCIVIL',
@@ -420,74 +420,74 @@ module.exports.jsonEntityMap = {
         },
         key: { field: "Id" }
     },
-    escala:{
+    escala: {
         table: 'ESCALA',
-        fields:{
+        fields: {
             Id: 'IDESCALA',
             Descripcion: 'DESCRIPCION'
         },
-        key: { field: "Id", seq: 'ESCALA_SEQ.NEXTVAL'}
+        key: { field: "Id", seq: 'ESCALA_SEQ.NEXTVAL' }
     },
-    valUnicoTipo:{
+    valUnicoTipo: {
         table: 'DESC_VALORFIJO',
-        fields:{
+        fields: {
             Id: 'IDDESCFIJO',
             Descripcion: 'DESCRIPCION'
         },
-        key: { field: "Id", seq: 'DESC_VALFIJO_SEQ.NEXTVAL'}
+        key: { field: "Id", seq: 'DESC_VALFIJO_SEQ.NEXTVAL' }
     },
-    valCatTipo:{
+    valCatTipo: {
         table: 'DESC_CABVALCAT',
-        fields:{
+        fields: {
             Id: 'IDCABVALCAT',
             Descripcion: 'DESCRIPCION'
         },
-        key: { field: "Id", seq: 'DESC_CABVALCAT_SEQ.NEXTVAL'}
+        key: { field: "Id", seq: 'DESC_CABVALCAT_SEQ.NEXTVAL' }
     },
-    valCatCabecera:{
+    valCatCabecera: {
         table: 'DESC_VALORCATEGORIA',
-        fields:{
+        fields: {
             Id: 'IDDESC_VALCAT',
             Descripcion: 'DESCRIPCION',
             ValCatTipoId: 'IDCABVALCAT'
         },
-        key: { field: "Id", seq: 'DESC_VALCAT_SEQ.NEXTVAL'}
+        key: { field: "Id", seq: 'DESC_VALCAT_SEQ.NEXTVAL' }
     },
-    escalaSalarialDetalle:{
+    escalaSalarialDetalle: {
         table: 'ESCALASALARIAL',
-        fields:{
+        fields: {
             Id: 'IDESCALASAL',
             EscalaSalarialId: 'IDESCALA',
-            Categoria:'NROCAT',
+            Categoria: 'NROCAT',
             DescripcionCorta: 'DESCRIPCION',
             DescripcionLarga: 'DESC_DETALLE',
             Importe: 'IMPORTE'
         },
-        key: { field: "Id", seq: 'ESCALASALARIAL_SEQ.NEXTVAL'}
+        key: { field: "Id", seq: 'ESCALASALARIAL_SEQ.NEXTVAL' }
     },
-    valCatDetalle:{
+    valCatDetalle: {
         table: 'VALORCATEGORIA',
-        fields:{
+        fields: {
             Id: 'IDVALCATEGORIA',
             ValCatCabeceraId: 'IDDESC_VALCAT',
-            Categoria:'NROCAT',
+            Categoria: 'NROCAT',
             Valor: 'Valor'
         },
-        key: { field: "Id", seq: 'VALCATEGORIA_SEQ.NEXTVAL'}
+        key: { field: "Id", seq: 'VALCATEGORIA_SEQ.NEXTVAL' }
     },
-    valUnico:{
+    valUnico: {
         table: 'VALORUNICO',
-        fields:{
+        fields: {
             Id: 'IDVALUNICO',
             Descripcion: 'DESCRIPCION',
             Valor: 'Valor',
-            ValUnicoTipoId:'IDDESCFIJO'
+            ValUnicoTipoId: 'IDDESCFIJO'
         },
-        key: { field: "Id", seq: 'VALUNICO_SEQ.NEXTVAL'}
+        key: { field: "Id", seq: 'VALUNICO_SEQ.NEXTVAL' }
     },
-    provincias:{
+    provincias: {
         table: 'PROVINCIAS',
-        fields:{
+        fields: {
             Id: 'PROVINCIA_ID',
             Descripcion: 'DESCRIPCION',
             PaisId: 'PAIS_ID',
@@ -499,23 +499,23 @@ module.exports.jsonEntityMap = {
                     Descripcion: 'DESCRIPCION'
                 }
             },
-        }        
+        }
     },
-    paises:{
+    paises: {
         table: 'PAISES',
-        fields:{
+        fields: {
             Id: 'PAIS_ID',
             Descripcion: 'DESCRIPCION'
         }
     },
-    localidad:{
+    localidad: {
         table: 'LOCALIDADES',
-        fields:{
+        fields: {
             Id: 'LOCALIDAD_ID',
             Descripcion: 'DESCRIPCION',
             CP: 'CODIGO_POSTAL',
             ProvinciaId: 'PROVINCIA_ID',
-            ProvinciaDescripcion:{
+            ProvinciaDescripcion: {
                 table: 'PROVINCIAS',
                 parentKey: 'PROVINCIA_ID',
                 foringKey: 'PROVINCIA_ID',
@@ -525,59 +525,182 @@ module.exports.jsonEntityMap = {
             }
         }
     },
-    tipoDoc:{
+    tipoDoc: {
         table: 'TABTIPODOC',
-        fields:{
+        fields: {
             Id: 'IDTIPODOC',
             Descripcion: 'DESCRIPCION',
             Sintetico: 'SINTETICO'
         }
     },
-    estadoCivil:{
+    estadoCivil: {
         table: 'TABESTCIVIL',
-        fields:{
+        fields: {
             Id: 'IDESTCIVIL',
             Descripcion: 'DESCRIPCION',
             Sintetico: 'SINTETICO'
         }
     },
-
-    /*personaCargoFam: {
-        table: 'PERSONAS_CARGOS_FAM',
+    primitiva: {
+        table: 'PRIMITIVAS',
         fields: {
-            Id: 'IDPERS', // Este se vincula a IDPERS
-            PersonaDocumento: {
-                table: 'PERSONAS',
-                parentKey: 'IDPERS',
-                foringKey: 'IDPERS',
+            Id: 'IDPRIMITIVA',
+            Nombre: 'NOMBRE',
+            Descripcion: 'DESCRIPCION',
+            Cabecera: 'CABECERA',
+            Cuerpo: 'CUERPO',
+            Pie: 'PIE'
+        },
+        key: { field: "Id", seq: 'PRIMITIVAS_SEQ.NEXTVAL' }
+    },
+    nomenclador: {
+        table: 'NOMENCLADOR',
+        fields: {
+            Id: 'IDNOM',
+            Descripcion: 'DESCRIPCION'
+        },
+        key: { field: "Id", seq: 'NOMENCLADOR_SEQ.NEXTVAL' }
+    },
+    historiaValorUnico: {
+        table: 'HIST_VALUNICO',
+        fields: {
+            HistoriaNomencladorId: 'IDHISTNOM',
+            ValorUnicoId: 'IDVALUNICO',
+            ValorUnicoDescripcion: {
+                table: 'VALORUNICO',
+                parentKey: 'IDVALUNICO',
+                foringKey: 'IDVALUNICO',
                 fields: {
-                    Documento: 'DNI'
+                    Descripcion: 'DESCRIPCION'
                 }
             },
-            PersonaApellidoYNombre: {
-                table: 'PERSONAS',
-                parentKey: 'IDPERS',
-                foringKey: 'IDPERS',
+            ValorUnicoValor: {
+                table: 'VALORUNICO',
+                parentKey: 'IDVALUNICO',
+                foringKey: 'IDVALUNICO',
                 fields: {
-                    ApellidoYNombre: 'APEYNOM'
+                    Valor: 'VALOR'
                 }
             },
-            CargoId: 'IDCARGO', // Este se vincula a IDCARGO
-            ReparticionId: '',
-            ReparticionDescripcion: '',
-            Orden: '',
-            Afiliado: '',
-            TipoEmpleoId: '',
-            TipoEmpleoDescripcion: {
-                table: 'tabtipoempleo',
-                parentKey: 'IDTE',
-                foringKey: 'IDTE',
+            ValorDescripcionId: {
+                table: 'VALORUNICO',
+                parentKey: 'IDVALUNICO',
+                foringKey: 'IDVALUNICO',
+                fields: {
+                    IdDesc: 'IDDESCFIJO'
+                }
+            }
+        }
+    },
+    historiaValorCategoria: {
+        table: 'HIST_VALCATEGORIA',
+        fields: {
+            HistoriaNomencladorId: 'IDHISTNOM',
+            ValorCategoriaCabeceraId: 'IDDESC_VALCAT',
+            ValorCategoriaCabeceraDesc: {
+                table: 'DESC_VALORCATEGORIA',
+                parentKey: 'IDDESC_VALCAT',
+                foringKey: 'IDDESC_VALCAT',
                 fields: {
                     Descripcion: 'DESCRIPCION'
                 }
             }
         }
-    }*/
+    },
+    historiaNomenclador: {
+        table: 'HIST_NOMENCLADOR',
+        fields: {
+            Id: 'IDHISTNOM',
+            FechaDesde: 'FECHAINICIO',
+            FechaHasta: 'FECHAFIN',
+            NomencladorId: 'IDNOM',
+            NomencladorDescripcion: {
+                table: 'NOMENCLADOR',
+                parentKey: 'IDNOM',
+                foringKey: 'IDNOM',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            },
+            EscalaId: 'IDESCALA',
+            EscalaDescripcion: {
+                table: 'ESCALA',
+                parentKey: 'IDESCALA',
+                foringKey: 'IDESCALA',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            }
+        },
+        key: { field: "Id", seq: 'HIST_NOMENCLADOR_SEQ.NEXTVAL' }
+    },
+    historiaConcepto: {
+        table: 'HIST_CONCEPTO',
+        fields: {
+            HistoriaNomencladorId: 'IDHISTNOM',
+            ConceptoId: 'IDCONCEPTO',
+            Codigo: {
+                table: 'CONCEPTO',
+                parentKey: 'IDCONCEPTO',
+                foringKey: 'IDCONCEPTO',
+                fields: {
+                    Codigo: 'CODIGO'
+                }
+            },
+            SubCodigo: {
+                table: 'CONCEPTO',
+                parentKey: 'IDCONCEPTO',
+                foringKey: 'IDCONCEPTO',
+                fields: {
+                    SubCodigo: 'SUBCOD'
+                }
+            },
+            DescripcionBoleta: {
+                table: 'CONCEPTO',
+                parentKey: 'IDCONCEPTO',
+                foringKey: 'IDCONCEPTO',
+                fields: {
+                    Descripcion: 'DESC_BOLETA'
+                }
+            }
+        }
+    }
+      /*personaCargoFam: {
+            table: 'PERSONAS_CARGOS_FAM',
+            fields: {
+                Id: 'IDPERS', // Este se vincula a IDPERS
+                PersonaDocumento: {
+                    table: 'PERSONAS',
+                    parentKey: 'IDPERS',
+                    foringKey: 'IDPERS',
+                    fields: {
+                        Documento: 'DNI'
+                    }
+                },
+                PersonaApellidoYNombre: {
+                    table: 'PERSONAS',
+                    parentKey: 'IDPERS',
+                    foringKey: 'IDPERS',
+                    fields: {
+                        ApellidoYNombre: 'APEYNOM'
+                    }
+                },
+                CargoId: 'IDCARGO', // Este se vincula a IDCARGO
+                ReparticionId: '',
+                ReparticionDescripcion: '',
+                Orden: '',
+                Afiliado: '',
+                TipoEmpleoId: '',
+                TipoEmpleoDescripcion: {
+                    table: 'tabtipoempleo',
+                    parentKey: 'IDTE',
+                    foringKey: 'IDTE',
+                    fields: {
+                        Descripcion: 'DESCRIPCION'
+                    }
+                }
+            }
+        }*/
 }
 
 
