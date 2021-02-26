@@ -22,7 +22,8 @@ function getSQLcall(fn) {
 async function execFn(context, fn) {
     let query = getSQLcall(fn);
 
-    const binds = {};
+    const binds = context;
+    //const binds = {};
 
     for (const key in context) {
         binds[key] = context[key];

@@ -61,9 +61,11 @@ app.route('/fn/list').get(control.getFunc);
 
 app.route('/en/list').get(control.getEntities);
 
-app.route('/sp/*').get(control.execSP);
+//app.route('/sp/*').get(control.execSP);
+app.route('/sp/*').post(control.execSP);
 
-app.route('/fn/*').get(control.execFN);
+app.route('/fn/*').post(control.execFN);
+//app.route('/fn/*').get(control.execFN);
 
 app.route('/*')
     .get(control.get)

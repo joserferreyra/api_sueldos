@@ -144,7 +144,8 @@ async function execSP(req, res, next) {
         let context = {};
         let result;
 
-        context = req.query;
+        context = req.body;
+        //console.log(req);
 
         let spName = req.path.substring(4,);
         //console.log(spName);
@@ -160,6 +161,7 @@ async function execSP(req, res, next) {
         }
 
     } catch (err) {
+        //console.log(err);
         next(err);
     }
 }
@@ -169,7 +171,8 @@ async function execFN(req, res, next) {
         let context = {};
         let result;
 
-        context = req.query;
+        context = req.body;
+        //context = req.query;
 
         let spName = req.path.substring(4,);
 
@@ -192,6 +195,7 @@ async function getProc(req, res, next) {
         let result = {};
 
         context = req.query;
+        //context = req.body;
 
         //let spName = req.path.substring(6,);
         //console.log(spName);

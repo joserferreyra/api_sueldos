@@ -160,7 +160,7 @@ module.exports.jsonStoreProcedure = {
             IdConcepto: 'vIDCONCEPTO',
             DescripcionCorta: 'vDESC_BREVE'
         },
-        out_param: { varName: 'value' }
+        out_param: { varName: 'value', varErrorName: 'error'}
     },
     generaPrimitiva: {
         sp_name: 'SP_GENERAR_PRIMITIVAS',
@@ -172,6 +172,6 @@ module.exports.jsonStoreProcedure = {
             Cuerpo: 'vCUERPO',
             Pie: 'vPIE'
         },
-        out_param: { varName: 'value' }
+        out_param: { varName: 'vSALIDA', varErrorName: 'vERROR'}
     }
 }
