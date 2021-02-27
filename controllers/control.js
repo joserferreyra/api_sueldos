@@ -1,7 +1,7 @@
 const entityapi = require('../db_apis/entity');
 const mapper = require('../config/mapper');
 const mapperViews = require('../config/mapperViews');
-const viewliqapi = require('../db_apis/viewLiq');
+const viewapi = require('../db_apis/view');
 const spmapper = require('../config/spmapper');
 const fnmapper = require('../config/fnmapper');
 const spapi = require('../db_apis/sp');
@@ -115,20 +115,22 @@ async function del(req, res, next) {
     }
 }
 
-async function getLiqView(req, res, next) {
+async function getView(req, res, next) {
     try {
         let context = {};
         let result;
 
         context = req.query;
 
-        let entityName = 'personaCargoLiq';
+        //let entityName = 'personaCargoLiq';
+        let entityName = req.path.substring(6,);
+        //console.log(entityName);
 
         if (mapperViews.jsonViewMap[entityName]) {
-            result = await viewliqapi.getLiq(context, mapperViews.jsonViewMap[entityName]);            
+            result = await viewapi.getView(context, mapperViews.jsonViewMap[entityName]);            
         }
 
-        if (result.rows.length > 0) {
+        if (result && result.rows.length > 0) {
             res.status(200).json(result.rows);
         } else {
             res.status(404).end();
@@ -244,13 +246,27 @@ async function getEntities(req, res, next) {
     }    
 }
 
+async function getViews(req, res, next) {
+    try {
+
+        let result = mapperViews.jsonViewMap;
+        const val = result?res.status(200).json(result):res.status(404).end();
+
+        return val;
+
+    } catch (err) {
+        next(err);
+    }    
+}
+
 module.exports.getEntities = getEntities;
 module.exports.execSP = execSP;
 module.exports.execFN = execFN;
 module.exports.getProc = getProc;
 module.exports.getFunc = getFunc;
 
-module.exports.getPersonaCargoLiq = getLiqView;
+module.exports.getView = getView;
+module.exports.getViews = getViews;
 
 module.exports.get = get;
 module.exports.post = post;

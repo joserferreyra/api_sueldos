@@ -32,6 +32,7 @@ async function startup() {
 async function shutdown(e) {
     let err = e;
     console.log('Shutting down');
+    
     try {
         console.log('Closing web server module');
         await webServer.close();
@@ -43,7 +44,6 @@ async function shutdown(e) {
 
     try {
         console.log('Closing database module');
-
         await database.close();
     } catch (err) {
         console.log('Encountered error', e);

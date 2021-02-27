@@ -53,7 +53,7 @@ const corsOptions = {
 
 app.options(cors());
 
-app.route('/view/personaCargoLiq').get(control.getPersonaCargoLiq);
+app.route('/view/list').get(control.getViews);
 
 app.route('/sp/list').get(control.getProc);
 
@@ -66,6 +66,8 @@ app.route('/sp/*').post(control.execSP);
 
 app.route('/fn/*').post(control.execFN);
 //app.route('/fn/*').get(control.execFN);
+
+app.route('/view/*').get(control.getView);
 
 app.route('/*')
     .get(control.get)

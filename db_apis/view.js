@@ -1,5 +1,5 @@
 const database = require('../services/database');
-const baseQuery = require('../db_apis/baseQuery');
+const baseQuery = require('./baseQuery');
 
 function getSQLselect(entity) {
     let sqlCab = 'SELECT ';
@@ -12,17 +12,14 @@ function getSQLselect(entity) {
         }
         sqlCab += entity.fields[key] + ' as ' + key;
     }
-    sqlCab += `\nFROM LIQITEM  
-                INNER JOIN LIQ ON LIQ.IDLIQ = LIQITEM.IDLIQ
-                INNER JOIN CARGOS ON CARGOS.IDCARGO = LIQ.IDCARGO
-                inner join concepto on concepto.idconcepto = liqitem.idconcepto
-                inner join tipoliquidacion on tipoliquidacion.idtipoliq = liq.idtipoliq
-                inner join personas on personas.idpers = cargos.idpers `;
-                
+    entity.sql["fromClause"].forEach(line => {
+        sqlCab +='\n' + line + ' '
+    });
+
     return sqlCab;
 }
 
-async function getLiq(context, entity) {
+async function getView(context, entity) {
     //const binds = {};
 
     let query = getSQLselect(entity);
@@ -43,4 +40,4 @@ async function getLiq(context, entity) {
 
 }
 
-module.exports.getLiq = getLiq;
+module.exports.getView = getView;

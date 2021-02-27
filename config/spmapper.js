@@ -113,7 +113,7 @@ module.exports.jsonStoreProcedure = {
         out_param: { varName: 'value' }
     },
     histNomenclador:{
-        sp_name: 'P_HIST_NOMENCLADOR',
+        sp_name: 'MOD_PARAM.P_HIST_NOMENCLADOR',
         in_param: {
             Id: 'vIDHISTNOM',
             FechaInicio: 'vFECHAINICIO',
@@ -124,7 +124,7 @@ module.exports.jsonStoreProcedure = {
         out_param: { varName: 'value' }        
     },
     histConcepto:{
-        sp_name: 'P_HIST_CONCEPTO',
+        sp_name: 'MOD_PARAM.P_HIST_CONCEPTO',
         in_param: {
             Id: 'vIDHISTNOM',
             IdConcepto: 'vIDCONCEPTO',
@@ -133,7 +133,7 @@ module.exports.jsonStoreProcedure = {
         out_param: { varName: 'value' }        
     },
     histValUnico:{
-        sp_name: 'P_HIST_VALUNICO',
+        sp_name: 'MOD_PARAM.P_HIST_VALUNICO',
         in_param: {
             Id: 'vIDHISTNOM',
             IdValorUnico: 'vIDVALUNICO',
@@ -142,7 +142,7 @@ module.exports.jsonStoreProcedure = {
         out_param: { varName: 'value' }        
     },
     histValCat:{
-        sp_name: 'P_HIST_VALCATEGORIA',
+        sp_name: 'MOD_PARAM.P_HIST_VALCATEGORIA',
         in_param: {
             Id: 'vIDHISTNOM',
             IdDesc: 'vIDDESC_VALCAT',
