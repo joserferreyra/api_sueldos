@@ -1,0 +1,9 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/slnx.sqlite
+curltest.txt
+curltest2.txt
+vistaliq.sql
+.node_modules
