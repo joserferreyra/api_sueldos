@@ -50,7 +50,8 @@ module.exports.jsonViewMap = {
             HistoriaNomencladorId: 'hist_concepto.idhistnom', 
             Codigo: 'concepto.codigo', 
             SubCodigo: 'concepto.subcod',
-            DescBoleta: 'concepto.desc_boleta'
+            DescBoleta: 'concepto.desc_boleta',
+            Observacion: 'concepto.observacion'
         },
         key: { field: "ConceptoId"},
         sql: {
@@ -85,7 +86,7 @@ module.exports.jsonViewMap = {
             HistoriaNomencladorId: 'hist_valcategoria.idhistnom',
             CategoriaDescripcion: 'desc_valorcategoria.descripcion',
             CategoriaTipoId: 'desc_valorcategoria.idcabvalcat',
-            CategotiaTipoDescripcion: 'desc_cabvalcat.descripcion'
+            CategoriaTipoDescripcion: 'desc_cabvalcat.descripcion'
         },
         key: { field: "CategoriaId" },
         sql: {
