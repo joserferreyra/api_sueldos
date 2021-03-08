@@ -96,5 +96,45 @@ module.exports.jsonViewMap = {
                 "INNER JOIN desc_cabvalcat ON desc_cabvalcat.idcabvalcat = desc_valorcategoria.idcabvalcat"
             ]
         }
+    },
+    cargo: {
+        fields: {
+            Id: 'cargo.IDCARGO',
+            PersonaId: 'cargo.IDPERS',
+            PersonaDocumento: 'persona.DNI',
+            PersonaApellido: 'persona.APELLIDO',
+            PersonaNombre: 'persona.NOMBRE',
+            ReparticionId: 'cargo.IDREP',
+            ReparticionDescripcion:'reparticion.DESCRIPCION',
+            Orden: 'cargo.ORDEN',
+            Afiliado: 'cargo.AFILIADO',
+            TipoEmpleoId: 'cargo.IDTE',
+            TipoEmpleoDescripcion: 'tabtipoempleo.DESCRIPCION',
+            VtoEscalafon: 'cargo.VTOESC',
+            Antiguedad: 'cargo.ANTIG',
+            SituacionRevistaId: 'cargo.IDSITREV',
+            SituacionRevistaDescripcion: 'tabtiporevista.DESCRIPCION',
+            Categoria: 'cargo.CATEGORIA',
+            FechaBaja: 'cargo.FECHABAJA',
+            EstadoCargoId: 'cargo.IDESTADOCARGO',
+            EstadoCargoDescripcion: 'tabestadocargo.DESCRIPCION',
+            TipoObraSocialId: 'cargo.IDTIPOOS',
+            TipoObraSocialDescripcion: 'tabtipoos.DESCRIPCION',
+            TipoLiquidacionId: 'cargo.IDTIPOLIQ',
+            TipoLiquidacionDescripcion: 'tipoliquidacion.DESCRIPCION',
+            Salario: 'cargo.SALARIO'
+        },
+        key: { field: "Id"},
+        sql: {
+            fromClause: [
+                "FROM cargo",
+                "INNER JOIN reparticion ON cargo.IDREP = reparticion.IDREP",
+                "INNER JOIN tabtipoempleo ON cargo.IDTE = tabtipoempleo.IDTE",
+                "INNER JOIN tabtiporevista ON cargo.IDTIPOREVISTA = tabtiporevista.IDTIPOREVISTA",
+                "INNER JOIN tabestadocargo ON cargo.IDESTADOCARGO = tabestadocargo.IDESTADOCARGO",
+                "INNER JOIN tabtipoos ON cargo.IDTIPOOS = tabtipoos.IDTIPOOS",
+                "INNER JOIN tipoliquidacion ON cargo.IDTIPOLIQ = tipoliquidacion.IDTIPOLIQ"
+            ]
+        }
     }
 }
