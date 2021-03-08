@@ -50,7 +50,8 @@ module.exports.jsonViewMap = {
             HistoriaNomencladorId: 'hist_concepto.idhistnom', 
             Codigo: 'concepto.codigo', 
             SubCodigo: 'concepto.subcod',
-            DescBoleta: 'concepto.desc_boleta'
+            DescBoleta: 'concepto.desc_boleta',
+            Observacion: 'concepto.observacion'
         },
         key: { field: "ConceptoId"},
         sql: {
@@ -85,7 +86,7 @@ module.exports.jsonViewMap = {
             HistoriaNomencladorId: 'hist_valcategoria.idhistnom',
             CategoriaDescripcion: 'desc_valorcategoria.descripcion',
             CategoriaTipoId: 'desc_valorcategoria.idcabvalcat',
-            CategotiaTipoDescripcion: 'desc_cabvalcat.descripcion'
+            CategoriaTipoDescripcion: 'desc_cabvalcat.descripcion'
         },
         key: { field: "CategoriaId" },
         sql: {
@@ -93,6 +94,46 @@ module.exports.jsonViewMap = {
                 "FROM hist_valcategoria",
                 "INNER JOIN desc_valorcategoria ON desc_valorcategoria.iddesc_valcat = hist_valcategoria.iddesc_valcat",
                 "INNER JOIN desc_cabvalcat ON desc_cabvalcat.idcabvalcat = desc_valorcategoria.idcabvalcat"
+            ]
+        }
+    },
+    cargo: {
+        fields: {
+            Id: 'cargo.IDCARGO',
+            PersonaId: 'cargo.IDPERS',
+            PersonaDocumento: 'persona.DNI',
+            PersonaApellido: 'persona.APELLIDO',
+            PersonaNombre: 'persona.NOMBRE',
+            ReparticionId: 'cargo.IDREP',
+            ReparticionDescripcion:'reparticion.DESCRIPCION',
+            Orden: 'cargo.ORDEN',
+            Afiliado: 'cargo.AFILIADO',
+            TipoEmpleoId: 'cargo.IDTE',
+            TipoEmpleoDescripcion: 'tabtipoempleo.DESCRIPCION',
+            VtoEscalafon: 'cargo.VTOESC',
+            Antiguedad: 'cargo.ANTIG',
+            SituacionRevistaId: 'cargo.IDSITREV',
+            SituacionRevistaDescripcion: 'tabtiporevista.DESCRIPCION',
+            Categoria: 'cargo.CATEGORIA',
+            FechaBaja: 'cargo.FECHABAJA',
+            EstadoCargoId: 'cargo.IDESTADOCARGO',
+            EstadoCargoDescripcion: 'tabestadocargo.DESCRIPCION',
+            TipoObraSocialId: 'cargo.IDTIPOOS',
+            TipoObraSocialDescripcion: 'tabtipoos.DESCRIPCION',
+            TipoLiquidacionId: 'cargo.IDTIPOLIQ',
+            TipoLiquidacionDescripcion: 'tipoliquidacion.DESCRIPCION',
+            Salario: 'cargo.SALARIO'
+        },
+        key: { field: "Id"},
+        sql: {
+            fromClause: [
+                "FROM cargo",
+                "INNER JOIN reparticion ON cargo.IDREP = reparticion.IDREP",
+                "INNER JOIN tabtipoempleo ON cargo.IDTE = tabtipoempleo.IDTE",
+                "INNER JOIN tabtiporevista ON cargo.IDTIPOREVISTA = tabtiporevista.IDTIPOREVISTA",
+                "INNER JOIN tabestadocargo ON cargo.IDESTADOCARGO = tabestadocargo.IDESTADOCARGO",
+                "INNER JOIN tabtipoos ON cargo.IDTIPOOS = tabtipoos.IDTIPOOS",
+                "INNER JOIN tipoliquidacion ON cargo.IDTIPOLIQ = tipoliquidacion.IDTIPOLIQ"
             ]
         }
     }
