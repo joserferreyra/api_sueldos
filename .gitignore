@@ -6,7 +6,7 @@
 curltest.txt
 curltest2.txt
 vistaliq.sql
-.node_modules
+./node_modules/*
 ./config/web_server.js
 ./services/access.log
 
