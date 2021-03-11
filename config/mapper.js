@@ -664,6 +664,21 @@ module.exports.jsonEntityMap = {
                 }
             }
         }
+    },
+    estadoCargo: {
+        table: 'TABESTADOCARGO',
+        fields: {
+            Id: 'IDESTADOCARGO',
+            Descripcion: 'DESCRIPCION'            
+        }
+    },
+    periodo: {
+        table: 'TABPERIODO',
+        fields: {
+            Periodo: 'PERIODO',
+            Activo: 'ACTIVO',
+            Descripcion: 'DESCRIPCION'            
+        }
     }
       /*personaCargoFam: {
             table: 'PERSONAS_CARGOS_FAM',
