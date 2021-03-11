@@ -173,5 +173,15 @@ module.exports.jsonStoreProcedure = {
             Pie: 'vPIE'
         },
         out_param: { varName: 'vSALIDA', varErrorName: 'vERROR'}
+    },
+    importaHistNomenclador: {
+        sp_name: 'MOD_PARAM.P_IMPORTA_HIST_NOM',
+        in_param: {
+            HistIdOrigen: 'vIDHIST_ORIGEN',
+            HistIdDestino: 'vIDHIST_DESTINO'
+        },
+        out_param: {
+            varName: 'value'
+        }
     }
 }
