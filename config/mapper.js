@@ -249,8 +249,8 @@ module.exports.jsonEntityMap = {
                 }
             },
             Categoria: 'CATEGORIA',
-            FechaBaja: 'FECHABAJA',
-            Estado: 'IDESTADOCARGO',
+            FechaBaja: 'FECHABAJA',            
+            EstadoCargoId: "IDESTADOCARGO",
             TipoObraSocialId: 'IDTIPOOS',
             TipoObraSocialDescripcion: {
                 table: 'TABTIPOOS',
