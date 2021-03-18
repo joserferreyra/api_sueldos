@@ -183,5 +183,18 @@ module.exports.jsonStoreProcedure = {
         out_param: {
             varName: 'value'
         }
+    },
+    cargaLiqJSON: {
+        sp_name: 'MOD_REPORTES.CARGA_JSNOLIQ',
+        in_param: {
+            Periodo: 'vPeriodo',
+            GrupoRep: 'vGrupoRep',
+            Rep: 'vRep_liq',
+            IdPersona: 'vIdPers_liq',
+            CargoId: 'vIdCargo_liq',
+            TipoLiq: 'vIdTipoLiq',
+            GrupoAdicional: 'vIdGrupoAdic'
+        },
+        out_param: {}
     }
 }

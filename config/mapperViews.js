@@ -139,5 +139,18 @@ module.exports.jsonViewMap = {
                 "INNER JOIN tipoliquidacion ON cargos.IDTIPOLIQ = tipoliquidacion.IDTIPOLIQ"
             ]
         }
+    },
+    jsonliq: {
+        fields: {
+            IdLiq: "idliq",
+            json: "'{ liqcabecera: '|| cab || ', liqdetalle: '|| det ||', liqresumen:'||res||'}'"
+        },
+        key: { field: "IdLiq"},
+        sql: {
+            fromClause:[
+                "from liq_json"
+            ]
+        }
     }
+
 }

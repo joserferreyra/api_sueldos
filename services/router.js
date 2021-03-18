@@ -6,13 +6,14 @@ const cors = require("cors");
 const fs = require("fs");
 const path = require('path');
 
+const files = require('../controllers/files.js');
+
 const app = new express.Router();
 
 const control = require('../controllers/control');
 const { json } = require('body-parser');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-
 
 const options = {
     reviver: (key, value) => {
@@ -34,6 +35,8 @@ var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {
 
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use(helmet());
+
+app.use(express.static(__dirname + '/public'));
 
 /*
 const whitelist = ['http://localhost:3000','http://sueldos.duckdns.org:8090'];
@@ -68,6 +71,10 @@ app.route('/fn/*').post(control.execFN);
 //app.route('/fn/*').get(control.execFN);
 
 app.route('/view/*').get(control.getView);
+
+app.route('/files/:id?')
+  .get(files.get)
+  .post(files.post);
 
 app.route('/*')
     .get(control.get)

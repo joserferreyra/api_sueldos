@@ -680,6 +680,7 @@ module.exports.jsonEntityMap = {
             Descripcion: 'DESCRIPCION'            
         }
     }
+    
       /*personaCargoFam: {
             table: 'PERSONAS_CARGOS_FAM',
             fields: {
