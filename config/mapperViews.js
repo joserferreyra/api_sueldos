@@ -143,7 +143,7 @@ module.exports.jsonViewMap = {
     jsonliq: {
         fields: {
             IdLiq: "idliq",
-            json: "'{ liqcabecera: '|| cab || ', liqdetalle: '|| det ||', liqresumen:'||res||'}'"
+            json: `'{ "liqcabecera":' || cab || ', "liqdetalle":' || det ||', "liqresumen":' ||res|| '}'`
         },
         key: { field: "IdLiq"},
         sql: {
