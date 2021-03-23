@@ -9,4 +9,5 @@ vistaliq.sql
 ./node_modules/*
 ./config/web_server.js
 ./services/access.log
+./*.sql
 

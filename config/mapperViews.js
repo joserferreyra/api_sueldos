@@ -151,6 +151,69 @@ module.exports.jsonViewMap = {
                 "from liq_json"
             ]
         }
+    },
+    resumenLiquidacion:{
+        fields:{
+            Orden: "c.orden",
+            PersonaDocumento: "p.dni",
+            PersonaApellido: "P.APELLIDO",
+            PersonaNombre: "P.NOMBRE",
+            SujetoAporte: "sum( case when CON.IDTIPOCONCEPTO = 1 THEN li.impticket ELSE 0 END)",
+            ExcentoAporte:"sum( case when CON.IDTIPOCONCEPTO = 2 THEN li.impticket ELSE 0 END)",
+            AsignacionFamiliar:"sum( case when CON.IDTIPOCONCEPTO = 4 THEN li.impticket ELSE 0 END)",
+            DescuentosLey:"sum( case when CON.IDTIPOCONCEPTO = 3 THEN li.impticket ELSE 0 END)",
+            DescuentosVarios:"sum( case when CON.IDTIPOCONCEPTO = 6 THEN li.impticket ELSE 0 END) ",
+            Neto:"sum( case when CON.IDTIPOCONCEPTO in (1,2,4) THEN li.impticket ELSE li.impticket*(-1) END)",
+            TipoTotal: "grouping(c.orden)"
+        },
+        key:{field:""},
+        sql:{
+            fromClause:[
+                "from liq l",
+                "inner join liqitem li on l.idliq = li.idliq",
+                "inner join cargos c on C.IDCARGO = l.idcargo",
+                "inner join personas p on p.idpers = c.idpers",
+                "inner join concepto con on con.idconcepto = li.idconcepto"
+            ],
+            groupClause:[
+                "group by rollup ((c.orden,p.dni,P.APELLIDO,P.NOMBRE))"
+            ]
+        }
+    },
+    djPrevLiqsPeriodoDJ: {
+        fields: {
+            "Id": "DDJJ_Liquidaciones.Id",
+            "PeriodoDJ": "DDJJ_Liquidaciones.periodo_ddjj",
+            "TipoLiquidacionId": "DDJJ_Liquidaciones.IdTipoLiq",
+            "TipoLiquidacionDescripcion": "TipoLiquidacion.descripcion",
+            "GrupoAdicionalId": "DDJJ_Liquidaciones.IdGrupoAdic",
+            "PeriodoLiq": "DDJJ_Liquidaciones.Periodo_Liq",
+            "HabCA": "DDJJ_Liquidaciones.HABCA"
+        },
+        key: {
+            "field": "Id"
+        },
+        sql: {
+            "fromClause": [
+                "FROM DDJJ_Liquidaciones",
+                "INNER JOIN TipoLiquidacion ON TipoLiquidacion.IdTipoLiq = DDJJ_Liquidaciones.IdTipoLiq"
+            ]
+        }
+    },
+    djPrevTxtDDJJ: {
+        fields: {
+            "Id": "VW_DDJJ_PRESENTACION.Id",
+            "Cadena": "VW_DDJJ_PRESENTACION.CADENA",
+            "CUIL": "VW_DDJJ_PRESENTACION.CUIL",
+            "PeriodoDJ": "VW_DDJJ_PRESENTACION.PERIODO"
+        },
+        key: {
+            "field": "Id"
+        },
+        sql: {
+            "fromClause": [
+                "FROM VW_DDJJ_PRESENTACION",
+            ]
+        }
     }
-
 }

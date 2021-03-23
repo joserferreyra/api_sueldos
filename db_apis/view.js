@@ -13,7 +13,7 @@ function getSQLselect(entity) {
         sqlCab += entity.fields[key] + ' as ' + key;
     }
     entity.sql["fromClause"].forEach(line => {
-        sqlCab +='\n' + line + ' '
+        sqlCab += '\n' + line + ' '
     });
 
     return sqlCab;
@@ -28,7 +28,15 @@ async function getView(context, entity) {
 
     let queryWhere = baseQuery.getWhere(context, entity);
 
-    let fullQuery = query + queryWhere.where;
+    let sqlGroup = '';
+
+    if (entity.sql["groupClause"]) {
+        entity.sql["groupClause"].forEach(line => {
+            sqlGroup += '\n' + line + ' '
+        });
+    }
+
+    let fullQuery = query + queryWhere.where + sqlGroup;
 
     //Para debug    
     //console.log(fullQuery);

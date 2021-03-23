@@ -196,5 +196,53 @@ module.exports.jsonStoreProcedure = {
             GrupoAdicional: 'vIdGrupoAdic'
         },
         out_param: {}
+    },
+    djPrevIncluyeLiqs: {
+        sp_name: "PKG_DDJJ_PREVISIONAL.INCLUYE_TIPOLIQ_PERIODOAPLIC ",
+        in_param: {
+            PeriodoDDJJ: "vPERIODO_DDJJ",
+            TipoLiquidacionId: "vIDTIPOLIQ ",
+            GrupoAdicionalId: "vIDGRUPOADIC",
+            ReparticionId: "vIDREP",
+            PeriodoLiq: "vPERIODO_LIQ"
+        },
+        out_param: {
+            varName: "value",
+            varErrorName: "error"
+        }
+    },
+    djPrevExcluyeLiqs: {
+        sp_name: "PKG_DDJJ_PREVISIONAL.EXCLUYE_TIPOLIQ_PERIODOAPLIC",
+        in_param: {
+            PeriodoDDJJ: "vPERIODO_DDJJ",
+            TipoLiquidacionId: "vIDTIPOLIQ ",
+            GrupoAdicionalId: "vIDGRUPOADIC",
+            ReparticionId: "vIDREP",
+            PeriodoLiq: "vPERIODO_LIQ"
+        },
+        out_param: {
+            varName: "value",
+            varErrorName: "error"
+        }
+    },
+    djPrevCargaResumen: {
+        sp_name: "PKG_DDJJ_PREVISIONAL.CARGA_RESUMEN",
+        in_param: {
+            PeriodoDDJJ: "vPERIODO"
+        },
+        out_param: {
+            varName: "value",
+            varErrorName: "error"
+        }
+    },
+    djPrevCargaDDJJ: {
+        sp_name: "PKG_DDJJ_PREVISIONAL.CARGA_DDJJ",
+        in_param: {
+            PeriodoDDJJ: "vPERIODO"
+        },
+        out_param: {
+            varName: "value",
+            varErrorName: "error"
+        }
     }
 }
