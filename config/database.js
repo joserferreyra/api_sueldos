@@ -6,6 +6,7 @@ module.exports = {
     //connectString: '192.168.1.8:1521/ORCL',
     poolMin: 10,
     poolMax: 10,
-    poolIncrement: 0
+    poolIncrement: 0,
+    poolTimeout: 0
   }
 };
