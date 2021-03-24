@@ -5,14 +5,12 @@ function getSQLselect(entity) {
     let sqlCab = 'SELECT ';
     let first = true;
     for (const key in entity.fields) {
-        if (!(key in entity.hiddenFields)) {
-            if (first) {
-                first = false;
-            } else {
-                sqlCab += ', ';
-            }
-            sqlCab += entity.fields[key] + ' as ' + key;
+        if (first) {
+            first = false;
+        } else {
+            sqlCab += ', ';
         }
+        sqlCab += entity.fields[key] + ' as ' + key;
     }
     entity.sql["fromClause"].forEach(line => {
         sqlCab += '\n' + line + ' '
@@ -21,14 +19,14 @@ function getSQLselect(entity) {
     return sqlCab;
 }
 
-async function getView(context, entity) {
+async function getRepo(context, entity) {
     //const binds = {};
 
     let query = getSQLselect(entity);
 
     let firstWhere = true;
 
-    let queryWhere = baseQuery.getWhere(context, entity);
+    let queryWhere = baseQuery.getWhereFields(context, entity.whereFields);
 
     let sqlGroup = '';
 
@@ -50,4 +48,4 @@ async function getView(context, entity) {
 
 }
 
-module.exports.getView = getView;
+module.exports.getRepo = getRepo;

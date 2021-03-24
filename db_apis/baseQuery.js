@@ -289,6 +289,99 @@ function getWhere(context, entity) {
 
 }
 
+
+function getWhereFields(context, fields) {
+    const binds = {};
+    let query = '';
+
+    let firstWhere = true;
+
+    for (const key in context) {
+        if (key != 'limit' & key != 'offset' & key != 'sort' & key != 'search' & key != 'greatereq' & key != 'lesseq') {
+            //binds[key] = context[key];
+            if (firstWhere) {
+                if (context[key] == 'null') {
+                    query += `\nwhere ` + fields[key] + ` is null `; // entity.fields[key];
+                } else {
+                    query += `\nwhere ` + fields[key] + `= :` + key; // entity.fields[key];
+                    binds[key] = context[key];                        
+                }
+                firstWhere = false;
+            } else {
+                if (context[key] == 'null') {
+                    query += `\nand ` + fields[key] + ` is null `; // entity.fields[key];
+                }else{
+                    query += `\nand ` + fields[key] + `= :` + key; // entity.fields[key];
+                    binds[key] = context[key];
+                }                
+            }
+        } else {
+            if (key != 'sort' & key != 'search' & key != 'greatereq' & key != 'lesseq') {
+                binds[key] = context[key];
+            }
+        }
+    }
+
+    if (context.search !== undefined) {
+        let [key, text] = context.search.split(':');
+
+        if (firstWhere) {
+            query += ` \nwhere lower(${fields[key]}) like '%${text.toLowerCase()}%' `;
+        } else {
+            query += `\nand lower(${fields[key]}) like '%${text.toLowerCase()}%' `;
+        }
+    }
+
+    if (context.greatereq !== undefined) {
+        let [key, value] = context.greatereq.split(':');
+
+        if (firstWhere) {
+            query += ` \nwhere ${fields[key]} >= TO_DATE('${value}','dd/mm/yyyy') `;
+        } else {
+            query += `\nand ${fields[key]} >= TO_DATE('${value}','dd/mm/yyyy') `;
+        }
+    }
+
+    if (context.lesseq !== undefined) {
+        let [key, value] = context.lesseq.split(':');
+
+        if (firstWhere) {
+            query += ` \nwhere ${fields[key]} <= TO_DATE('${value}','dd/mm/yyyy') `;
+        } else {
+            query += `\nand ${fields[key]} <= TO_DATE('${value}','dd/mm/yyyy') `;
+        }
+    }
+
+    if (context.sort !== undefined) {
+        let jsonSort = JSON.parse(context.sort)
+        let orderStr = '';
+        let first = true
+        for (const key in jsonSort) {
+            if (!first) {
+                orderStr += ', ';
+            } else {
+                first = false;
+            }
+            orderStr += key + ' ' + jsonSort[key];
+        }
+        // Bloque en caso de un solo ordenamiento
+        /*
+        let [column, order] = context.sort.split(':');
+        if (order === undefined) {
+            order = 'asc';
+        }
+        if (order !== 'asc' && order !== 'desc') {
+            throw new Error('Ordenamiento invalido');
+        }        
+        query += `\norder by ${column} ${order} `;
+        */
+        query += `\norder by ${orderStr}`;
+    }
+
+    return { 'where': query, 'binds': binds };
+
+}
+
 async function find(context, entity) {
 
     let query = getSQLcomplexSelect(entity);
@@ -307,3 +400,4 @@ module.exports.create = create;
 module.exports.modify = modify;
 module.exports.remove = remove;
 module.exports.getWhere = getWhere;
+module.exports.getWhereFields = getWhereFields;

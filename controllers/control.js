@@ -2,10 +2,13 @@ const entityapi = require('../db_apis/entity');
 const mapper = require('../config/mapper');
 const mapperViews = require('../config/mapperViews');
 const viewapi = require('../db_apis/view');
+
+const repomapper = require('../config/repomapper.js')
 const spmapper = require('../config/spmapper');
 const fnmapper = require('../config/fnmapper');
 const spapi = require('../db_apis/sp');
 const fnapi = require('../db_apis/fn');
+const repoapi = require('../db_apis/repo');
 
 // private func
 
@@ -259,14 +262,56 @@ async function getViews(req, res, next) {
     }    
 }
 
+
+async function getReps(req, res, next) {
+    try {
+
+        let result = repomapper.jsonReportes;
+        const val = result?res.status(200).json(result):res.status(404).end();
+
+        return val;
+
+    } catch (err) {
+        next(err);
+    }    
+}
+
+async function getRepo(req, res, next) {
+    try {
+        let context = {};
+        let result;
+
+        context = req.query;
+
+        //let entityName = 'personaCargoLiq';
+        let repoName = req.path.substring(6,);
+        //console.log(entityName);
+
+        if (repomapper.jsonReportes[repoName]) {
+            result = await repoapi.getRepo(context, repomapper.jsonReportes[repoName]);            
+        }
+
+        if (result && result.rows.length > 0) {
+            res.status(200).json(result.rows);
+        } else {
+            res.status(404).end();
+        }
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports.getEntities = getEntities;
 module.exports.execSP = execSP;
 module.exports.execFN = execFN;
 module.exports.getProc = getProc;
 module.exports.getFunc = getFunc;
+module.exports.getRepo = getRepo;
 
 module.exports.getView = getView;
 module.exports.getViews = getViews;
+module.exports.getReps = getReps;
 
 module.exports.get = get;
 module.exports.post = post;

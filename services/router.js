@@ -64,6 +64,8 @@ app.route('/fn/list').get(control.getFunc);
 
 app.route('/en/list').get(control.getEntities);
 
+app.route('/repo/list').get(control.getReps);
+
 //app.route('/sp/*').get(control.execSP);
 app.route('/sp/*').post(control.execSP);
 
@@ -71,6 +73,8 @@ app.route('/fn/*').post(control.execFN);
 //app.route('/fn/*').get(control.execFN);
 
 app.route('/view/*').get(control.getView);
+
+app.route('/repo/*').get(control.getRepo);
 
 app.route('/files/:id?')
   .get(files.get)
