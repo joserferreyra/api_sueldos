@@ -77,8 +77,18 @@ app.route('/view/*').get(control.getView);
 app.route('/repo/*').get(control.getRepo);
 
 app.route('/files/:id?')
-  .get(files.get)
-  .post(files.post);
+    .get(files.get)
+    .post(files.post);
+
+app.get('/xlsx/*', control.getxlsx);
+
+/*
+app.post('/xlsx', function (req, res, next) {
+    var url = URL.parse(req.url, true);
+    if (url.query.f) return post_file(req, res, url.query.f);
+    return post_data(req, res);
+});
+*/
 
 app.route('/*')
     .get(control.get)

@@ -154,16 +154,16 @@ module.exports.jsonViewMap = {
     },    
     djPrevLiqsPeriodoDJ: {
         fields: {
-            "Id": "DDJJ_Liquidaciones.Id",
-            "PeriodoDJ": "DDJJ_Liquidaciones.periodo_ddjj",
-            "TipoLiquidacionId": "DDJJ_Liquidaciones.IdTipoLiq",
-            "TipoLiquidacionDescripcion": "TipoLiquidacion.descripcion",
-            "GrupoAdicionalId": "DDJJ_Liquidaciones.IdGrupoAdic",
-            "PeriodoLiq": "DDJJ_Liquidaciones.Periodo_Liq",
-            "HabCA": "DDJJ_Liquidaciones.HABCA"
+            Id: "DDJJ_Liquidaciones.Id",
+            PeriodoDJ: "DDJJ_Liquidaciones.periodo_ddjj",
+            TipoLiquidacionId: "DDJJ_Liquidaciones.IdTipoLiq",
+            TipoLiquidacionDescripcion: "TipoLiquidacion.descripcion",
+            GrupoAdicionalId: "DDJJ_Liquidaciones.IdGrupoAdic",
+            PeriodoLiq: "DDJJ_Liquidaciones.Periodo_Liq",
+            HabCA: "DDJJ_Liquidaciones.HABCA"
         },
         key: {
-            "field": "Id"
+            field: "Id"
         },
         sql: {
             "fromClause": [
@@ -174,17 +174,17 @@ module.exports.jsonViewMap = {
     },
     djPrevTxtDDJJ: {
         fields: {
-            "Id": "VW_DDJJ_PRESENTACION.Id",
-            "Cadena": "VW_DDJJ_PRESENTACION.CADENA",
-            "CUIL": "VW_DDJJ_PRESENTACION.CUIL",
-            "PeriodoDJ": "VW_DDJJ_PRESENTACION.PERIODO"
+            Id: "VW_DDJJ_PRESENTACION.Id",
+            Cadena: "VW_DDJJ_PRESENTACION.CADENA",
+            CUIL: "VW_DDJJ_PRESENTACION.CUIL",
+            PeriodoDJ: "VW_DDJJ_PRESENTACION.PERIODO"
         },
         key: {
-            "field": "Id"
+            field: "Id"
         },
         sql: {
-            "fromClause": [
-                "FROM VW_DDJJ_PRESENTACION",
+            fromClause: [
+                "FROM VW_DDJJ_PRESENTACION"
             ]
         }
     }

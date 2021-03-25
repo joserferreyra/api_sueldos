@@ -10,9 +10,12 @@ const spapi = require('../db_apis/sp');
 const fnapi = require('../db_apis/fn');
 const repoapi = require('../db_apis/repo');
 
+const xlsxapi = require('../db_apis/xlsx');
+//var URL = require('url');
+
 // private func
 
-function getEntityValues(req, entity) {    
+function getEntityValues(req, entity) {
     let object = {};
     for (const key in entity) {
         if (typeof entity[key] != object) {
@@ -21,7 +24,7 @@ function getEntityValues(req, entity) {
                 object[key] = req.body[key];
             }
         }
-    }  
+    }
     return object;
 }
 
@@ -36,7 +39,7 @@ async function get(req, res, next) {
         let entityName = req.path.substring(1,);
 
         if (mapper.jsonEntityMap[entityName]) {
-            result = await entityapi.find(context, mapper.jsonEntityMap[entityName]);            
+            result = await entityapi.find(context, mapper.jsonEntityMap[entityName]);
         }
 
         if (result.rows.length > 0) {
@@ -57,7 +60,7 @@ async function post(req, res, next) {
         let context = getEntityValues(req, mapper.jsonEntityMap[entityName].fields);
 
         let result = await entityapi.create(context, mapper.jsonEntityMap[entityName]);
-        
+
         if (result) {
             result.rows = [req.body];
             res.status(result.status).json(result);
@@ -78,13 +81,13 @@ async function put(req, res, next) {
 
         let result = await entityapi.modify(context, mapper.jsonEntityMap[entityName]);
 
-        if (result) {            
-            if (result.err){
+        if (result) {
+            if (result.err) {
                 res.status(result.status).end();
-            }else{
+            } else {
                 result.rows = [req.body];
-                res.status(200).json(result);    
-            }            
+                res.status(200).json(result);
+            }
         } else {
             res.status(404).end();
         }
@@ -102,13 +105,13 @@ async function del(req, res, next) {
 
         let result = await entityapi.remove(context, mapper.jsonEntityMap[entityName]);
 
-        if (result) {            
-            if (result.err){
+        if (result) {
+            if (result.err) {
                 res.status(result.status).end();
-            }else{
+            } else {
                 result.rows = [req.body];
-                res.status(200).json(result);    
-            }            
+                res.status(200).json(result);
+            }
         } else {
             res.status(404).end();
         }
@@ -130,7 +133,7 @@ async function getView(req, res, next) {
         //console.log(entityName);
 
         if (mapperViews.jsonViewMap[entityName]) {
-            result = await viewapi.getView(context, mapperViews.jsonViewMap[entityName]);            
+            result = await viewapi.getView(context, mapperViews.jsonViewMap[entityName]);
         }
 
         if (result && result.rows.length > 0) {
@@ -156,7 +159,7 @@ async function execSP(req, res, next) {
         //console.log(spName);
 
         if (spmapper.jsonStoreProcedure[spName]) {
-            result = await spapi.execStoreProcedure(context, spmapper.jsonStoreProcedure[spName]);            
+            result = await spapi.execStoreProcedure(context, spmapper.jsonStoreProcedure[spName]);
         }
 
         if (result) {
@@ -182,10 +185,10 @@ async function execFN(req, res, next) {
         let spName = req.path.substring(4,);
 
         if (fnmapper.jsonStoreFunction[spName]) {
-            result = await fnapi.execFn(context, fnmapper.jsonStoreFunction[spName]);            
+            result = await fnapi.execFn(context, fnmapper.jsonStoreFunction[spName]);
         }
 
-        const val = result?res.status(200).json(result):res.status(404).end();
+        const val = result ? res.status(200).json(result) : res.status(404).end();
 
         return val;
 
@@ -206,13 +209,13 @@ async function getProc(req, res, next) {
         //console.log(spName);
 
         //if (spmapper.jsonStoreProcedure[spName]) {
-            //result = spmapper.jsonStoreProcedure[spName];
-           // console.log(result);        
+        //result = spmapper.jsonStoreProcedure[spName];
+        // console.log(result);        
         //}
 
         //const val = result?res.status(200).json(result):res.status(404).end();
         result = spmapper.jsonStoreProcedure;
-        const val = result?res.status(200).json(result):res.status(404).end();
+        const val = result ? res.status(200).json(result) : res.status(404).end();
 
         return val;
 
@@ -220,46 +223,46 @@ async function getProc(req, res, next) {
 
     } catch (err) {
         next(err);
-    }    
+    }
 }
 
 async function getFunc(req, res, next) {
     try {
 
         let result = fnmapper.jsonStoreFunction;
-        const val = result?res.status(200).json(result):res.status(404).end();
+        const val = result ? res.status(200).json(result) : res.status(404).end();
 
         return val;
 
     } catch (err) {
         next(err);
-    }    
+    }
 }
 
 async function getEntities(req, res, next) {
     try {
 
         let result = mapper.jsonEntityMap;
-        const val = result?res.status(200).json(result):res.status(404).end();
+        const val = result ? res.status(200).json(result) : res.status(404).end();
 
         return val;
 
     } catch (err) {
         next(err);
-    }    
+    }
 }
 
 async function getViews(req, res, next) {
     try {
 
         let result = mapperViews.jsonViewMap;
-        const val = result?res.status(200).json(result):res.status(404).end();
+        const val = result ? res.status(200).json(result) : res.status(404).end();
 
         return val;
 
     } catch (err) {
         next(err);
-    }    
+    }
 }
 
 
@@ -267,13 +270,13 @@ async function getReps(req, res, next) {
     try {
 
         let result = repomapper.jsonReportes;
-        const val = result?res.status(200).json(result):res.status(404).end();
+        const val = result ? res.status(200).json(result) : res.status(404).end();
 
         return val;
 
     } catch (err) {
         next(err);
-    }    
+    }
 }
 
 async function getRepo(req, res, next) {
@@ -288,7 +291,7 @@ async function getRepo(req, res, next) {
         //console.log(entityName);
 
         if (repomapper.jsonReportes[repoName]) {
-            result = await repoapi.getRepo(context, repomapper.jsonReportes[repoName]);            
+            result = await repoapi.getRepo(context, repomapper.jsonReportes[repoName]);
         }
 
         if (result && result.rows.length > 0) {
@@ -300,6 +303,47 @@ async function getRepo(req, res, next) {
     } catch (err) {
         next(err);
     }
+}
+
+function yyyymmdd() {
+    function twoDigit(n) { return (n < 10 ? '0' : '') + n; }
+
+    var now = new Date();
+    return '' + now.getFullYear() + twoDigit(now.getMonth() + 1) + twoDigit(now.getDate());
+}
+
+async function getxlsx(req, res, next) {
+    //var url = URL.parse(req.url, true);
+    let context = {};
+    let result;
+
+    context = req.query;
+    let repoName = req.path.substring(6,);
+
+    //console.log(context, repoName);
+
+    if (repomapper.jsonReportes[repoName]) {
+        result = await repoapi.getRepo(context, repomapper.jsonReportes[repoName]);
+        let file = xlsxapi.get_file(result.rows);
+
+        let fileName = yyyymmdd() + '_' + repoName + '.xlsx';
+
+        res.setHeader('Content-Length', file.length);
+        res.setHeader('Content-Type', 'application/xlsx');
+        res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
+        res.write(file);
+        res.end();
+
+    }else{
+        res.status(404).end();
+    }
+
+    /*if (result && result.rows.length > 0) {
+        res.status(200).json(result.rows);
+    } else {
+        
+    }*/
+
 }
 
 module.exports.getEntities = getEntities;
@@ -317,3 +361,5 @@ module.exports.get = get;
 module.exports.post = post;
 module.exports.put = put;
 module.exports.del = del;
+
+module.exports.getxlsx = getxlsx;

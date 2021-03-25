@@ -1,5 +1,5 @@
 module.exports.jsonReportes = {
-    resumenLiquidacion: {
+    resumenLiq: {
         fields: {
             Orden: "c.orden",
             PersonaDocumento: "p.dni",
@@ -32,5 +32,40 @@ module.exports.jsonReportes = {
                 "group by rollup ((c.orden,p.dni,P.APELLIDO,P.NOMBRE))"
             ]
         }
+    },
+    resumenCodLiq: {
+        fields: {
+            IdTipoConcepto: "CON.IDTIPOCONCEPTO",
+            Codigo: "CON.CODIGO",
+            SubCodigo: "CON.SUBCOD",
+            Descripcion: "CON.desc_boleta",
+            Cantidad: "count(*)",
+            Importe: "sum(li.impticket)",
+            TipoTotal: "grouping(idtipoconcepto)+grouping(desc_boleta) "
+        },
+        whereFields: {
+            Periodo: "l.periodo",
+            IdTipoLiquidacion: "l.idtipoliq"
+        },
+        key: { field: "" },
+        sql: {
+            fromClause: [
+                "from liq l",
+                "inner join liqitem li on l.idliq = li.idliq",
+                "inner join cargos c on C.IDCARGO = l.idcargo",
+                "inner join personas p on p.idpers = c.idpers",
+                "inner join concepto con on con.idconcepto = li.idconcepto and CON.IDTIPOCONCEPTO <> 5"
+            ],
+            groupClause: [
+                "group by rollup((CON.IDTIPOCONCEPTO),(CON.CODIGO,CON.SUBCOD,CON.desc_boleta))"
+            ]
+        }
+
+        /*where
+        L.PERIODO = to_date('01/03/2021','dd/mm/yyyy')
+        and L.IDTIPOLIQ = 1
+        and CON.IDTIPOCONCEPTO <> 5
+        
+        order by CON.IDTIPOCONCEPTO,CON.CODIGO,CON.SUBCOD;*/
     }
 }

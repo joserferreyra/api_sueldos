@@ -5,14 +5,12 @@ function getSQLselect(entity) {
     let sqlCab = 'SELECT ';
     let first = true;
     for (const key in entity.fields) {
-        if (!(key in entity.hiddenFields)) {
-            if (first) {
-                first = false;
-            } else {
-                sqlCab += ', ';
-            }
-            sqlCab += entity.fields[key] + ' as ' + key;
+        if (first) {
+            first = false;
+        } else {
+            sqlCab += ', ';
         }
+        sqlCab += entity.fields[key] + ' as ' + key;
     }
     entity.sql["fromClause"].forEach(line => {
         sqlCab += '\n' + line + ' '
