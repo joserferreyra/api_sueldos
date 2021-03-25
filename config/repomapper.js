@@ -41,7 +41,8 @@ module.exports.jsonReportes = {
             Descripcion: "CON.desc_boleta",
             Cantidad: "count(*)",
             Importe: "sum(li.impticket)",
-            TipoTotal: "grouping(idtipoconcepto)+grouping(desc_boleta) "
+            Periodo: "l.periodo",
+            TipoTotal: "grouping(idtipoconcepto)+grouping(desc_boleta)+grouping(l.periodo) "
         },
         whereFields: {
             Periodo: "l.periodo",
@@ -57,7 +58,7 @@ module.exports.jsonReportes = {
                 "inner join concepto con on con.idconcepto = li.idconcepto and CON.IDTIPOCONCEPTO <> 5"
             ],
             groupClause: [
-                "group by rollup((CON.IDTIPOCONCEPTO),(CON.CODIGO,CON.SUBCOD,CON.desc_boleta))"
+                "group by rollup((l.periodo,CON.IDTIPOCONCEPTO),(CON.CODIGO,CON.SUBCOD,CON.desc_boleta))"
             ]
         }
 

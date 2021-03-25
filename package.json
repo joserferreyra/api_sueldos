@@ -16,7 +16,8 @@
     "express": "^4.17.1",
     "helmet": "^4.2.0",
     "morgan": "^1.10.0",
-    "oracledb": "^5.0.0"
+    "oracledb": "^5.0.0",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

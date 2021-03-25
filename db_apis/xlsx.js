@@ -1,7 +1,6 @@
 
 var fs = require('fs'); 
 var path = require('path');
-var sprintf = require('printj').sprintf;
 
 var XLSX = require('xlsx');
 const repo = require('./repo.js');
@@ -16,6 +15,7 @@ function get_file(data) {
    
     //console.log(Object.values(data));
 	var ws = XLSX.utils.json_to_sheet(data);
+    ws['!rows']
 	var wb = XLSX.utils.book_new();
 	XLSX.utils.book_append_sheet(wb, ws, "SheetJS");    
         
@@ -25,8 +25,7 @@ function get_file(data) {
     return buf;
 	/* send to client */
 	//res.status(200).send(buf);
-    //res.status(200).send(XLSX.write(wb, {type:'buffer', bookType:type}));
-    
+    //res.status(200).send(XLSX.write(wb, {type:'buffer', bookType:type}));    
 }
 
 function load_data(file) {
