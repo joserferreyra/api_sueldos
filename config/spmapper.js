@@ -198,31 +198,31 @@ module.exports.jsonStoreProcedure = {
         out_param: {}
     },
     djPrevIncluyeLiqs: {
-        sp_name: "PKG_DDJJ_PREVISIONAL.INCLUYE_TIPOLIQ_PERIODOAPLIC ",
+        sp_name: 'PKG_DDJJ_PREVISIONAL.INCLUYE_TIPOLIQ_PERIODOAPLIC',
         in_param: {
-            PeriodoDDJJ: "vPERIODO_DDJJ",
-            TipoLiquidacionId: "vIDTIPOLIQ ",
-            GrupoAdicionalId: "vIDGRUPOADIC",
-            ReparticionId: "vIDREP",
-            PeriodoLiq: "vPERIODO_LIQ"
+            PeriodoDDJJ: 'vPERIODO_DDJJ',
+            TipoLiquidacionId: 'vIDTIPOLIQ',
+            GrupoAdicionalId: 'vIDGRUPOADIC',
+            ReparticionId: 'vIDREP',
+            PeriodoLiq: 'vPERIODO_LIQ'
         },
-        out_param: {
-            varName: "value",
-            varErrorName: "error"
+        out_param: {            
+            varName: 'vSALIDA',
+            varErrorName: 'vMSG_ERROR'
         }
     },
     djPrevExcluyeLiqs: {
-        sp_name: "PKG_DDJJ_PREVISIONAL.EXCLUYE_TIPOLIQ_PERIODOAPLIC",
+        sp_name: 'PKG_DDJJ_PREVISIONAL.EXCLUYE_TIPOLIQ_PERIODOAPLIC',
         in_param: {
-            PeriodoDDJJ: "vPERIODO_DDJJ",
-            TipoLiquidacionId: "vIDTIPOLIQ ",
-            GrupoAdicionalId: "vIDGRUPOADIC",
-            ReparticionId: "vIDREP",
-            PeriodoLiq: "vPERIODO_LIQ"
+            PeriodoDDJJ: 'vPERIODO_DDJJ',
+            TipoLiquidacionId: 'vIDTIPOLIQ',
+            GrupoAdicionalId: 'vIDGRUPOADIC',
+            ReparticionId: 'vIDREP',
+            PeriodoLiq: 'vPERIODO_LIQ'
         },
         out_param: {
-            varName: "value",
-            varErrorName: "error"
+            varName: 'vSALIDA',
+            varErrorName: 'vMSG_ERROR'
         }
     },
     djPrevCargaResumen: {
@@ -231,8 +231,8 @@ module.exports.jsonStoreProcedure = {
             PeriodoDDJJ: "vPERIODO"
         },
         out_param: {
-            varName: "value",
-            varErrorName: "error"
+            varName: 'vSALIDA',
+            varErrorName: 'vMSG_ERROR'
         }
     },
     djPrevCargaDDJJ: {
@@ -241,8 +241,8 @@ module.exports.jsonStoreProcedure = {
             PeriodoDDJJ: "vPERIODO"
         },
         out_param: {
-            varName: "value",
-            varErrorName: "error"
+            varName: 'vSALIDA',
+            varErrorName: 'vMSG_ERROR'
         }
     }
 }
