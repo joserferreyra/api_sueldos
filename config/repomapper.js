@@ -29,7 +29,8 @@ module.exports.jsonReportes = {
                 "inner join concepto con on con.idconcepto = li.idconcepto"
             ],
             groupClause: [
-                "group by rollup ((c.orden,p.dni,P.APELLIDO,P.NOMBRE))"
+                "group by rollup ((c.orden,p.dni,P.APELLIDO,P.NOMBRE))",
+                "ORDER BY c.orden, TipoTotal"
             ]
         }
     },
