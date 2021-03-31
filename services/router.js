@@ -79,8 +79,10 @@ app.route('/repo/*').get(control.getRepo);
 app.route('/files/:id?')
     .get(files.get)
     .post(files.post);
+    
+app.route('/xlsx/*').get(control.getxlsx);
 
-app.get('/xlsx/*', control.getxlsx);
+app.route('/txt/*').get(control.getTXT);
 
 /*
 app.post('/xlsx', function (req, res, next) {

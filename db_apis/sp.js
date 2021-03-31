@@ -16,11 +16,15 @@ function getSQLcall(sp) {
 
     const val = sp.out_param['varName']?':'+sp.out_param['varName']: null;
     const err = sp.out_param['varErrorName']?':'+sp.out_param['varErrorName']: null;
+    const cur = sp.out_param['cursor']?':'+sp.out_param['cursor']: null;
     if (val){
         sqlCab += ', ' + val;
     }
     if (err){
         sqlCab += ', ' + err;
+    }
+    if (cur){
+        sqlCab += ', ' + cur;
     }
     sqlCab += '); END;';
 
@@ -61,7 +65,7 @@ async function execStoreProcedure(context, sp) {
 
     let json = { 'status': 200, 'params': binds, 'out': result.outBinds, 'elapsed': Math.floor(millis / 1000) };
 
-    //console.log(json);
+    console.log(json);
     //console.log(result);
 
     return json;

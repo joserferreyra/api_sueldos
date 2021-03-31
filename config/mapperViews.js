@@ -187,5 +187,22 @@ module.exports.jsonViewMap = {
                 "FROM VW_DDJJ_PRESENTACION"
             ]
         }
+    },
+    archivoIPSST: {
+        fields: {
+            Periodo: "ipsst_cab.PERIODO",
+            TipoLiquidacionId: "ipsst_cab.IdTipoLiq",
+            GrupoAdicionalId: "ipsst_cab.IdGrupoAdi",
+            NombreArchivo: "ipsst_cab.NOMBRE",
+            Cadena: "ipsst_det.CADENA",
+            IdLiq: "ipsst_det.idliq"
+        },
+        key: {},
+        sql: {
+            fromClause: [
+                "FROM ipsst_cab",
+                "INNER JOIN ipsst_det ON ipsst_det.idcab = ipsst_cab.idcab"
+            ]
+        }
     }
 }

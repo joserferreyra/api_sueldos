@@ -226,9 +226,9 @@ module.exports.jsonStoreProcedure = {
         }
     },
     djPrevCargaResumen: {
-        sp_name: "PKG_DDJJ_PREVISIONAL.CARGA_RESUMEN",
+        sp_name: 'PKG_DDJJ_PREVISIONAL.CARGA_RESUMEN',
         in_param: {
-            PeriodoDDJJ: "vPERIODO"
+            PeriodoDDJJ: 'vPERIODO'
         },
         out_param: {
             varName: 'vSALIDA',
@@ -236,13 +236,22 @@ module.exports.jsonStoreProcedure = {
         }
     },
     djPrevCargaDDJJ: {
-        sp_name: "PKG_DDJJ_PREVISIONAL.CARGA_DDJJ",
+        sp_name: 'PKG_DDJJ_PREVISIONAL.CARGA_DDJJ',
         in_param: {
-            PeriodoDDJJ: "vPERIODO"
+            PeriodoDDJJ: 'vPERIODO'
         },
         out_param: {
             varName: 'vSALIDA',
             varErrorName: 'vMSG_ERROR'
         }
+    },
+    archivoIPSST: {
+        sp_name: 'mod_exportacion.GENERA_ARCHIVO_IPSST ',
+        in_param: {
+            Periodo: 'vPERIODO',
+            TipoLiquidacionId: 'vIDTIPOLIQ',
+            GrupoAdicionalId: 'vIDGRUPOADI'          
+        },
+        out_param: {}
     }
 }

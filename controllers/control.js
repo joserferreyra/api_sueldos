@@ -11,6 +11,9 @@ const fnapi = require('../db_apis/fn');
 const repoapi = require('../db_apis/repo');
 
 const xlsxapi = require('../db_apis/xlsx');
+
+var fs = require('fs');
+var path = require('path');
 //var URL = require('url');
 
 // private func
@@ -313,14 +316,12 @@ function yyyymmdd() {
 }
 
 async function getxlsx(req, res, next) {
-    //var url = URL.parse(req.url, true);
+
     let context = {};
     let result;
 
     context = req.query;
     let repoName = req.path.substring(6,);
-
-    //console.log(context, repoName);
 
     if (repomapper.jsonReportes[repoName]) {
         result = await repoapi.getRepo(context, repomapper.jsonReportes[repoName]);
@@ -334,17 +335,112 @@ async function getxlsx(req, res, next) {
         res.write(file);
         res.end();
 
-    }else{
+    } else {
         res.status(404).end();
     }
 
-    /*if (result && result.rows.length > 0) {
-        res.status(200).json(result.rows);
-    } else {
-        
-    }*/
+}
+
+async function getTXT(req, res, next) {
+    try {
+        let context = {};
+        let result;
+
+        context = req.query;
+
+        let entityName = req.path.substring(5,);
+
+        if (mapperViews.jsonViewMap[entityName]) {
+            result = await viewapi.getView(context, mapperViews.jsonViewMap[entityName]);
+        }
+
+        if (result && result.rows.length > 0) {
+
+            let content = result.rows;
+            let txt = new String();
+
+            let ban = true;
+            let fileName = '';
+
+            content.forEach(element => {
+                if (ban){
+                    if (element['NOMBREARCHIVO']){
+                        fileName = element['NOMBREARCHIVO'];
+                    }                    
+                    ban=false;
+                }
+                txt = txt + element['CADENA'].toString() + '\n';
+            });
+
+            const buf = Buffer.from(txt, 'latin1');
+
+            if (!fileName){
+                fileName = yyyymmdd() + '_' + entityName + '.txt';
+            }
+
+            res.setHeader('Content-Length', buf.length);
+            res.setHeader('Content-Type', 'application/text');
+            res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
+            res.write(buf);
+            res.end();
+
+        } else {
+            res.status(404).end();
+        }
+
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function getTXTipsst(req, res, next) {
+
+    try {
+        let context = {};
+        let result;
+
+        context = req.query;
+
+        let entityName = req.path.substring(5,);
+        //console.log(entityName);
+
+        if (mapperViews.jsonViewMap[entityName]) {
+            result = await viewapi.getView(context, mapperViews.jsonViewMap[entityName]);
+        }
+
+        if (result && result.rows.length > 0) {
+
+            let content = result.rows;
+            let txt = new String();
+
+            content.forEach(element => {
+                txt = txt + element['CADENA'].toString() + '\n';
+            });
+
+            const buf = Buffer.from(txt, 'latin1');
+
+            let mes = result.params['Periodo'].toString();
+            console.log(mes);
+
+            let fileName = yyyymmdd() + '_' + entityName + '.' + mes;
+
+            res.setHeader('Content-Length', buf.length);
+            res.setHeader('Content-Type', 'application/text');
+            res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
+            res.write(buf);
+            res.end();
+
+        } else {
+            res.status(404).end();
+        }
+
+    } catch (err) {
+        next(err);
+    }
 
 }
+
+
 
 module.exports.getEntities = getEntities;
 module.exports.execSP = execSP;
@@ -363,3 +459,6 @@ module.exports.put = put;
 module.exports.del = del;
 
 module.exports.getxlsx = getxlsx;
+module.exports.getTXT = getTXT;
+
+module.exports.getTXTipsst = getTXTipsst;
