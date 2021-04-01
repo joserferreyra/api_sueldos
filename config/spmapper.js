@@ -253,5 +253,22 @@ module.exports.jsonStoreProcedure = {
             GrupoAdicionalId: 'vIDGRUPOADI'          
         },
         out_param: {}
+    },
+    estableceNoLey: {
+        sp_name: 'MOD_FUNCIONES.ESTABLECE_NOLEY',
+        in_param: {
+            Dni: 'DNI',
+            Tipo:'TIPO',
+            Periodo: 'PERIODO'
+        },
+        out_param: { varName: 'vSALIDA', varErrorName: 'vMSG_ERROR'}
+    },
+    eliminaNoLey: {
+        sp_name: 'MOD_FUNCIONES.ELIMINA_NOLEY',
+        in_param: {
+            Dni: 'DNI'
+        },
+        out_param: { varName: 'vSALIDA', varErrorName: 'vMSG_ERROR'}
     }
+
 }

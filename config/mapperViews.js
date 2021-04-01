@@ -13,6 +13,7 @@ module.exports.jsonViewMap = {
             Orden: 'cargos.ORDEN',
             Afiliado: 'cargos.AFILIADO',
             TipoEmpleoId: 'cargos.idte',
+            SituacionRevistaId: 'cargos.idsitrev',
             LiquidacionId: 'liq.idliq',
             Periodo: 'liq.periodo',
             FechaDev: 'liq.fechadev',
@@ -204,5 +205,32 @@ module.exports.jsonViewMap = {
                 "INNER JOIN ipsst_det ON ipsst_det.idcab = ipsst_cab.idcab"
             ]
         }
+    },
+    personaLista: {
+        fields: {            
+            PersonaId: 'personas.idpers',
+            Documento: 'personas.dni',
+            Apellido: 'personas.APELLIDO',
+            Nombre: 'personas.NOMBRE',
+            Sexo:'personas.sexo',
+            PersonaCUIL: 'personas.cuil',
+            Telefono: 'personas.telefono',
+            TipoDocumentoId: 'personas.idtipodoc',
+            TipoDocumentoSintetico: 'tabtipodoc.sintetico',
+            FechaNacimiento: 'personas.FECHANAC',
+            FechaIngreso: 'personas.FECHAINGRESO',
+            CBU:'personas.CBU',
+            Cuenta:'personas.CUENTA',
+            CobraLey: '(case when n.idnoley is not null then 1 else 0 end)'
+        },
+        key: { field: "Id" },
+        sql: {
+            fromClause: [
+                "FROM personas",
+                "INNER JOIN tabtipodoc ON tabtipodoc.idtipodoc = personas.idtipodoc",
+                "left outer join nocobran_ley n on n.dni = personas.dni"
+            ]
+        }
     }
+
 }
