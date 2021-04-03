@@ -221,7 +221,7 @@ module.exports.jsonViewMap = {
             FechaIngreso: 'personas.FECHAINGRESO',
             CBU:'personas.CBU',
             Cuenta:'personas.CUENTA',
-            CobraLey: '(case when n.idnoley is not null then 1 else 0 end)'
+            CobraLey: '(case when n.idnoley is null then 1 else 0 end)'
         },
         key: { field: "Id" },
         sql: {
@@ -229,6 +229,23 @@ module.exports.jsonViewMap = {
                 "FROM personas",
                 "INNER JOIN tabtipodoc ON tabtipodoc.idtipodoc = personas.idtipodoc",
                 "left outer join nocobran_ley n on n.dni = personas.dni"
+            ]
+        }
+    },
+    logProcesos: {
+        fields: {
+            Id: "l.id",
+            Estado: "(case when fin is null then 'En ejecucion' else 'Terminado' end)",
+            Procedimiento: "l.sp",
+            Inicio: "TO_CHAR((inicio), 'YYYY-MM-DD HH:MM:SS AM')",
+            Fin: "TO_CHAR((fin), 'YYYY-MM-DD HH:MM:SS AM')",
+            Parametros: "l.binds",
+            Tipo: "l.tipo"
+        },
+        key: {},
+        sql: {
+            fromClause: [
+                "from logproc l"
             ]
         }
     }

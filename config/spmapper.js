@@ -10,7 +10,8 @@ module.exports.jsonStoreProcedure = {
             TipoLiq: 'vIdTipoLiq',
             GrupoAdicional: 'vIdGrupoAdic'
         },
-        out_param: {}
+        out_param: {},
+        log: {status: true, type:1}
     },
     transform: {
         sp_name: 'MOD_TRANS_NOV.PRINCIPAL',
@@ -20,7 +21,8 @@ module.exports.jsonStoreProcedure = {
             TipoLiq: 'vIDTIPOLIQ',
             GrupoAdicional: 'vIDGRUPOADI'
         },
-        out_param: {}
+        out_param: {},
+        log: {status: true, type:1}
     },
     cabeceraValorCat: {
         sp_name: 'MOD_PARAM.P_DESC_CABVALCAT',

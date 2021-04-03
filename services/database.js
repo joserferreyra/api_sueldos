@@ -53,3 +53,32 @@ function simpleExecute(statement, binds = [], opts = {}) {
 }
 
 module.exports.simpleExecute = simpleExecute;
+
+
+function simpleExecuteNoLimit(statement, binds = [], opts = {}) {
+    return new Promise(async (resolve, reject) => {
+        let conn;
+        let query;
+        opts.outFormat = oracledb.OBJECT;
+        opts.autoCommit = true;
+        try {
+            conn = await oracledb.getConnection();
+            //console.log(statement);
+            //console.log(binds);
+            const result = await conn.execute(statement, binds, opts);
+            resolve(result);
+        } catch (err) {
+            reject(err);
+        } finally {
+            if (conn) {
+                try {
+                    await conn.close();
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        }
+    })
+}
+
+module.exports.exec = simpleExecuteNoLimit;
