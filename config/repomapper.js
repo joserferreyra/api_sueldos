@@ -47,7 +47,7 @@ module.exports.jsonReportes = {
         },
         whereFields: {
             Periodo: "l.periodo",
-            IdTipoLiquidacion: "l.idtipoliq"
+            TipoLiquidacionId: "l.idtipoliq"
         },
         key: { field: "" },
         sql: {
