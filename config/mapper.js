@@ -679,6 +679,40 @@ module.exports.jsonEntityMap = {
             Activo: 'ACTIVO',
             Descripcion: 'DESCRIPCION'            
         }
+    },
+    ,
+    djPrevResumenDJ: {
+        table: "DDJJ_RESUMEN_DJ",
+        fields: {
+            Id: "ID",
+            Periodo: "PERIODO",
+            CantAgentes: "CANT_AGENTES",
+            HabConAporte: "HABCA",
+            RemActual: "REM_ACTUAL",            
+            RemAtrasada: "REM_ATRASADA",
+            RemExcedente: "REM_EXCEDENTE",
+            AporteJubilatorio: "AP_JUB",
+            PatronalJubilatorio: "PAT_JUB",
+            RemObraSocial: "REM_OS",
+            RemTotal: "REMTOT",
+            RemSS: "REMSS",
+            Rem02: "REM02",            
+            Rem03: "REM03",            
+            Rem04: "REM04",            
+            Rem05: "REM05",            
+            Rem06: "REM06",            
+            Rem07: "REM07",            
+            Rem08: "REM08",            
+            Rem09: "REM09",                        
+            SueldoYAdi: "SDOADI",            
+            SAC: "SAC",            
+            AsigFamiliar: "ASIGF",
+            FechaResumen: "FECHA_RESUMEN",            
+            FechaDDJJ: "FECHA_DDJJ"            
+        },
+        key: {
+            field: "Id"
+        }
     }
     
       /*personaCargoFam: {
