@@ -680,7 +680,6 @@ module.exports.jsonEntityMap = {
             Descripcion: 'DESCRIPCION'            
         }
     },
-    ,
     djPrevResumenDJ: {
         table: "DDJJ_RESUMEN_DJ",
         fields: {
