@@ -123,7 +123,7 @@ module.exports.jsonStoreProcedure = {
             IdNomenclador: 'vIDNOM',
             IdEscala: 'vIDESCALA'
         },
-        out_param: { varName: 'value' }        
+        out_param: { varName: 'value' }
     },
     histConcepto:{
         sp_name: 'MOD_PARAM.P_HIST_CONCEPTO',
@@ -132,7 +132,7 @@ module.exports.jsonStoreProcedure = {
             IdConcepto: 'vIDCONCEPTO',
             Operacion: 'vOPERACION'
         },
-        out_param: { varName: 'value' }        
+        out_param: { varName: 'value' }
     },
     histValUnico:{
         sp_name: 'MOD_PARAM.P_HIST_VALUNICO',
@@ -141,7 +141,7 @@ module.exports.jsonStoreProcedure = {
             IdValorUnico: 'vIDVALUNICO',
             Operacion: 'vOPERACION'
         },
-        out_param: { varName: 'value' }        
+        out_param: { varName: 'value' }
     },
     histValCat:{
         sp_name: 'MOD_PARAM.P_HIST_VALCATEGORIA',
@@ -150,7 +150,7 @@ module.exports.jsonStoreProcedure = {
             IdDesc: 'vIDDESC_VALCAT',
             Operacion: 'vOPERACION'
         },
-        out_param: { varName: 'value' }        
+        out_param: { varName: 'value' }
     },
     generaFormula: {
         sp_name: 'SP_GENERAR_FORMULAS',

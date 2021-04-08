@@ -56,9 +56,20 @@ async function execStoreProcedure(context, sp) {
 
     //console.log(query);
     //console.log(binds);
-    let idnum = 0;
 
-    if (sp['log'].status == true ) {
+    let result = {}
+    let json = {}
+
+    const status = sp['log'] ? sp.log['status'] : false;
+
+    //console.log(status);
+
+    const start = new Date().now;
+
+    if (status) {
+
+        let idnum = 0;
+
         const seq = await database.simpleExecute(`SELECT logproc_seq.nextval FROM dual`);
 
         idnum = Number.parseInt(seq['rows'][0].NEXTVAL);
@@ -75,15 +86,9 @@ async function execStoreProcedure(context, sp) {
                 tipo: sp.log['type']
             }
         );
-    }
 
-    //console.log(res);
+        result = await database.simpleExecute(query, binds);
 
-    const start = new Date().now;
-
-    let result = await database.simpleExecute(query, binds);
-
-    if (sp['log'].status == true && idnum > 0 ) {
         const res2 = await database.simpleExecute(
             `UPDATE logproc set fin=:vfin where id = :vid`,
             {
@@ -91,14 +96,21 @@ async function execStoreProcedure(context, sp) {
                 vid: idnum
             }
         )
+
+    } else {
+
+        result = await database.simpleExecute(query, binds);
+
     }
-    
+
     const millis = Date.now() - start;
 
-    let json = { 'status': 200, 'params': binds, 'out': result.outBinds, 'elapsed': Math.floor(millis / 1000) };
+    json = { 'status': 200, 'params': binds, 'out': result.outBinds, 'elapsed': Math.floor(millis / 1000) };
 
     //console.log(json);
     //console.log(result);
+
+    //console.log(res);
 
     return json;
 
