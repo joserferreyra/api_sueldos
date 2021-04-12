@@ -47,22 +47,22 @@ module.exports.jsonViewMap = {
     },
     historiaConcepto: {
         fields: {
-            ConceptoId:'hist_concepto.idconcepto', 
-            HistoriaNomencladorId: 'hist_concepto.idhistnom', 
-            Codigo: 'concepto.codigo', 
+            ConceptoId: 'hist_concepto.idconcepto',
+            HistoriaNomencladorId: 'hist_concepto.idhistnom',
+            Codigo: 'concepto.codigo',
             SubCodigo: 'concepto.subcod',
             DescBoleta: 'concepto.desc_boleta',
             Observacion: 'concepto.observacion'
         },
-        key: { field: "ConceptoId"},
+        key: { field: "ConceptoId" },
         sql: {
             fromClause: [
                 "FROM hist_concepto",
                 "INNER JOIN concepto ON concepto.idconcepto = hist_concepto.idconcepto"
             ]
         }
-        
-    },    
+
+    },
     historiaValorUnico: {
         fields: {
             ValorUnicoId: 'hist_valunico.idvalunico',
@@ -126,7 +126,7 @@ module.exports.jsonViewMap = {
             Salario: "cargos.SALARIO"
         },
         key: {
-           field: "Id"
+            field: "Id"
         },
         sql: {
             fromClause: [
@@ -134,7 +134,7 @@ module.exports.jsonViewMap = {
                 "INNER JOIN cargos ON personas.idpers = cargos.idpers",
                 "INNER JOIN reparticion ON cargos.IDREP = reparticion.IDREP",
                 "INNER JOIN tabtipoempleo ON cargos.IDTE = tabtipoempleo.IDTE",
-                "INNER JOIN tabsitrevista ON cargos.IDSITREV = tabsitrevista.IDSITREV",                
+                "INNER JOIN tabsitrevista ON cargos.IDSITREV = tabsitrevista.IDSITREV",
                 "INNER JOIN tabestadocargo ON cargos.IDESTADOCARGO = tabestadocargo.IDESTADOCARGO",
                 "INNER JOIN tabtipoos ON cargos.IDTIPOOS = tabtipoos.IDTIPOOS",
                 "INNER JOIN tipoliquidacion ON cargos.IDTIPOLIQ = tipoliquidacion.IDTIPOLIQ"
@@ -146,13 +146,13 @@ module.exports.jsonViewMap = {
             IdLiq: "idliq",
             json: `'{ "liqcabecera":' || cab || ', "liqdetalle":' || det ||', "liqresumen":' ||res|| '}'`
         },
-        key: { field: "IdLiq"},
+        key: { field: "IdLiq" },
         sql: {
-            fromClause:[
+            fromClause: [
                 "from liq_json"
             ]
         }
-    },    
+    },
     djPrevLiqsPeriodoDJ: {
         fields: {
             Id: "DDJJ_Liquidaciones.Id",
@@ -207,20 +207,20 @@ module.exports.jsonViewMap = {
         }
     },
     personaLista: {
-        fields: {            
+        fields: {
             PersonaId: 'personas.idpers',
             Documento: 'personas.dni',
             Apellido: 'personas.APELLIDO',
             Nombre: 'personas.NOMBRE',
-            Sexo:'personas.sexo',
+            Sexo: 'personas.sexo',
             PersonaCUIL: 'personas.cuil',
             Telefono: 'personas.telefono',
             TipoDocumentoId: 'personas.idtipodoc',
             TipoDocumentoSintetico: 'tabtipodoc.sintetico',
             FechaNacimiento: 'personas.FECHANAC',
             FechaIngreso: 'personas.FECHAINGRESO',
-            CBU:'personas.CBU',
-            Cuenta:'personas.CUENTA',
+            CBU: 'personas.CBU',
+            Cuenta: 'personas.CUENTA',
             CobraLey: '(case when n.idnoley is null then 1 else 0 end)'
         },
         key: { field: "Id" },
@@ -248,6 +248,93 @@ module.exports.jsonViewMap = {
                 "from logproc l"
             ]
         }
+    },
+    acredBancoDet: {
+        fields: {
+            AcredDetId: "ACRED_BCO_DET.IDACREDDET",
+            AcredCabId: "ACRED_BCO_DET.IDACREDCAB",
+            LiquidacionId: "ACRED_BCO_DET.IDLIQ",
+            PersonaId: "ACRED_BCO_DET.IDPERS",
+            Apellido: "PERSONAS.APELLIDO",
+            Nombre: "PERSONAS.NOMBRE",
+            Neto: "ACRED_BCO_DET.NETO",
+            ValorFijo: "ACRED_BCO_DET.VALFIJO",
+            Cuota: "ACRED_BCO_DET.CUOTA1",
+            UltCuota: "ACRED_BCO_DET.CUOTA2",
+            Cuenta: "ACRED_BCO_DET.CUENTA",
+            Estado: "ACRED_BCO_DET.ESTADO"
+        },
+        key: {
+            field: "AcredDetId"
+        },
+        sql: {
+            fromClause: [
+                "FROM ACRED_BCO_DET",
+                "INNER JOIN PERSONAS ON ACRED_BCO_DET.IDPERS = PERSONAS.IDPERS"
+            ]
+        }
+    },
+    acredBancoCab: {
+        fields: {
+            AcredCabId: "ACRED_BCO_CAB.IDACREDCAB",
+            Periodo: "ACRED_BCO_CAB.PERIODO",
+            TipoLiquidacionId: "ACRED_BCO_CAB.IDTIPOLIQ",
+            GrupoAdicionalId: "ACRED_BCO_CAB.IDGRUPOADI",
+            ValorFijo: "ACRED_BCO_CAB.VALOR_FIJO",
+            CantCuotas: "ACRED_BCO_CAB.CANT_CUOTAS"
+        },
+        key: {
+            field: "AcredCabId"
+        },
+        sql: {
+            fromClause: [
+                "FROM ACRED_BCO_CAB"
+            ]
+        }
     }
+    
+    /*,
+    archivoAcred: {
+        fields: {
+            Cadena: `LPAD(P.DNI,10,' ')||LPAD(NVL(P.CUIL,0),11,'0')||LPAD(ABD.CUENTA,15,' ')||'                      '||
+            (CASE WHEN :CUOTA = 0 THEN LPAD((ABD.VALFIJO*100),9,' ') ELSE 
+              (CASE WHEN :CUOTA = 1 THEN LPAD((ABD.CUOTA1*100),9,' ') ELSE LPAD((ABD.CUOTA2*100),9,' ') END)END) ||
+            RPAD(SUBSTR(P.APELLIDO,1,20),20,' ')||
+            RPAD(SUBSTR(P.NOMBRE,1,20),20,' ')|| 
+            '90909'`
+        },
+        sql:{
+            fromClause:[
+                'from US_SUELDO.ACRED_BCO_CAB ABC',
+                'INNER JOIN US_SUELDO.ACRED_BCO_DET ABD ON ABD.IDACREDCAB = ABC.IDACREDCAB',
+                'INNER JOIN US_SUELDO.PERSONAS P ON P.IDPERS = ABD.IDPERS',
+                'INNER JOIN US_SUELDO.LIQ L ON L.IDLIQ = ABD.IDLIQ',
+                'INNER JOIN US_SUELDO.CARGOS C ON C.IDCARGO = L.IDCARGO'
+            ]
+        }
+    }
+
+    SELECT LPAD(P.DNI, 10, ' ')||
+        LPAD(NVL(P.CUIL, 0), 11, '0') ||
+        LPAD(ABD.CUENTA, 15, ' ') ||
+        '                      ' ||
+        (CASE WHEN: CUOTA = 0 THEN LPAD((ABD.VALFIJO * 100), 9, ' ') ELSE
+            (CASE WHEN : CUOTA = 1 THEN LPAD((ABD.CUOTA1 * 100), 9, ' ') ELSE LPAD((ABD.CUOTA2 * 100), 9, ' ') END)END) ||
+                RPAD(SUBSTR(P.APELLIDO, 1, 20), 20, ' ') ||
+                RPAD(SUBSTR(P.NOMBRE, 1, 20), 20, ' ') ||
+                '90909' AS CADENA
+    from US_SUELDO.ACRED_BCO_CAB ABC
+    INNER JOIN US_SUELDO.ACRED_BCO_DET ABD ON ABD.IDACREDCAB = ABC.IDACREDCAB
+    INNER JOIN US_SUELDO.PERSONAS P ON P.IDPERS = ABD.IDPERS
+    INNER JOIN US_SUELDO.LIQ L ON L.IDLIQ = ABD.IDLIQ
+    INNER JOIN US_SUELDO.CARGOS C ON C.IDCARGO = L.IDCARGO
+    WHERE
+    ABC.PERIODO = to_date('01/03/2021', 'dd/mm/yyyy')
+    AND ABC.IDTIPOLIQ = 1
+    AND ABC.IDGRUPOADI = 0
+    AND NOT TRIM(ABD.CUENTA) IS NULL AND TRIM(ABD.CUENTA) > 0
+    AND(CASE WHEN : CUOTA = 0 THEN ABD.VALFIJO ELSE(CASE WHEN : CUOTA = 1 THEN ABD.CUOTA1 ELSE ABD.CUOTA2 END)END) > 0
+    ORDER BY C.ORDEN;
+    */
 
 }

@@ -271,6 +271,17 @@ module.exports.jsonStoreProcedure = {
             Dni: 'DNI'
         },
         out_param: { varName: 'vSALIDA', varErrorName: 'vMSG_ERROR'}
-    }
+    },
+    generaAcredBco:{
+        sp_name: 'MOD_ACREDITACION.P_GENERACION_ACRED_BCO',
+        in_param: {
+            Periodo: 'vPERIODO',
+            TipoLiq: 'vIDTIPOLIQ',
+            GrupoAdicional: 'vIDGRUPOADI',
+            ValorFijo: 'vValorFijo',
+            Cuotas: 'vCantCuotas'            
+        },
+        out_param: {varErrorName: 'vError'}
+    }    
 
 }
