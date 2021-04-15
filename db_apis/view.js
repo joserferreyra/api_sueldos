@@ -26,7 +26,9 @@ async function getView(context, entity) {
 
     let firstWhere = true;
 
-    let queryWhere = baseQuery.getWhere(context, entity);
+    let queryWhere = entity.sql.whereFields?baseQuery.getWhereFields(context, entity.sql.whereFields):baseQuery.getWhere(context, entity);
+
+    //let queryWhere = baseQuery.getWhereFields(context, entity.sql.whereFields);
 
     let sqlGroup = '';
 

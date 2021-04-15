@@ -33,12 +33,8 @@ function getSQLcall(sp) {
     return sqlCab;
 }
 
-async function execStoreProcedure(context, sp) {
-    let query = getSQLcall(sp);
-
+function getSQLbinds(context, sp) {
     const binds = context;
-
-    //console.log(context)
 
     for (const key in context) {
         binds[key] = context[key];
@@ -46,14 +42,23 @@ async function execStoreProcedure(context, sp) {
 
     if (sp.out_param['varName']) {
         binds[sp.out_param.varName] = { dir: oracledb.BIND_OUT };
-        //, type: oracledb.NUMBER };
     }
 
     if (sp.out_param['varErrorName']) {
         binds[sp.out_param.varErrorName] = { dir: oracledb.BIND_OUT };
-        //, type: oracledb.NUMBER };
     }
 
+    if (sp.out_param['cursor']) {
+        binds[sp.out_param.cursor] = { type: oracledb.CURSOR, dir: oracledb.BIND_OUT };
+    }
+
+    return binds;
+}
+
+async function execStoreProcedure(context, sp) {
+    let query = getSQLcall(sp);
+    let binds = getSQLbinds(context, sp);
+    
     //console.log(query);
     //console.log(binds);
 
@@ -105,9 +110,9 @@ async function execStoreProcedure(context, sp) {
 
     const millis = Date.now() - start;
 
-    json = { 'status': 200, 'params': binds, 'out': result.outBinds, 'elapsed': Math.floor(millis / 1000) };
+    json = { status: 200, params: binds, out: result.outBinds, elapsed: Math.floor(millis / 1000) };
 
-    //console.log(json);
+    //console.log(json.out.cursor);
     //console.log(result);
 
     //console.log(res);
@@ -116,4 +121,6 @@ async function execStoreProcedure(context, sp) {
 
 }
 
+module.exports.getSQLcall = getSQLcall;
+module.exports.getSQLbinds = getSQLbinds;
 module.exports.execStoreProcedure = execStoreProcedure;

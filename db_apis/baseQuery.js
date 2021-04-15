@@ -211,16 +211,16 @@ function getWhere(context, entity) {
                     query += `\nwhere ` + entity.fields[key] + ` is null `; // entity.fields[key];
                 } else {
                     query += `\nwhere ` + entity.fields[key] + `= :` + key; // entity.fields[key];
-                    binds[key] = context[key];                        
+                    binds[key] = context[key];
                 }
                 firstWhere = false;
             } else {
                 if (context[key] == 'null') {
                     query += `\nand ` + entity.fields[key] + ` is null `; // entity.fields[key];
-                }else{
+                } else {
                     query += `\nand ` + entity.fields[key] + `= :` + key; // entity.fields[key];
                     binds[key] = context[key];
-                }                
+                }
             }
         } else {
             if (key != 'sort' & key != 'search' & key != 'greatereq' & key != 'lesseq') {
@@ -289,7 +289,6 @@ function getWhere(context, entity) {
 
 }
 
-
 function getWhereFields(context, fields) {
     const binds = {};
     let query = '';
@@ -304,16 +303,16 @@ function getWhereFields(context, fields) {
                     query += `\nwhere ` + fields[key] + ` is null `; // entity.fields[key];
                 } else {
                     query += `\nwhere ` + fields[key] + `= :` + key; // entity.fields[key];
-                    binds[key] = context[key];                        
+                    binds[key] = context[key];
                 }
                 firstWhere = false;
             } else {
                 if (context[key] == 'null') {
                     query += `\nand ` + fields[key] + ` is null `; // entity.fields[key];
-                }else{
+                } else {
                     query += `\nand ` + fields[key] + `= :` + key; // entity.fields[key];
                     binds[key] = context[key];
-                }                
+                }
             }
         } else {
             if (key != 'sort' & key != 'search' & key != 'greatereq' & key != 'lesseq') {
@@ -380,6 +379,7 @@ function getWhereFields(context, fields) {
 
     return { 'where': query, 'binds': binds };
 
+
 }
 
 async function find(context, entity) {
@@ -389,7 +389,7 @@ async function find(context, entity) {
     let queryWhere = getWhere(context, entity);
 
     let fullQuery = query + queryWhere.where;
-    
+
     const result = await database.simpleExecute(fullQuery, queryWhere.binds);
 
     return result;

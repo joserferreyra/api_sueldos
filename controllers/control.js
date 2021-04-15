@@ -1,3 +1,4 @@
+const oracledb = require('oracledb');
 const entityapi = require('../db_apis/entity');
 const mapper = require('../config/mapper');
 const mapperViews = require('../config/mapperViews');
@@ -14,6 +15,8 @@ const xlsxapi = require('../db_apis/xlsx');
 
 var fs = require('fs');
 var path = require('path');
+const { simpleExecute, getConnection } = require('../services/database');
+const database = require('../config/database');
 //var URL = require('url');
 
 // private func
@@ -363,18 +366,18 @@ async function getTXT(req, res, next) {
             let fileName = '';
 
             content.forEach(element => {
-                if (ban){
-                    if (element['NOMBREARCHIVO']){
+                if (ban) {
+                    if (element['NOMBREARCHIVO']) {
                         fileName = element['NOMBREARCHIVO'];
-                    }                    
-                    ban=false;
+                    }
+                    ban = false;
                 }
                 txt = txt + element['CADENA'].toString() + '\n';
             });
 
             const buf = Buffer.from(txt, 'latin1');
 
-            if (!fileName){
+            if (!fileName) {
                 fileName = yyyymmdd() + '_' + entityName + '.txt';
             }
 
@@ -440,6 +443,64 @@ async function getTXTipsst(req, res, next) {
 
 }
 
+async function getCursorFromSP(req, res, next) {
+    try {
+
+        let result;
+
+        let spName = req.path.substring(11,);
+
+        let context = getEntityValues(req, spmapper.jsonStoreProcedure[spName].in_param);
+
+        const query = spapi.getSQLcall(spmapper.jsonStoreProcedure[spName]);
+        const binds = spapi.getSQLbinds(context, spmapper.jsonStoreProcedure[spName]);
+
+        //console.log(query);
+        //console.log(binds);
+
+        if (spmapper.jsonStoreProcedure[spName]) {
+
+            let conn = await getConnection();
+            
+            result = await conn.execute(query, binds);
+            
+            let txt = '';
+
+            const rs = result.outBinds.cursor;
+            let row;
+            let i = 1;
+            
+            while ((row = await rs.getRow())) {
+              //console.log("getRow(): row " + i++);
+              //console.log(row);
+              txt = txt + row.toString() + '\n';
+            }
+
+            await rs.close();
+
+            let fileName = '';
+
+            const buf = Buffer.from(txt, 'latin1');
+
+            if (!spmapper.jsonStoreProcedure[spName].fileName) {
+                fileName = yyyymmdd() + '_' + spName;
+            }
+
+            res.setHeader('Content-Length', buf.length);
+            res.setHeader('Content-Type', 'application/text');
+            res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
+            res.write(buf);
+            res.end();
+
+        } else {
+            res.status(404).end();
+        }
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 
 
 module.exports.getEntities = getEntities;
@@ -462,3 +523,5 @@ module.exports.getxlsx = getxlsx;
 module.exports.getTXT = getTXT;
 
 module.exports.getTXTipsst = getTXTipsst;
+
+module.exports.getCursorFromSP = getCursorFromSP;

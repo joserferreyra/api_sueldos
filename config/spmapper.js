@@ -11,7 +11,7 @@ module.exports.jsonStoreProcedure = {
             GrupoAdicional: 'vIdGrupoAdic'
         },
         out_param: {},
-        log: {status: true, type:1}
+        log: { status: true, type: 1 }
     },
     transform: {
         sp_name: 'MOD_TRANS_NOV.PRINCIPAL',
@@ -22,7 +22,7 @@ module.exports.jsonStoreProcedure = {
             GrupoAdicional: 'vIDGRUPOADI'
         },
         out_param: {},
-        log: {status: true, type:1}
+        log: { status: true, type: 1 }
     },
     cabeceraValorCat: {
         sp_name: 'MOD_PARAM.P_DESC_CABVALCAT',
@@ -114,7 +114,7 @@ module.exports.jsonStoreProcedure = {
         },
         out_param: { varName: 'value' }
     },
-    histNomenclador:{
+    histNomenclador: {
         sp_name: 'MOD_PARAM.P_HIST_NOMENCLADOR',
         in_param: {
             Id: 'vIDHISTNOM',
@@ -125,7 +125,7 @@ module.exports.jsonStoreProcedure = {
         },
         out_param: { varName: 'value' }
     },
-    histConcepto:{
+    histConcepto: {
         sp_name: 'MOD_PARAM.P_HIST_CONCEPTO',
         in_param: {
             Id: 'vIDHISTNOM',
@@ -134,7 +134,7 @@ module.exports.jsonStoreProcedure = {
         },
         out_param: { varName: 'value' }
     },
-    histValUnico:{
+    histValUnico: {
         sp_name: 'MOD_PARAM.P_HIST_VALUNICO',
         in_param: {
             Id: 'vIDHISTNOM',
@@ -143,7 +143,7 @@ module.exports.jsonStoreProcedure = {
         },
         out_param: { varName: 'value' }
     },
-    histValCat:{
+    histValCat: {
         sp_name: 'MOD_PARAM.P_HIST_VALCATEGORIA',
         in_param: {
             Id: 'vIDHISTNOM',
@@ -162,7 +162,7 @@ module.exports.jsonStoreProcedure = {
             IdConcepto: 'vIDCONCEPTO',
             DescripcionCorta: 'vDESC_BREVE'
         },
-        out_param: { varName: 'value', varErrorName: 'error'}
+        out_param: { varName: 'value', varErrorName: 'error' }
     },
     generaPrimitiva: {
         sp_name: 'SP_GENERAR_PRIMITIVAS',
@@ -174,7 +174,7 @@ module.exports.jsonStoreProcedure = {
             Cuerpo: 'vCUERPO',
             Pie: 'vPIE'
         },
-        out_param: { varName: 'vSALIDA', varErrorName: 'vERROR'}
+        out_param: { varName: 'vSALIDA', varErrorName: 'vERROR' }
     },
     importaHistNomenclador: {
         sp_name: 'MOD_PARAM.P_IMPORTA_HIST_NOM',
@@ -208,7 +208,7 @@ module.exports.jsonStoreProcedure = {
             ReparticionId: 'vIDREP',
             PeriodoLiq: 'vPERIODO_LIQ'
         },
-        out_param: {            
+        out_param: {
             varName: 'vSALIDA',
             varErrorName: 'vMSG_ERROR'
         }
@@ -252,7 +252,7 @@ module.exports.jsonStoreProcedure = {
         in_param: {
             Periodo: 'vPERIODO',
             TipoLiquidacionId: 'vIDTIPOLIQ',
-            GrupoAdicionalId: 'vIDGRUPOADI'          
+            GrupoAdicionalId: 'vIDGRUPOADI'
         },
         out_param: {}
     },
@@ -260,28 +260,39 @@ module.exports.jsonStoreProcedure = {
         sp_name: 'MOD_FUNCIONES.ESTABLECE_NOLEY',
         in_param: {
             Dni: 'DNI',
-            Tipo:'TIPO',
+            Tipo: 'TIPO',
             Periodo: 'PERIODO'
         },
-        out_param: { varName: 'vSALIDA', varErrorName: 'vMSG_ERROR'}
+        out_param: { varName: 'vSALIDA', varErrorName: 'vMSG_ERROR' }
     },
     eliminaNoLey: {
         sp_name: 'MOD_FUNCIONES.ELIMINA_NOLEY',
         in_param: {
             Dni: 'DNI'
         },
-        out_param: { varName: 'vSALIDA', varErrorName: 'vMSG_ERROR'}
+        out_param: { varName: 'vSALIDA', varErrorName: 'vMSG_ERROR' }
     },
-    generaAcredBco:{
+    generaAcredBco: {
         sp_name: 'MOD_ACREDITACION.P_GENERACION_ACRED_BCO',
         in_param: {
             Periodo: 'vPERIODO',
             TipoLiq: 'vIDTIPOLIQ',
             GrupoAdicional: 'vIDGRUPOADI',
             ValorFijo: 'vValorFijo',
-            Cuotas: 'vCantCuotas'            
+            Cuotas: 'vCantCuotas'
         },
-        out_param: {varErrorName: 'vError'}
-    }    
+        out_param: { varErrorName: 'vError' }
+    },
+    cursorArchivoBco: {
+        sp_name: 'MOD_ACREDITACION.C_ARCHIVO_BCO',
+        in_param: {
+            Periodo: 'vPERIODO',
+            TipoLiq: 'vTIPOLIQ',
+            GrupoAdicional: 'vGRUPOADI',
+            Cuotas: 'vCUOTA'
+        },
+        out_param: { cursor: 'cursor' },
+        fileName: 'AcredBco.txt'
+    }
 
 }

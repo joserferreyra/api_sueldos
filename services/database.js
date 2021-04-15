@@ -82,3 +82,9 @@ function simpleExecuteNoLimit(statement, binds = [], opts = {}) {
 }
 
 module.exports.exec = simpleExecuteNoLimit;
+
+async function getConnection() {
+    return await oracledb.getConnection();
+}
+
+module.exports.getConnection = getConnection;

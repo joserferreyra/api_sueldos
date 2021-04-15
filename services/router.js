@@ -84,6 +84,8 @@ app.route('/xlsx/*').get(control.getxlsx);
 
 app.route('/txt/*').get(control.getTXT);
 
+app.route('/txtfromsp/*').post(control.getCursorFromSP);
+
 /*
 app.post('/xlsx', function (req, res, next) {
     var url = URL.parse(req.url, true);

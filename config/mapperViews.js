@@ -249,6 +249,34 @@ module.exports.jsonViewMap = {
             ]
         }
     },
+    acredDet: {
+        fields: {
+            Orden: 'C.ORDEN',
+            Documento: 'P.DNI',
+            Apellido: "(P.APELLIDO||' '|| P.NOMBRE)",
+            Neto: 'ABD.NETO',
+            Cuota1: 'ABD.CUOTA1',
+            ValorFijo: 'ABD.VALFIJO',
+            Cuenta: 'ABD.CUENTA'
+        },
+        key: {},
+        sql: {
+            fromClause: [
+                "from US_SUELDO.ACRED_BCO_CAB ABC",
+                "INNER JOIN US_SUELDO.ACRED_BCO_DET ABD ON ABD.IDACREDCAB = ABC.IDACREDCAB",
+                "INNER JOIN US_SUELDO.PERSONAS P ON P.IDPERS = ABD.IDPERS",
+                "INNER JOIN US_SUELDO.LIQ L ON L.IDLIQ = ABD.IDLIQ",
+                "INNER JOIN US_SUELDO.CARGOS C ON C.IDCARGO = L.IDCARGO"
+            ],
+            whereFields: {
+                Periodo: 'ABC.PERIODO',
+                TipoLiquidacionId: 'ABC.IDTIPOLIQ',
+                GrupoAdicionalId: 'ABC.IDGRUPOADI'
+            },
+            orderBy: 'ORDER BY C.ORDEN'
+        }
+    },
+    /*
     acredBancoDet: {
         fields: {
             AcredDetId: "ACRED_BCO_DET.IDACREDDET",
@@ -273,6 +301,35 @@ module.exports.jsonViewMap = {
                 "INNER JOIN PERSONAS ON ACRED_BCO_DET.IDPERS = PERSONAS.IDPERS"
             ]
         }
+    }, */
+    acredBancoDet: {
+        fields: {
+            AcredDetId: "ACRED_BCO_DET.IDACREDDET",
+            AcredCabId: "ACRED_BCO_DET.IDACREDCAB",
+            LiquidacionId: "ACRED_BCO_DET.IDLIQ",
+            PersonaId: "ACRED_BCO_DET.IDPERS",
+            Orden: "CARGOS.ORDEN",
+            DNI: "PERSONAS.DNI",
+            Apellido: "PERSONAS.APELLIDO",
+            Nombre: "PERSONAS.NOMBRE",
+            Neto: "ACRED_BCO_DET.NETO",
+            ValorFijo: "ACRED_BCO_DET.VALFIJO",
+            Cuota: "ACRED_BCO_DET.CUOTA1",
+            UltCuota: "ACRED_BCO_DET.CUOTA2",
+            Cuenta: "ACRED_BCO_DET.CUENTA",
+            Estado: "ACRED_BCO_DET.ESTADO"
+        },
+        key: {
+            field: "AcredDetId"
+        },
+        sql: {
+            fromClause: [
+                "FROM ACRED_BCO_DET",
+                "INNER JOIN PERSONAS ON ACRED_BCO_DET.IDPERS = PERSONAS.IDPERS",
+                "INNER JOIN LIQ ON ACRED_BCO_DET.IDLIQ = LIQ.IDLIQ",
+                "INNER JOIN CARGOS ON LIQ.IDCARGO = CARGOS.IDCARGO"
+            ]
+        }
     },
     acredBancoCab: {
         fields: {
@@ -292,7 +349,7 @@ module.exports.jsonViewMap = {
             ]
         }
     }
-    
+
     /*,
     archivoAcred: {
         fields: {
