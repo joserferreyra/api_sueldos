@@ -501,8 +501,6 @@ async function getCursorFromSP(req, res, next) {
     }
 }
 
-
-
 module.exports.getEntities = getEntities;
 module.exports.execSP = execSP;
 module.exports.execFN = execFN;

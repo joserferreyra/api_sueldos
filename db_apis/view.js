@@ -41,8 +41,8 @@ async function getView(context, entity) {
     let fullQuery = query + queryWhere.where + sqlGroup;
 
     //Para debug    
-    //console.log(fullQuery);
-    //console.log(queryWhere.binds);
+    console.log(fullQuery);
+    console.log(queryWhere.binds);
 
     const result = await database.simpleExecute(fullQuery, queryWhere.binds);
 

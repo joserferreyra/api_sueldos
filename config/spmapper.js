@@ -293,6 +293,15 @@ module.exports.jsonStoreProcedure = {
         },
         out_param: { cursor: 'cursor' },
         fileName: 'AcredBco.txt'
+    },
+    totalArchivoBco:{
+        sp_name: 'MOD_ACREDITACION.P_ARCHIVO_BCO_TOT',
+        in_param: {
+            Periodo: 'vPERIODO',
+            TipoLiq: 'vTIPOLIQ',
+            GrupoAdicional: 'vGRUPOADI',
+            Cuota: 'vCUOTA'
+        },
+        out_param: { cantidad: 'vCANT', total: 'vTOTAL' }
     }
-
 }
