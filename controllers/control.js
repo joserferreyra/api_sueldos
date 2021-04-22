@@ -21,6 +21,18 @@ const database = require('../config/database');
 
 // private func
 
+function getEntityArrayValues(req, entity) {
+    let object = {};
+
+    entity.forEach(element => {
+        if (req.body[element] != undefined) {
+            object[element] = req.body[element];
+        }
+    });
+
+    return object;
+}
+
 function getEntityValues(req, entity) {
     let object = {};
     for (const key in entity) {
@@ -450,7 +462,7 @@ async function getCursorFromSP(req, res, next) {
 
         let spName = req.path.substring(11,);
 
-        let context = getEntityValues(req, spmapper.jsonStoreProcedure[spName].in_param);
+        let context = getEntityArrayValues(req, spmapper.jsonStoreProcedure[spName].in_param);
 
         const query = spapi.getSQLcall(spmapper.jsonStoreProcedure[spName]);
         const binds = spapi.getSQLbinds(context, spmapper.jsonStoreProcedure[spName]);
@@ -466,7 +478,7 @@ async function getCursorFromSP(req, res, next) {
             
             let txt = '';
 
-            const rs = result.outBinds.cursor;
+            const rs = result.outBinds.Cursor;
             let row;
             let i = 1;
             

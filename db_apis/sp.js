@@ -5,38 +5,23 @@ const { startup } = require('oracledb');
 function getSQLcall(sp) {
     let sqlCab = 'BEGIN ' + sp.sp_name + '(';
     let first = true;
-    for (const key in sp.in_param) {
+
+    sp.in_param.forEach(element => {
         if (first) {
             first = false;
         } else {
             sqlCab += ', ';
         }
-        sqlCab += ':' + key;
-    }
+        sqlCab += ':' + element;
+    });
+
     if (sp['out_param']) {
-        for (const key in sp.out_param) {
-            sqlCab += ', :' + key;
-        }
+        sp.out_param.forEach(element =>{
+            sqlCab += ', :' + element;
+        });
     }
 
     sqlCab += '); END;';
-
-    /*
-    const val = sp.out_param['varName'] ? ':' + sp.out_param['varName'] : null;
-    const err = sp.out_param['varErrorName'] ? ':' + sp.out_param['varErrorName'] : null;
-    const cur = sp.out_param['cursor'] ? ':' + sp.out_param['cursor'] : null;
-    if (val) {
-        sqlCab += ', ' + val;
-    }
-    if (err) {
-        sqlCab += ', ' + err;
-    }
-    if (cur) {
-        sqlCab += ', ' + cur;
-    }
-    sqlCab += '); END;';
-    */
-    //console.log(sqlCab);
 
     return sqlCab;
 }
@@ -49,28 +34,14 @@ function getSQLbinds(context, sp) {
     }
 
     if (sp['out_param']) {
-        for (const key in sp.out_param) {
-            if (key!='cursor'){
-                binds[key] = { dir: oracledb.BIND_OUT };
+        sp.out_param.forEach(element =>{
+            if (element!='Cursor'){
+                binds[element] = { dir: oracledb.BIND_OUT };
             }else{
-                binds[key] = { type: oracledb.CURSOR, dir: oracledb.BIND_OUT };        
-            }            
-        }
+                binds[element] = { type: oracledb.CURSOR, dir: oracledb.BIND_OUT };        
+            }
+        });
     }
-
-    /*
-    if (sp.out_param['varName']) {
-        binds[sp.out_param.varName] = { dir: oracledb.BIND_OUT };
-    }
-
-    if (sp.out_param['varErrorName']) {
-        binds[sp.out_param.varErrorName] = { dir: oracledb.BIND_OUT };
-    }
-
-    if (sp.out_param['cursor']) {
-        binds[sp.out_param.cursor] = { type: oracledb.CURSOR, dir: oracledb.BIND_OUT };
-    }
-    */
 
     return binds;
 }
@@ -79,8 +50,8 @@ async function execStoreProcedure(context, sp) {
     let query = getSQLcall(sp);
     let binds = getSQLbinds(context, sp);
 
-    //console.log(query);
-    //console.log(binds);
+    console.log(query);
+    console.log(binds);
 
     let result = {}
     let json = {}
