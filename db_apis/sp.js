@@ -50,8 +50,8 @@ async function execStoreProcedure(context, sp) {
     let query = getSQLcall(sp);
     let binds = getSQLbinds(context, sp);
 
-    console.log(query);
-    console.log(binds);
+    //console.log(query);
+    //console.log(binds);
 
     let result = {}
     let json = {}
