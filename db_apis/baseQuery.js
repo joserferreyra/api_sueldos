@@ -129,8 +129,8 @@ async function modify(context, entity) {
         }
     }
 
-    console.log(query);
-    console.log(binds);
+    //console.log(query);
+    //console.log(binds);
 
     if (binds[entity["key"].field]) {
         let result = await database.simpleExecute(query, binds);
@@ -180,11 +180,21 @@ async function create(context, entity) {
     let query = getSQLinsert(context, entity);
     const binds = {};
 
+    //console.log(query);
+
+    let eseq;
+
     for (const key in context) {
         if (typeof entity.fields[key] != 'object') {
-            if (key != entity['key'].field) {
+
+            eseq = entity['key'].seq?true:false;
+
+            //console.log(eseq)
+
+            if (key != entity['key'].field || (key == entity['key'].field  && entity['key'].insert == true) ){
                 binds[key] = context[key];
             }
+
         }
     }
 
