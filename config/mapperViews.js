@@ -348,6 +348,25 @@ module.exports.jsonViewMap = {
                 "FROM ACRED_BCO_CAB"
             ]
         }
+    },
+    repTeNomenclador: {
+        fields:{
+            ReparticionId:"REPTENOMENCLADOR.IDREP",
+            ReparticionDescripcion:"REPARTICION.DESCRIPCION",
+            TipoEmpleoId:"REPTENOMENCLADOR.IDTE",
+            TipoEmpleoDescripcion:"TABTIPOEMPLEO.DESCRIPCION",
+            NomencladorId:"REPTENOMENCLADOR.IDNOM",
+            NomencladorDescripcion:"NOMENCLADOR.DESCRIPCION"
+        },
+        key:{},
+        sql:{
+            fromClause: [
+                "FROM REPTENOMENCLADOR",
+                "INNER JOIN REPARTICION ON REPTENOMENCLADOR.IDREP = REPARTICION.IDREP",
+                "INNER JOIN TABTIPOEMPLEO ON REPTENOMENCLADOR.IDTE = TABTIPOEMPLEO.IDTE",
+                "INNER JOIN NOMENCLADOR ON REPTENOMENCLADOR.IDNOM = NOMENCLADOR.IDNOM"
+            ]
+        }
     }
 
     /*,

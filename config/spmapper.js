@@ -90,6 +90,16 @@ module.exports.jsonStoreProcedure = {
         in_param: ['HistIdOrigen', 'HistIdDestino'],
         out_param: ['ValorSalida']
     },
+    importaHistNom: {
+        sp_name: 'MOD_PARAM.P_IMPORTA_HIST_NOM',
+        in_param: ['HistIdOrigen', 'HistIdDestino'],
+        out_param: ['ValorSalida']
+    },
+    inseraHistNom: {
+        sp_name: 'MOD_PARAM.P_IMPORTA_HIST_NOM',
+        in_param:['Rep','Te','IdNom'],
+        out_param: ['ValorSalida']
+    },
     cargaLiqJSON: {
         sp_name: 'MOD_REPORTES.CARGA_JSNOLIQ',
         in_param: ['Periodo', 'GrupoRep', 'Rep', 'IdPersona', 'CargoId', 'TipoLiq', 'GrupoAdicional']
