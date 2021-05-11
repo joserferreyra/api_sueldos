@@ -153,5 +153,10 @@ module.exports.jsonStoreProcedure = {
         sp_name: 'MOD_ACREDITACION.P_ARCHIVO_BCO_TOT',
         in_param: ['Periodo', 'TipoLiq', 'GrupoAdicional', 'Cuota'],
         out_param: ['Cantidad', 'Total']
+    },
+    repTeNomenclador:{
+        sp_name: 'MOD_PARAM.P_REPTENOMENCLADOR',
+        in_param: ['ReparticionId','TipoEmpleoId','NomencladorId'],
+        out_param: ['ValorSalida']
     }
 }
