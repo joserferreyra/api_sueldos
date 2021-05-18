@@ -1,7 +1,10 @@
 module.exports.jsonStoreProcedure = {
+    cambioPeriodo: {
+        sp_name: 'MOD_CAMBIO_PERIODO.P_Cambio_Periodo'
+    },
     liq: {
         sp_name: 'MOD_LIQUIDACION.LIQ_PRINCIPAL',
-        in_param: ['Periodo', 'GrupoRep', 'Rep', 'IdPersona', 'CargoId', 'TipoLiq', 'GrupoAdicional'],        
+        in_param: ['Periodo', 'GrupoRep', 'Rep', 'IdPersona', 'CargoId', 'TipoLiq', 'GrupoAdicional'],
         log: { status: true, type: 1 }
     },
     transform: {
@@ -156,7 +159,26 @@ module.exports.jsonStoreProcedure = {
     },
     repTeNomenclador:{
         sp_name: 'MOD_PARAM.P_REPTENOMENCLADOR',
-        in_param: ['ReparticionId','TipoEmpleoId','NomencladorId'],
+        in_param: ['ReparticionId','TipoEmpleoId','NomencladorId','Operacion'],
         out_param: ['ValorSalida']
+    },
+    eliminaTipoEmpleo:{
+        sp_name: 'MOD_MAESTROS.P_ELIMINA_TIPO_EMPLEO',
+        in_param: ['Id'],
+        out_param: ['ValorSalida', 'ValorError']
+    },
+    eliminaTipoLiq:{
+        sp_name: 'MOD_MAESTROS.P_ELIMINA_TIPO_LIQ',
+        in_param: ['Id'],
+        out_param: ['ValorSalida', 'ValorError']
+    },
+    eliminaSitRev:{
+        sp_name: 'MOD_MAESTROS.P_ELIMINA_SIT_REV',
+        in_param: ['Id'],
+        out_param: ['ValorSalida', 'ValorError']
+    },
+    generaBoletasJSON:{
+        sp_name: 'MOD_REPORTES.CARGA_JSNOLIQ',
+        in_param:['Periodo','GrupoRepId','ReparticionId','PersonaId','CargoId', 'TipoLiquidacionId', 'GrupoAdicionalId' ]
     }
 }
