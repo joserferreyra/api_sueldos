@@ -13,6 +13,8 @@ const repoapi = require('../db_apis/repo');
 
 const xlsxapi = require('../db_apis/xlsx');
 
+const boletaapi = require('../db_apis/boletaPDF');
+
 var fs = require('fs');
 var path = require('path');
 const { simpleExecute, getConnection } = require('../services/database');
@@ -513,6 +515,52 @@ async function getCursorFromSP(req, res, next) {
     }
 }
 
+async function getBoletaPDF(req, res, next) {
+
+    try {
+        let context = {};
+        let result;
+
+        context = req.query;
+
+        let entityName = 'jsonliq';
+        //let entityName = req.path.substring(5,);
+        //console.log(entityName);
+
+        if (mapperViews.jsonViewMap[entityName]) {
+            result = await viewapi.getView(context, mapperViews.jsonViewMap[entityName]);
+        }
+
+        //console.log(result);
+
+        if (result && result.rows.length > 0) {
+
+            //boletaapi.getPDF(result.rows[0].JSON);
+            let json = JSON.parse(result.rows[0]['JSON']);
+            
+            let filePDF = await boletaapi.createPdf(json);
+
+            //const buf = filePDF;
+            let liq = json.liqcabecera.liquidacion;
+
+            let fileName = liq.periodo + '_'+ liq.tipoliq + '_' +json.liqcabecera.cargo.apellido;
+
+            //res.setHeader('Content-Length', buf.length);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename='+fileName);
+            res.write(filePDF);
+            res.end();
+
+        } else {
+            res.status(404).end();
+        }
+
+    } catch (err) {
+        next(err);
+    }
+
+}
+
 module.exports.getEntities = getEntities;
 module.exports.execSP = execSP;
 module.exports.execFN = execFN;
@@ -535,3 +583,5 @@ module.exports.getTXT = getTXT;
 module.exports.getTXTipsst = getTXTipsst;
 
 module.exports.getCursorFromSP = getCursorFromSP;
+
+module.exports.getBoletaPDF = getBoletaPDF;

@@ -720,6 +720,17 @@ module.exports.jsonEntityMap = {
         key: {
             field: "Id"
         }
+    }, 
+    boletas: {
+        table: 'LIQ_JSON',
+        fields: {
+            IdLiq: 'IDLIQ',
+            PersonaId: 'IDPERS',
+            TipoLiquidacionId: 'IDTIPOLIQ',
+            GrupoAdicionalId: 'NROADICIONAL',
+            Periodo: 'PERIODO',
+            FechaDev: 'FECHADEV'
+        }
     }
 
     /*personaCargoFam: {

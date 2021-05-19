@@ -90,6 +90,8 @@ app.route('/txtfromsp/*').post(control.getCursorFromSP);
 
 app.route('/adduser').post(controlUser.post);
 
+app.route('/boleta').get(control.getBoletaPDF);
+
 /*
 app.post('/xlsx', function (req, res, next) {
     var url = URL.parse(req.url, true);
