@@ -546,18 +546,10 @@ async function getBoletaPDF(req, res, next) {
             let fileName = liq.periodo + '_' + liq.tipoliq + '_' + json.liqcabecera.cargo.apellido;
 
             //res.setHeader('Content-Length', buf.length);
-            /*res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Type', 'application/pdf');
             res.setHeader('Content-Disposition', 'attachment; filename='+fileName);
             res.write(filePDF);
             res.end();
-            */
-
-            res.writeHead(200, {
-                'Content-Type': 'application/pdf',
-                'Content-Disposition': 'attachment; filename=' + fileName,
-                'Content-Length': filePDF.length
-            });
-            res.end(filePDF);
 
         } else {
             res.status(404).end();

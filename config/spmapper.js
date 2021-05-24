@@ -1,6 +1,7 @@
 module.exports.jsonStoreProcedure = {
     cambioPeriodo: {
-        sp_name: 'MOD_CAMBIO_PERIODO.P_Cambio_Periodo'
+        sp_name: 'MOD_CAMBIO_PERIODO.P_Cambio_Periodo',
+        out_param: ['ValorSalida']
     },
     liq: {
         sp_name: 'MOD_LIQUIDACION.LIQ_PRINCIPAL',
