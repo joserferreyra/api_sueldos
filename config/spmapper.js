@@ -1,307 +1,185 @@
 module.exports.jsonStoreProcedure = {
+    cambioPeriodo: {
+        sp_name: 'MOD_CAMBIO_PERIODO.P_Cambio_Periodo',
+        out_param: ['ValorSalida']
+    },
     liq: {
         sp_name: 'MOD_LIQUIDACION.LIQ_PRINCIPAL',
-        in_param: {
-            Periodo: 'vPeriodo',
-            GrupoRep: 'vGrupoRep',
-            Rep: 'vRep_liq',
-            IdPersona: 'vIdPers_liq',
-            CargoId: 'vIdCargo_liq',
-            TipoLiq: 'vIdTipoLiq',
-            GrupoAdicional: 'vIdGrupoAdic'
-        },
-        out_param: {},
+        in_param: ['Periodo', 'GrupoRep', 'Rep', 'IdPersona', 'CargoId', 'TipoLiq', 'GrupoAdicional'],
         log: { status: true, type: 1 }
     },
     transform: {
         sp_name: 'MOD_TRANS_NOV.PRINCIPAL',
-        in_param: {
-            Periodo: 'vPER',
-            GrupoRep: 'vGRUPOREP',
-            TipoLiq: 'vIDTIPOLIQ',
-            GrupoAdicional: 'vIDGRUPOADI'
-        },
-        out_param: {},
+        in_param: ['Periodo', 'GrupoRep', 'TipoLiq', 'GrupoAdicional'],
         log: { status: true, type: 1 }
     },
     cabeceraValorCat: {
         sp_name: 'MOD_PARAM.P_DESC_CABVALCAT',
-        in_param: {
-            Id: 'vIDCABVALCAT',
-            Descripcion: 'vDESCRIPCION'
-        },
-        out_param: { varName: 'value' }
+        in_param: ['Id', 'Descripcion'],
+        out_param: ['ValorSalida']
     },
     descValorCat: {
         sp_name: 'MOD_PARAM.P_DESC_VALORCATEGORIA',
-        in_param: {
-            Id: 'vIDDESC_VALCAT',
-            Descripcion: 'vDESCRIPCION',
-            IdCabecera: 'vIDCABVALCAT'
-        },
-        out_param: { varName: 'value' }
+        in_param: ['Id', 'Descripcion', 'IdCabecera'],
+        out_param: ['ValorSalida']
     },
     valorCat: {
         sp_name: 'MOD_PARAM.P_VALORCATEGORIA',
-        in_param: {
-            Id: 'vIDVALCATEGORIA',
-            IdDesc: 'vIDDESC_VALCAT',
-            Cat: 'vNROCAT',
-            Valor: 'vVALOR'
-        },
-        out_param: { varName: 'value' }
+        in_param: ['Id', 'IdDesc', 'Cat', 'Valor'],
+        out_param: ['ValorSalida']
     },
     cabeceraEscalaSalarial: {
         sp_name: 'MOD_PARAM.P_ESCALA',
-        in_param: {
-            Id: 'vIDESCALA',
-            Descripcion: 'vDESCRIPCION'
-        },
-        out_param: { varName: 'value' }
+        in_param: ['Id', 'Descripcion'],
+        out_param: ['ValorSalida']
     },
     escalaSalarial: {
         sp_name: 'MOD_PARAM.P_ESCALASALARIAL',
-        in_param: {
-            Id: 'vIDESCALASAL',
-            IdCabecera: 'vIDESCALA',
-            Cat: 'vNROCAT',
-            Descripcion: 'vDESCRIPCION',
-            Detalle: 'vDESC_DETALLE',
-            Importe: 'vIMPORTE'
-        },
-        out_param: { varName: 'value' }
+        in_param: ['Id', 'IdCabecera', 'Cat', 'Descripcion', 'Detalle', 'Importe'],
+        out_param: ['ValorSalida']
     },
     cabeceraValorFijo: {
         sp_name: 'MOD_PARAM.P_DESC_VALORFIJO',
-        in_param: {
-            Id: 'vIDDESCFIJO',
-            Descripcion: 'vDESCRIPCION'
-        },
-        out_param: { varName: 'value' }
+        in_param: ['Id', 'Descripcion'],
+        out_param: ['ValorSalida']
     },
     valorFijo: {
         sp_name: 'MOD_PARAM.P_VALORUNICO',
-        in_param: {
-            Id: 'vIDVALUNICO',
-            Descripcion: 'vDESCRIPCION',
-            Valor: 'vVALOR',
-            IdCabecera: 'vIDDESCFIJO'
-        },
-        out_param: { varName: 'value' }
+        in_param: ['Id', 'Descripcion', 'Valor', 'IdCabecera'],
+        out_param: ['ValorSalida']
     },
     concepto: {
         sp_name: 'MOD_PARAM.P_CONCEPTO',
-        in_param: {
-            Id: 'vIDCONCEPTO',
-            Codigo: 'vCODIGO',
-            SubCodigo: 'vSUBCOD',
-            DescBreve: 'vDESC_BREVE',
-            DescBoleta: 'vDESC_BOLETA',
-            TipoConcepto: 'vIDTIPOCONCEPTO',
-            AcumRem: 'vACUM_REM',
-            AcumJub: 'vACUM_JUB',
-            AcumOs: 'vACUM_OS',
-            Basico: 'vBASICO',
-            Ticket: 'vTICKET',
-            Bonificable: 'vBONIFICABLE',
-            CalculaPersona: 'vCALC_PERSONA',
-            DeduceJubilacion: 'vDEDUC_JUB',
-            DeducePension: 'vDEDUC_PEN',
-            Especial: 'vESPECIAL',
-            Reliquida: 'vRELIQUIDA',
-            Observacion: 'vOBSERVACION',
-            AcumGan: 'vACUM_GAN'
-        },
-        out_param: { varName: 'value' }
+        in_param:
+            ['Id', 'Codigo', 'SubCodigo', 'DescBreve', 'DescBoleta',
+                'TipoConcepto', 'AcumRem', 'AcumJub', 'AcumOs',
+                'Basico', 'Ticket', 'Bonificable', 'CalculaPersona',
+                'DeduceJubilacion', 'DeducePension', 'Especial',
+                'Reliquida', 'Observacion', 'AcumGan'
+            ],
+        out_param: ['ValorSalida']
     },
     histNomenclador: {
         sp_name: 'MOD_PARAM.P_HIST_NOMENCLADOR',
-        in_param: {
-            Id: 'vIDHISTNOM',
-            FechaInicio: 'vFECHAINICIO',
-            FechaFin: 'vFECHAFIN',
-            IdNomenclador: 'vIDNOM',
-            IdEscala: 'vIDESCALA'
-        },
-        out_param: { varName: 'value' }
+        in_param: ['Id', 'FechaInicio', 'FechaFin', 'IdNomenclador', 'IdEscala'],
+        out_param: ['ValorSalida']
     },
     histConcepto: {
         sp_name: 'MOD_PARAM.P_HIST_CONCEPTO',
-        in_param: {
-            Id: 'vIDHISTNOM',
-            IdConcepto: 'vIDCONCEPTO',
-            Operacion: 'vOPERACION'
-        },
-        out_param: { varName: 'value' }
+        in_param: ['Id', 'IdConcepto', 'Operacion'],
+        out_param: ['ValorSalida']
     },
     histValUnico: {
         sp_name: 'MOD_PARAM.P_HIST_VALUNICO',
-        in_param: {
-            Id: 'vIDHISTNOM',
-            IdValorUnico: 'vIDVALUNICO',
-            Operacion: 'vOPERACION'
-        },
-        out_param: { varName: 'value' }
+        in_param: ['Id', 'IdValorUnico', 'Operacion'],
+        out_param: ['ValorSalida']
     },
     histValCat: {
         sp_name: 'MOD_PARAM.P_HIST_VALCATEGORIA',
-        in_param: {
-            Id: 'vIDHISTNOM',
-            IdDesc: 'vIDDESC_VALCAT',
-            Operacion: 'vOPERACION'
-        },
-        out_param: { varName: 'value' }
+        in_param: ['Id', 'IdDesc', 'Operacion'],
+        out_param: ['ValorSalida']
     },
     generaFormula: {
         sp_name: 'SP_GENERAR_FORMULAS',
-        in_param: {
-            Id: 'vIDFORMULA',
-            Condicion: 'vCONDICION',
-            Accion: 'vACCION',
-            Detalle: 'vDETALLE',
-            IdConcepto: 'vIDCONCEPTO',
-            DescripcionCorta: 'vDESC_BREVE'
-        },
-        out_param: { varName: 'value', varErrorName: 'error' }
+        in_param: ['Id', 'Condicion', 'Accion', 'Detalle', 'IdConcepto', 'DescripcionCorta'],
+        out_param: ['ValorSalida', 'ValorError']
     },
     generaPrimitiva: {
         sp_name: 'SP_GENERAR_PRIMITIVAS',
-        in_param: {
-            Id: 'vIDPRIMITIVA',
-            Nombre: 'vNOMBRE',
-            Descripcion: 'vDESCRIPCION',
-            Cabecera: 'vCABECERA',
-            Cuerpo: 'vCUERPO',
-            Pie: 'vPIE'
-        },
-        out_param: { varName: 'vSALIDA', varErrorName: 'vERROR' }
+        in_param: ['Id', 'Nombre', 'Descripcion', 'Cabecera', 'Cuerpo', 'Pie'],
+        out_param: ['ValorSalida', 'ValorError']
     },
     importaHistNomenclador: {
         sp_name: 'MOD_PARAM.P_IMPORTA_HIST_NOM',
-        in_param: {
-            HistIdOrigen: 'vIDHIST_ORIGEN',
-            HistIdDestino: 'vIDHIST_DESTINO'
-        },
-        out_param: {
-            varName: 'value'
-        }
+        in_param: ['HistIdOrigen', 'HistIdDestino'],
+        out_param: ['ValorSalida']
+    },
+    importaHistNom: {
+        sp_name: 'MOD_PARAM.P_IMPORTA_HIST_NOM',
+        in_param: ['HistIdOrigen', 'HistIdDestino'],
+        out_param: ['ValorSalida']
+    },
+    inseraHistNom: {
+        sp_name: 'MOD_PARAM.P_IMPORTA_HIST_NOM',
+        in_param:['Rep','Te','IdNom'],
+        out_param: ['ValorSalida']
     },
     cargaLiqJSON: {
         sp_name: 'MOD_REPORTES.CARGA_JSNOLIQ',
-        in_param: {
-            Periodo: 'vPeriodo',
-            GrupoRep: 'vGrupoRep',
-            Rep: 'vRep_liq',
-            IdPersona: 'vIdPers_liq',
-            CargoId: 'vIdCargo_liq',
-            TipoLiq: 'vIdTipoLiq',
-            GrupoAdicional: 'vIdGrupoAdic'
-        },
-        out_param: {}
+        in_param: ['Periodo', 'GrupoRep', 'Rep', 'IdPersona', 'CargoId', 'TipoLiq', 'GrupoAdicional']
     },
     djPrevIncluyeLiqs: {
         sp_name: 'PKG_DDJJ_PREVISIONAL.INCLUYE_TIPOLIQ_PERIODOAPLIC',
-        in_param: {
-            PeriodoDDJJ: 'vPERIODO_DDJJ',
-            TipoLiquidacionId: 'vIDTIPOLIQ',
-            GrupoAdicionalId: 'vIDGRUPOADIC',
-            ReparticionId: 'vIDREP',
-            PeriodoLiq: 'vPERIODO_LIQ'
-        },
-        out_param: {
-            varName: 'vSALIDA',
-            varErrorName: 'vMSG_ERROR'
-        }
+        in_param: ['PeriodoDDJJ', 'TipoLiquidacionId', 'GrupoAdicionalId', 'ReparticionId', 'PeriodoLiq'],
+        out_param: ['ValorSalida', 'ValorError']
     },
     djPrevExcluyeLiqs: {
         sp_name: 'PKG_DDJJ_PREVISIONAL.EXCLUYE_TIPOLIQ_PERIODOAPLIC',
-        in_param: {
-            PeriodoDDJJ: 'vPERIODO_DDJJ',
-            TipoLiquidacionId: 'vIDTIPOLIQ',
-            GrupoAdicionalId: 'vIDGRUPOADIC',
-            ReparticionId: 'vIDREP',
-            PeriodoLiq: 'vPERIODO_LIQ'
-        },
-        out_param: {
-            varName: 'vSALIDA',
-            varErrorName: 'vMSG_ERROR'
-        }
+        in_param: ['PeriodoDDJJ', 'TipoLiquidacionId', 'GrupoAdicionalId', 'ReparticionId', 'PeriodoLiq'],
+        out_param: ['ValorSalida', 'ValorError']
     },
     djPrevCargaResumen: {
         sp_name: 'PKG_DDJJ_PREVISIONAL.CARGA_RESUMEN',
-        in_param: {
-            PeriodoDDJJ: 'vPERIODO'
-        },
-        out_param: {
-            varName: 'vSALIDA',
-            varErrorName: 'vMSG_ERROR'
-        }
+        in_param: ['PeriodoDDJJ'],
+        out_param: ['ValorSalida', 'ValorError']
     },
     djPrevCargaDDJJ: {
         sp_name: 'PKG_DDJJ_PREVISIONAL.CARGA_DDJJ',
-        in_param: {
-            PeriodoDDJJ: 'vPERIODO'
-        },
-        out_param: {
-            varName: 'vSALIDA',
-            varErrorName: 'vMSG_ERROR'
-        }
+        in_param: ['PeriodoDDJJ'],
+        out_param: ['ValorSalida', 'ValorError']
     },
     archivoIPSST: {
         sp_name: 'mod_exportacion.GENERA_ARCHIVO_IPSST ',
-        in_param: {
-            Periodo: 'vPERIODO',
-            TipoLiquidacionId: 'vIDTIPOLIQ',
-            GrupoAdicionalId: 'vIDGRUPOADI'
-        },
-        out_param: {}
+        in_param: ['Periodo', 'TipoLiquidacionId', 'GrupoAdicionalId']
     },
     estableceNoLey: {
         sp_name: 'MOD_FUNCIONES.ESTABLECE_NOLEY',
-        in_param: {
-            Dni: 'DNI',
-            Tipo: 'TIPO',
-            Periodo: 'PERIODO'
-        },
-        out_param: { varName: 'vSALIDA', varErrorName: 'vMSG_ERROR' }
+        in_param: ['Dni', 'Tipo', 'Periodo'],
+        out_param: ['ValorSalida', 'ValorError']
     },
     eliminaNoLey: {
         sp_name: 'MOD_FUNCIONES.ELIMINA_NOLEY',
-        in_param: {
-            Dni: 'DNI'
-        },
-        out_param: { varName: 'vSALIDA', varErrorName: 'vMSG_ERROR' }
+        in_param: ['Dni'],
+        out_param: ['ValorSalida', 'ValorError']
     },
     generaAcredBco: {
         sp_name: 'MOD_ACREDITACION.P_GENERACION_ACRED_BCO',
-        in_param: {
-            Periodo: 'vPERIODO',
-            TipoLiq: 'vIDTIPOLIQ',
-            GrupoAdicional: 'vIDGRUPOADI',
-            ValorFijo: 'vValorFijo',
-            Cuotas: 'vCantCuotas'
-        },
-        out_param: { varErrorName: 'vError' }
+        in_param: ['Periodo', 'TipoLiq', 'GrupoAdicional', 'ValorFijo', 'Cuotas'],
+        out_param: ['ValorError']
     },
     cursorArchivoBco: {
         sp_name: 'MOD_ACREDITACION.C_ARCHIVO_BCO',
-        in_param: {
-            Periodo: 'vPERIODO',
-            TipoLiq: 'vTIPOLIQ',
-            GrupoAdicional: 'vGRUPOADI',
-            Cuotas: 'vCUOTA'
-        },
-        out_param: { cursor: 'cursor' },
+        in_param: ['Periodo', 'TipoLiq', 'GrupoAdicional', 'Cuotas'],
+        out_param: ['Cursor'],
         fileName: 'AcredBco.txt'
     },
-    totalArchivoBco:{
+    totalArchivoBco: {
         sp_name: 'MOD_ACREDITACION.P_ARCHIVO_BCO_TOT',
-        in_param: {
-            Periodo: 'vPERIODO',
-            TipoLiq: 'vTIPOLIQ',
-            GrupoAdicional: 'vGRUPOADI',
-            Cuota: 'vCUOTA'
-        },
-        out_param: { cantidad: 'vCANT', total: 'vTOTAL' }
+        in_param: ['Periodo', 'TipoLiq', 'GrupoAdicional', 'Cuota'],
+        out_param: ['Cantidad', 'Total']
+    },
+    repTeNomenclador:{
+        sp_name: 'MOD_PARAM.P_REPTENOMENCLADOR',
+        in_param: ['ReparticionId','TipoEmpleoId','NomencladorId','Operacion'],
+        out_param: ['ValorSalida']
+    },
+    eliminaTipoEmpleo:{
+        sp_name: 'MOD_MAESTROS.P_ELIMINA_TIPO_EMPLEO',
+        in_param: ['Id'],
+        out_param: ['ValorSalida', 'ValorError']
+    },
+    eliminaTipoLiq:{
+        sp_name: 'MOD_MAESTROS.P_ELIMINA_TIPO_LIQ',
+        in_param: ['Id'],
+        out_param: ['ValorSalida', 'ValorError']
+    },
+    eliminaSitRev:{
+        sp_name: 'MOD_MAESTROS.P_ELIMINA_SIT_REV',
+        in_param: ['Id'],
+        out_param: ['ValorSalida', 'ValorError']
+    },
+    generaBoletasJSON:{
+        sp_name: 'MOD_REPORTES.CARGA_JSNOLIQ',
+        in_param:['Periodo','GrupoRepId','ReparticionId','PersonaId','CargoId', 'TipoLiquidacionId', 'GrupoAdicionalId' ]
     }
 }

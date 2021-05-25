@@ -35,7 +35,7 @@ module.exports.jsonEntityMap = {
             Id: 'IDTIPOLIQ',
             Descripcion: 'DESCRIPCION'
         },
-        key: { field: "Id" }
+        key: { field: "Id", insert: true }
     },
     tipoos: {
         table: 'TABTIPOOS',
@@ -53,7 +53,15 @@ module.exports.jsonEntityMap = {
             TipoRevistaId: 'IDTIPOREVISTA',
             Porcentaje: 'PORCENTAJE'
         },
-        key: { field: 'Id' }
+        key: { field: 'Id', insert: true }
+    },
+    tipoEmpleo: {
+        table: 'tabtipoempleo',
+        fields: {
+            Id: 'IDTE',
+            Descripcion: 'DESCRIPCION'
+        },
+        key: { field: 'Id', insert: true }
     },
     novhaberes: {
         table: 'NOVHABERES',
@@ -249,7 +257,7 @@ module.exports.jsonEntityMap = {
                 }
             },
             Categoria: 'CATEGORIA',
-            FechaBaja: 'FECHABAJA',            
+            FechaBaja: 'FECHABAJA',
             EstadoCargoId: "IDESTADOCARGO",
             TipoObraSocialId: 'IDTIPOOS',
             TipoObraSocialDescripcion: {
@@ -669,7 +677,7 @@ module.exports.jsonEntityMap = {
         table: 'TABESTADOCARGO',
         fields: {
             Id: 'IDESTADOCARGO',
-            Descripcion: 'DESCRIPCION'            
+            Descripcion: 'DESCRIPCION'
         }
     },
     periodo: {
@@ -677,7 +685,7 @@ module.exports.jsonEntityMap = {
         fields: {
             Periodo: 'PERIODO',
             Activo: 'ACTIVO',
-            Descripcion: 'DESCRIPCION'            
+            Descripcion: 'DESCRIPCION'
         }
     },
     djPrevResumenDJ: {
@@ -687,7 +695,7 @@ module.exports.jsonEntityMap = {
             Periodo: "PERIODO",
             CantAgentes: "CANT_AGENTES",
             HabConAporte: "HABCA",
-            RemActual: "REM_ACTUAL",            
+            RemActual: "REM_ACTUAL",
             RemAtrasada: "REM_ATRASADA",
             RemExcedente: "REM_EXCEDENTE",
             AporteJubilatorio: "AP_JUB",
@@ -695,61 +703,72 @@ module.exports.jsonEntityMap = {
             RemObraSocial: "REM_OS",
             RemTotal: "REMTOT",
             RemSS: "REMSS",
-            Rem02: "REM02",            
-            Rem03: "REM03",            
-            Rem04: "REM04",            
-            Rem05: "REM05",            
-            Rem06: "REM06",            
-            Rem07: "REM07",            
-            Rem08: "REM08",            
-            Rem09: "REM09",                        
-            SueldoYAdi: "SDOADI",            
-            SAC: "SAC",            
+            Rem02: "REM02",
+            Rem03: "REM03",
+            Rem04: "REM04",
+            Rem05: "REM05",
+            Rem06: "REM06",
+            Rem07: "REM07",
+            Rem08: "REM08",
+            Rem09: "REM09",
+            SueldoYAdi: "SDOADI",
+            SAC: "SAC",
             AsigFamiliar: "ASIGF",
-            FechaResumen: "FECHA_RESUMEN",            
-            FechaDDJJ: "FECHA_DDJJ"            
+            FechaResumen: "FECHA_RESUMEN",
+            FechaDDJJ: "FECHA_DDJJ"
         },
         key: {
             field: "Id"
         }
+    }, 
+    boletas: {
+        table: 'LIQ_JSON',
+        fields: {
+            IdLiq: 'IDLIQ',
+            PersonaId: 'IDPERS',
+            TipoLiquidacionId: 'IDTIPOLIQ',
+            GrupoAdicionalId: 'NROADICIONAL',
+            Periodo: 'PERIODO',
+            FechaDev: 'FECHADEV'
+        }
     }
-    
-      /*personaCargoFam: {
-            table: 'PERSONAS_CARGOS_FAM',
-            fields: {
-                Id: 'IDPERS', // Este se vincula a IDPERS
-                PersonaDocumento: {
-                    table: 'PERSONAS',
-                    parentKey: 'IDPERS',
-                    foringKey: 'IDPERS',
-                    fields: {
-                        Documento: 'DNI'
-                    }
-                },
-                PersonaApellidoYNombre: {
-                    table: 'PERSONAS',
-                    parentKey: 'IDPERS',
-                    foringKey: 'IDPERS',
-                    fields: {
-                        ApellidoYNombre: 'APEYNOM'
-                    }
-                },
-                CargoId: 'IDCARGO', // Este se vincula a IDCARGO
-                ReparticionId: '',
-                ReparticionDescripcion: '',
-                Orden: '',
-                Afiliado: '',
-                TipoEmpleoId: '',
-                TipoEmpleoDescripcion: {
-                    table: 'tabtipoempleo',
-                    parentKey: 'IDTE',
-                    foringKey: 'IDTE',
-                    fields: {
-                        Descripcion: 'DESCRIPCION'
-                    }
-                }
-            }
-        }*/
+
+    /*personaCargoFam: {
+          table: 'PERSONAS_CARGOS_FAM',
+          fields: {
+              Id: 'IDPERS', // Este se vincula a IDPERS
+              PersonaDocumento: {
+                  table: 'PERSONAS',
+                  parentKey: 'IDPERS',
+                  foringKey: 'IDPERS',
+                  fields: {
+                      Documento: 'DNI'
+                  }
+              },
+              PersonaApellidoYNombre: {
+                  table: 'PERSONAS',
+                  parentKey: 'IDPERS',
+                  foringKey: 'IDPERS',
+                  fields: {
+                      ApellidoYNombre: 'APEYNOM'
+                  }
+              },
+              CargoId: 'IDCARGO', // Este se vincula a IDCARGO
+              ReparticionId: '',
+              ReparticionDescripcion: '',
+              Orden: '',
+              Afiliado: '',
+              TipoEmpleoId: '',
+              TipoEmpleoDescripcion: {
+                  table: 'tabtipoempleo',
+                  parentKey: 'IDTE',
+                  foringKey: 'IDTE',
+                  fields: {
+                      Descripcion: 'DESCRIPCION'
+                  }
+              }
+          }
+      }*/
 }
 
 

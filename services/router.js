@@ -11,6 +11,8 @@ const files = require('../controllers/files.js');
 const app = new express.Router();
 
 const control = require('../controllers/control');
+const controlUser = require('../controllers/controlUsers');
+
 const { json } = require('body-parser');
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -85,6 +87,10 @@ app.route('/xlsx/*').get(control.getxlsx);
 app.route('/txt/*').get(control.getTXT);
 
 app.route('/txtfromsp/*').post(control.getCursorFromSP);
+
+app.route('/adduser').post(controlUser.post);
+
+app.route('/boleta').get(control.getBoletaPDF);
 
 /*
 app.post('/xlsx', function (req, res, next) {

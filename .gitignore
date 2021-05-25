@@ -2,14 +2,14 @@
 # Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/slnx.sqlite
 curltest.txt
 curltest2.txt
 vistaliq.sql
-./node_modules/*
-./config/web_server.js
-./services/access.log
-./*.sql
+node_modules
+config/web_server.js
+services/access.log
+package-lock.json
+*.sql
 
 node_modules/.staging/adler-32-c27b04be/adler32.js
 node_modules/.staging/adler-32-c27b04be/bin/adler32.njs

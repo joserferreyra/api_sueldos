@@ -13,6 +13,8 @@ const repoapi = require('../db_apis/repo');
 
 const xlsxapi = require('../db_apis/xlsx');
 
+const boletaapi = require('../db_apis/boletaPDF');
+
 var fs = require('fs');
 var path = require('path');
 const { simpleExecute, getConnection } = require('../services/database');
@@ -20,6 +22,18 @@ const database = require('../config/database');
 //var URL = require('url');
 
 // private func
+
+function getEntityArrayValues(req, entity) {
+    let object = {};
+
+    entity.forEach(element => {
+        if (req.body[element] != undefined) {
+            object[element] = req.body[element];
+        }
+    });
+
+    return object;
+}
 
 function getEntityValues(req, entity) {
     let object = {};
@@ -42,7 +56,7 @@ async function get(req, res, next) {
 
         context = req.query;
 
-        let entityName = req.path.substring(1,);
+        let entityName = req.path.substring(1);
 
         if (mapper.jsonEntityMap[entityName]) {
             result = await entityapi.find(context, mapper.jsonEntityMap[entityName]);
@@ -61,7 +75,7 @@ async function get(req, res, next) {
 
 async function post(req, res, next) {
     try {
-        let entityName = req.path.substring(1,);
+        let entityName = req.path.substring(1);
 
         let context = getEntityValues(req, mapper.jsonEntityMap[entityName].fields);
 
@@ -81,7 +95,7 @@ async function post(req, res, next) {
 
 async function put(req, res, next) {
     try {
-        let entityName = req.path.substring(1,);
+        let entityName = req.path.substring(1);
 
         let context = getEntityValues(req, mapper.jsonEntityMap[entityName].fields);
 
@@ -105,7 +119,7 @@ async function put(req, res, next) {
 
 async function del(req, res, next) {
     try {
-        let entityName = req.path.substring(1,);
+        let entityName = req.path.substring(1);
 
         let context = getEntityValues(req, mapper.jsonEntityMap[entityName].fields);
 
@@ -135,7 +149,7 @@ async function getView(req, res, next) {
         context = req.query;
 
         //let entityName = 'personaCargoLiq';
-        let entityName = req.path.substring(6,);
+        let entityName = req.path.substring(6);
         //console.log(entityName);
 
         if (mapperViews.jsonViewMap[entityName]) {
@@ -161,7 +175,7 @@ async function execSP(req, res, next) {
         context = req.body;
         //console.log(req);
 
-        let spName = req.path.substring(4,);
+        let spName = req.path.substring(4);
         //console.log(spName);
 
         if (spmapper.jsonStoreProcedure[spName]) {
@@ -188,7 +202,7 @@ async function execFN(req, res, next) {
         context = req.body;
         //context = req.query;
 
-        let spName = req.path.substring(4,);
+        let spName = req.path.substring(4);
 
         if (fnmapper.jsonStoreFunction[spName]) {
             result = await fnapi.execFn(context, fnmapper.jsonStoreFunction[spName]);
@@ -293,7 +307,7 @@ async function getRepo(req, res, next) {
         context = req.query;
 
         //let entityName = 'personaCargoLiq';
-        let repoName = req.path.substring(6,);
+        let repoName = req.path.substring(6);
         //console.log(entityName);
 
         if (repomapper.jsonReportes[repoName]) {
@@ -324,7 +338,7 @@ async function getxlsx(req, res, next) {
     let result;
 
     context = req.query;
-    let repoName = req.path.substring(6,);
+    let repoName = req.path.substring(6);
 
     if (repomapper.jsonReportes[repoName]) {
         result = await repoapi.getRepo(context, repomapper.jsonReportes[repoName]);
@@ -351,7 +365,7 @@ async function getTXT(req, res, next) {
 
         context = req.query;
 
-        let entityName = req.path.substring(5,);
+        let entityName = req.path.substring(5);
 
         if (mapperViews.jsonViewMap[entityName]) {
             result = await viewapi.getView(context, mapperViews.jsonViewMap[entityName]);
@@ -404,7 +418,7 @@ async function getTXTipsst(req, res, next) {
 
         context = req.query;
 
-        let entityName = req.path.substring(5,);
+        let entityName = req.path.substring(5);
         //console.log(entityName);
 
         if (mapperViews.jsonViewMap[entityName]) {
@@ -448,9 +462,9 @@ async function getCursorFromSP(req, res, next) {
 
         let result;
 
-        let spName = req.path.substring(11,);
+        let spName = req.path.substring(11);
 
-        let context = getEntityValues(req, spmapper.jsonStoreProcedure[spName].in_param);
+        let context = getEntityArrayValues(req, spmapper.jsonStoreProcedure[spName].in_param);
 
         const query = spapi.getSQLcall(spmapper.jsonStoreProcedure[spName]);
         const binds = spapi.getSQLbinds(context, spmapper.jsonStoreProcedure[spName]);
@@ -461,19 +475,19 @@ async function getCursorFromSP(req, res, next) {
         if (spmapper.jsonStoreProcedure[spName]) {
 
             let conn = await getConnection();
-            
+
             result = await conn.execute(query, binds);
-            
+
             let txt = '';
 
-            const rs = result.outBinds.cursor;
+            const rs = result.outBinds.Cursor;
             let row;
             let i = 1;
-            
+
             while ((row = await rs.getRow())) {
-              //console.log("getRow(): row " + i++);
-              //console.log(row);
-              txt = txt + row.toString() + '\n';
+                //console.log("getRow(): row " + i++);
+                //console.log(row);
+                txt = txt + row.toString() + '\n';
             }
 
             await rs.close();
@@ -501,6 +515,52 @@ async function getCursorFromSP(req, res, next) {
     }
 }
 
+async function getBoletaPDF(req, res, next) {
+
+    try {
+        let context = {};
+        let result;
+
+        context = req.query;
+
+        let entityName = 'jsonliq';
+        //let entityName = req.path.substring(5,);
+        //console.log(entityName);
+
+        if (mapperViews.jsonViewMap[entityName]) {
+            result = await viewapi.getView(context, mapperViews.jsonViewMap[entityName]);
+        }
+
+        //console.log(result);
+
+        if (result && result.rows.length > 0) {
+
+            //boletaapi.getPDF(result.rows[0].JSON);
+            let json = JSON.parse(result.rows[0]['JSON']);
+
+            let filePDF = await boletaapi.createPdf(json);
+
+            //const buf = filePDF;
+            let liq = json.liqcabecera.liquidacion;
+
+            let fileName = liq.periodo + '_' + liq.tipoliq + '_' + json.liqcabecera.cargo.apellido;
+
+            //res.setHeader('Content-Length', buf.length);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename='+fileName);
+            res.write(filePDF);
+            res.end();
+
+        } else {
+            res.status(404).end();
+        }
+
+    } catch (err) {
+        next(err);
+    }
+
+}
+
 module.exports.getEntities = getEntities;
 module.exports.execSP = execSP;
 module.exports.execFN = execFN;
@@ -523,3 +583,5 @@ module.exports.getTXT = getTXT;
 module.exports.getTXTipsst = getTXTipsst;
 
 module.exports.getCursorFromSP = getCursorFromSP;
+
+module.exports.getBoletaPDF = getBoletaPDF;
