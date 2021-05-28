@@ -6,12 +6,14 @@ module.exports.jsonStoreProcedure = {
     liq: {
         sp_name: 'MOD_LIQUIDACION.LIQ_PRINCIPAL',
         in_param: ['Periodo', 'GrupoRep', 'Rep', 'IdPersona', 'CargoId', 'TipoLiq', 'GrupoAdicional'],
-        log: { status: true, type: 1 }
+        log: { status: false, type: 1 },
+        opt:{sync: true}
     },
     transform: {
         sp_name: 'MOD_TRANS_NOV.PRINCIPAL',
         in_param: ['Periodo', 'GrupoRep', 'TipoLiq', 'GrupoAdicional'],
-        log: { status: true, type: 1 }
+        log: { status: false, type: 1 },
+        opt:{sync: true}
     },
     cabeceraValorCat: {
         sp_name: 'MOD_PARAM.P_DESC_CABVALCAT',
