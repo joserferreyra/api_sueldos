@@ -3,21 +3,33 @@ const oracledb = require('oracledb');
 const { startup } = require('oracledb');
 
 function getSQLcall(sp) {
-    let sqlCab = 'BEGIN ' + sp.sp_name + '(';
+    let sqlCab = 'BEGIN ' + sp.sp_name;
     let first = true;
 
-    sp.in_param.forEach(element => {
-        if (first) {
-            first = false;
-        } else {
-            sqlCab += ', ';
-        }
-        sqlCab += ':' + element;
-    });
+    if (sp['in_param']) {
+
+        sp.in_param.forEach(element => {
+            if (first) {
+                sqlCab += '(';
+                first = false;
+            } else {
+                sqlCab += ', ';
+            }
+            sqlCab += ':' + element;
+        });
+    }else{
+        sqlCab += '(';
+        first = true;
+    }    
 
     if (sp['out_param']) {
-        sp.out_param.forEach(element =>{
-            sqlCab += ', :' + element;
+        sp.out_param.forEach(element => {
+            if (first) {
+                sqlCab += ' :' + element;
+                first = false;
+            } else {
+                sqlCab += ', :' + element;
+            }            
         });
     }
 
@@ -34,11 +46,11 @@ function getSQLbinds(context, sp) {
     }
 
     if (sp['out_param']) {
-        sp.out_param.forEach(element =>{
-            if (element!='Cursor'){
+        sp.out_param.forEach(element => {
+            if (element != 'Cursor') {
                 binds[element] = { dir: oracledb.BIND_OUT };
-            }else{
-                binds[element] = { type: oracledb.CURSOR, dir: oracledb.BIND_OUT };        
+            } else {
+                binds[element] = { type: oracledb.CURSOR, dir: oracledb.BIND_OUT };
             }
         });
     }
@@ -57,12 +69,13 @@ async function execStoreProcedure(context, sp) {
     let json = {}
 
     const status = sp['log'] ? sp.log['status'] : false;
+    const syncro = sp['opt'] ? sp.log['sync'] : true;
 
     //console.log(status);
 
     const start = new Date().now;
 
-    if (status) {
+    /*if (status) {
 
         let idnum = 0;
 
@@ -82,6 +95,7 @@ async function execStoreProcedure(context, sp) {
                 tipo: sp.log['type']
             }
         );
+        
 
         result = await database.simpleExecute(query, binds);
 
@@ -92,12 +106,23 @@ async function execStoreProcedure(context, sp) {
                 vid: idnum
             }
         )
+        
 
     } else {
+        */
 
+    console.log(query);
+    console.log(binds);
+
+    if (syncro){
         result = await database.simpleExecute(query, binds);
+    }else{
+        result = database.simpleExecute(query, binds);
+    }    
 
-    }
+    //console.log("Fin ejecución");
+
+    //}
 
     const millis = Date.now() - start;
 

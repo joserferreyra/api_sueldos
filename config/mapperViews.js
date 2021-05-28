@@ -237,8 +237,8 @@ module.exports.jsonViewMap = {
             Id: "l.id",
             Estado: "(case when fin is null then 'En ejecucion' else 'Terminado' end)",
             Procedimiento: "l.sp",
-            Inicio: "TO_CHAR((inicio), 'YYYY-MM-DD HH:MM:SS AM')",
-            Fin: "TO_CHAR((fin), 'YYYY-MM-DD HH:MM:SS AM')",
+            Inicio: "TO_CHAR((inicio), 'YYYY-MM-DD HH24:MI:SS')",
+            Fin: "TO_CHAR((fin), 'YYYY-MM-DD HH24:MI:SS')",
             Parametros: "l.binds",
             Tipo: "l.tipo"
         },
