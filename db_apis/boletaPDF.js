@@ -124,7 +124,8 @@ async function createPdf(json) {
     });
 
     const pdfBytes = await pdfDoc.save();
-
+    //const base64DataUri = await pdfDoc.saveAsBase64({ dataUri: true })
+    
     return pdfBytes;
 
     //fs.writeFileSync(`_${jcab.apellido}_${jcab.dni}.pdf`, pdfBytes,'utf8');
