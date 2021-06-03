@@ -350,22 +350,60 @@ module.exports.jsonViewMap = {
         }
     },
     repTeNomenclador: {
-        fields:{
-            ReparticionId:"REPTENOMENCLADOR.IDREP",
-            ReparticionDescripcion:"REPARTICION.DESCRIPCION",
-            TipoEmpleoId:"REPTENOMENCLADOR.IDTE",
-            TipoEmpleoDescripcion:"TABTIPOEMPLEO.DESCRIPCION",
-            NomencladorId:"REPTENOMENCLADOR.IDNOM",
-            NomencladorDescripcion:"NOMENCLADOR.DESCRIPCION"
+        fields: {
+            ReparticionId: "REPTENOMENCLADOR.IDREP",
+            ReparticionDescripcion: "REPARTICION.DESCRIPCION",
+            TipoEmpleoId: "REPTENOMENCLADOR.IDTE",
+            TipoEmpleoDescripcion: "TABTIPOEMPLEO.DESCRIPCION",
+            NomencladorId: "REPTENOMENCLADOR.IDNOM",
+            NomencladorDescripcion: "NOMENCLADOR.DESCRIPCION"
         },
-        key:{},
-        sql:{
+        key: {},
+        sql: {
             fromClause: [
                 "FROM REPTENOMENCLADOR",
                 "INNER JOIN REPARTICION ON REPTENOMENCLADOR.IDREP = REPARTICION.IDREP",
                 "INNER JOIN TABTIPOEMPLEO ON REPTENOMENCLADOR.IDTE = TABTIPOEMPLEO.IDTE",
                 "INNER JOIN NOMENCLADOR ON REPTENOMENCLADOR.IDNOM = NOMENCLADOR.IDNOM"
             ]
+        }
+    },
+    boletas: {
+        fields: {
+            LiquidacionId: "liq_json.idliq",
+            PersonaId: "liq_json.idpers",
+            Documento: "personas.dni",
+            Apellido: "personas.apellido",
+            Nombre: "personas.nombre",
+            CargoId: "cargos.idcargo",
+            ReparticionId: "cargos.idrep",
+            Orden: "cargos.orden",
+            Afiliado: "cargos.afiliado",
+            TipoEmpleoId: "cargos.idte",
+            Periodo: "iq_json.periodo",
+            FechaDev: "liq_json.fechadev",
+            TipoLiquidacionId: "liq_json.idtipoliq",
+            TipoLiquidacionDescripcion: "tipoliquidacion.descripcion",
+            GrupoAdicionalId: "liq_json.NROADICIONAL "
+        },
+        key: {},
+        sql: {
+            fromClause: [
+                "from liq_json lj",
+                "inner join liq l on lj.idliq = l.idliq",
+                "inner join cargos c on L.IDCARGO = c.idcargo",
+                "inner join personas p on p.idpers = c.idpers",
+                "inner join tipoliquidacion tl on LJ.IDTIPOLIQ = tl.idtipoliq"
+            ],
+            whereFields: {
+                Documento: "personas.dni",
+                ReparticionId: "cargos.idrep",
+                Orden: "cargos.orden",
+                Periodo: "iq_json.periodo",
+                TipoLiquidacionId: "liq_json.idtipoliq",
+                GrupoAdicionalId: "liq_json.NROADICIONAL "
+            },
+            orderBy: 'ORDER BY cargos.idrep,cargos.ORDEN, iq_json.periodo, iq_json.fechadev'
         }
     }
 

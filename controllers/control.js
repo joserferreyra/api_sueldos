@@ -540,15 +540,17 @@ async function getBoletaPDF(req, res, next) {
 
             let filePDF = await boletaapi.createPdf(json);
 
+            const buf = Buffer.from(filePDF);
+
             //const buf = filePDF;
             let liq = json.liqcabecera.liquidacion;
 
             let fileName = liq.periodo + '_' + liq.tipoliq + '_' + json.liqcabecera.cargo.apellido;
 
-            //res.setHeader('Content-Length', buf.length);
-            //res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', 'attachment; filename='+fileName);
-            res.write(filePDF);
+            res.setHeader('Content-Length', buf.length);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename='+fileName+'.pdf');
+            res.write(buf);
             res.end();
 
         } else {

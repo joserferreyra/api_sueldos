@@ -36,9 +36,9 @@ function simpleExecute(statement, binds = [], opts = {}) {
             } else {
                 query = statement;
             }
-            console.log("Inicio de la ejecución");            
+            //console.log("Inicio de la ejecución");            
             const result = await conn.execute(query, binds, opts);
-            console.log("Fin de la ejecución");
+            //console.log("Fin de la ejecución");
             resolve(result);
         } catch (err) {
             reject(err);
