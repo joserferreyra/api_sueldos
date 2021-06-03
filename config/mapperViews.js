@@ -370,21 +370,21 @@ module.exports.jsonViewMap = {
     },
     boletas: {
         fields: {
-            LiquidacionId: "liq_json.idliq",
-            PersonaId: "liq_json.idpers",
-            Documento: "personas.dni",
-            Apellido: "personas.apellido",
-            Nombre: "personas.nombre",
-            CargoId: "cargos.idcargo",
-            ReparticionId: "cargos.idrep",
-            Orden: "cargos.orden",
-            Afiliado: "cargos.afiliado",
-            TipoEmpleoId: "cargos.idte",
-            Periodo: "iq_json.periodo",
-            FechaDev: "liq_json.fechadev",
-            TipoLiquidacionId: "liq_json.idtipoliq",
-            TipoLiquidacionDescripcion: "tipoliquidacion.descripcion",
-            GrupoAdicionalId: "liq_json.NROADICIONAL "
+            LiquidacionId: "lj.idliq",
+            PersonaId: "lj.idpers",
+            Documento: "p.dni",
+            Apellido: "p.apellido",
+            Nombre: "p.nombre",
+            CargoId: "c.idcargo",
+            ReparticionId: "c.idrep",
+            Orden: "c.orden",
+            Afiliado: "c.afiliado",
+            TipoEmpleoId: "c.idte",
+            Periodo: "lj.periodo",
+            FechaDev: "lj.fechadev",
+            TipoLiquidacionId: "lj.idtipoliq",
+            TipoLiquidacionDescripcion: "tl.descripcion",
+            GrupoAdicionalId: "lj.NROADICIONAL"
         },
         key: {},
         sql: {
@@ -396,14 +396,14 @@ module.exports.jsonViewMap = {
                 "inner join tipoliquidacion tl on LJ.IDTIPOLIQ = tl.idtipoliq"
             ],
             whereFields: {
-                Documento: "personas.dni",
-                ReparticionId: "cargos.idrep",
-                Orden: "cargos.orden",
-                Periodo: "iq_json.periodo",
-                TipoLiquidacionId: "liq_json.idtipoliq",
-                GrupoAdicionalId: "liq_json.NROADICIONAL "
+                Documento: "p.dni",
+                ReparticionId: "c.idrep",
+                Orden: "c.orden",
+                Periodo: "lj.periodo",
+                TipoLiquidacionId: "lj.idtipoliq",
+                GrupoAdicionalId: "lj.NROADICIONAL"
             },
-            orderBy: 'ORDER BY cargos.idrep,cargos.ORDEN, iq_json.periodo, iq_json.fechadev'
+            orderBy: 'ORDER BY c.idrep,c.ORDEN, lj.periodo, lj.fechadev'
         }
     }
 
