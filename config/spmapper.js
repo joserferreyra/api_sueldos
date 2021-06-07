@@ -183,5 +183,10 @@ module.exports.jsonStoreProcedure = {
     generaBoletasJSON:{
         sp_name: 'MOD_REPORTES.CARGA_JSNOLIQ',
         in_param:['Periodo','GrupoRepId','ReparticionId','PersonaId','CargoId', 'TipoLiquidacionId', 'GrupoAdicionalId' ]
+    },
+    eliminaTipoRev: {
+        sp_name: "MOD_MAESTROS.P_ELIMINA_TIPO_REV",
+        in_param: ["Id"],
+        out_param: ["ValorSalida", "ValorError"]
     }
 }

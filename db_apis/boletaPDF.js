@@ -36,12 +36,12 @@ async function createPdf(json) {
             cadVto = element['vto'].split('/')[2].toString() + ' ' + element['vto'].split('/')[1].toString();
         }
 
-        text = text + '\n' + element['cod'].toString().padStart(4) + element['subcod'].toString().padStart(3, '0') + ' ' + element['desc'].toString().padEnd(30) + element['cantidad'].toString().padStart(7) + cadVto.padStart(10);
+        text = text + '\n' + element['cod'].toString().padStart(4) + element['subcod'].toString().padStart(3, '0') + ' ' + element['desc'].toString().padEnd(30) + element['cant'].toString().padStart(7) + cadVto.padStart(10);
 
         if (element['cod'] < 100) {
-            text = text + element['importe'].toFixed(2).toString().padStart(11);
+            text = text + element['imp'].toFixed(2).toString().padStart(11);
         } else {
-            text = text + element['importe'].toFixed(2).toString().padStart(23);
+            text = text + element['imp'].toFixed(2).toString().padStart(23);
         }
     });
 
@@ -124,7 +124,8 @@ async function createPdf(json) {
     });
 
     const pdfBytes = await pdfDoc.save();
-
+    //const base64DataUri = await pdfDoc.saveAsBase64({ dataUri: true })
+    
     return pdfBytes;
 
     //fs.writeFileSync(`_${jcab.apellido}_${jcab.dni}.pdf`, pdfBytes,'utf8');

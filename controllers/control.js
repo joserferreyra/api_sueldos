@@ -540,16 +540,100 @@ async function getBoletaPDF(req, res, next) {
 
             let filePDF = await boletaapi.createPdf(json);
 
+            const buf = Buffer.from(filePDF);
+
             //const buf = filePDF;
             let liq = json.liqcabecera.liquidacion;
 
             let fileName = liq.periodo + '_' + liq.tipoliq + '_' + json.liqcabecera.cargo.apellido;
 
-            //res.setHeader('Content-Length', buf.length);
+            res.setHeader('Content-Length', buf.length);
             res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', 'attachment; filename='+fileName);
-            res.write(filePDF);
+            res.setHeader('Content-Disposition', 'attachment; filename='+fileName+'.pdf');
+            res.write(buf);
             res.end();
+
+        } else {
+            res.status(404).end();
+        }
+
+    } catch (err) {
+        next(err);
+    }
+
+}
+
+async function getBoletaPDF2(req, res, next) {
+
+    try {
+        let context = {};
+        let result, resultcab;
+
+        context = req.query;
+
+        let entityNameCab = 'boletaCabecera';
+
+        if (mapperViews.jsonViewMap[entityNameCab]) {
+            resultcab = await viewapi.getView(context, mapperViews.jsonViewMap[entityNameCab]);
+        }
+        //console.log(resultcab);
+
+        let entityName = 'boletaDetalle';
+
+        if (mapperViews.jsonViewMap[entityName]) {
+            result = await viewapi.getView(context, mapperViews.jsonViewMap[entityName]);
+        }
+
+        let cadenacab = '';
+
+        if (resultcab.rows.length = 1 && resultcab.rows.length>0){
+            const line = resultcab.rows[0];
+                     
+            cadenacab += line['C1'] + '\n';
+            cadenacab += line['C2'] + '\n';
+            cadenacab += line['C3'] + '\n';
+            cadenacab += line['C4'] + '\n';
+            cadenacab += line['C5'] + '\n';
+            
+        }
+
+        let cadenadet = '';
+
+        let hab = 0, ret = 0;
+
+        if (result && result.rows.length > 0) {
+
+            result.rows.forEach(element => {
+                cadenadet += element['CADENA'].replace('  0.00', '      ')+'\n';
+                hab += element['HABERES'];
+                ret += element['RETENCIONES'];
+            });
+
+            const liquid = hab -ret;
+
+            let cadenapie = Intl.NumberFormat('en-IN').format(hab.toFixed(2)).padStart(77) + Intl.NumberFormat('en-IN').format(ret.toFixed(2)).padStart(20)+'\n\n';
+            cadenapie += 'LIQUIDO: '.padStart(77) + Intl.NumberFormat('en-IN').format(liquid.toFixed(2)).padStart(20);
+
+            const textByline = cadenacab.toString().split('\n');
+
+            var pdfDoc = new PDFDocument;
+            pdfDoc.pipe(fs.createWriteStream('output.pdf'));
+
+            for (let index = 0; index < textByline.length; index++) {
+                const element = textByline[index];
+                pdfDoc.text(element, { align: 'center'});
+            }
+            
+
+            //console.log(cadenacab);
+            //console.log(cadenadet);
+            //console.log(cadenapie);
+
+            
+            pdfDoc.end();
+
+
+            res.status(200).end();
 
         } else {
             res.status(404).end();
@@ -585,3 +669,5 @@ module.exports.getTXTipsst = getTXTipsst;
 module.exports.getCursorFromSP = getCursorFromSP;
 
 module.exports.getBoletaPDF = getBoletaPDF;
+
+module.exports.getBoletaPDF2 = getBoletaPDF2;
