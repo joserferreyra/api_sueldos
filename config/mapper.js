@@ -51,9 +51,28 @@ module.exports.jsonEntityMap = {
             Id: 'IDSITREV',
             Descripcion: 'DESCRIPCION',
             TipoRevistaId: 'IDTIPOREVISTA',
-            Porcentaje: 'PORCENTAJE'
+            Porcentaje: 'PORCENTAJE',
+            TipoRevistaDescripcion: {
+                table: 'tabtiporevista',
+                parentKey: 'IDTIPOREVISTA',
+                foringKey: 'IDTIPOREVISTA',
+                fields: {
+                    Descripcion: 'DESCRIPCION'
+                }
+            }
         },
         key: { field: 'Id', insert: true }
+    },
+    tiporevista: {
+        table: "tabtiporevista",
+        fields: {
+            Id: "IDTIPOREVISTA",
+            Descripcion: "DESCRIPCION"
+        },
+        key: {
+            field: "Id",
+            insert: true
+        }
     },
     tipoEmpleo: {
         table: 'tabtipoempleo',

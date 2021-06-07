@@ -400,7 +400,7 @@ async function find(context, entity) {
 
     let fullQuery = query + queryWhere.where;
 
-    console.log(fullQuery, queryWhere.binds);
+    //console.log(fullQuery, queryWhere.binds);
 
     const result = await database.simpleExecute(fullQuery, queryWhere.binds);
 

@@ -396,6 +396,7 @@ module.exports.jsonViewMap = {
                 "inner join tipoliquidacion tl on LJ.IDTIPOLIQ = tl.idtipoliq"
             ],
             whereFields: {
+                LiquidacionId: "lj.idliq",
                 Documento: "p.dni",
                 ReparticionId: "c.idrep",
                 Orden: "c.orden",
@@ -405,7 +406,55 @@ module.exports.jsonViewMap = {
             },
             orderBy: 'ORDER BY c.idrep,c.ORDEN, lj.periodo, lj.fechadev'
         }
+    },
+    boletaCabecera:{
+        fields:{
+            IdLiq: "l.idliq",
+            c1:"rpad(r.idrep,7) || rpad(r.descripcion,35) || lpad('CUIT ' || substr(to_char(r.cuit),1,2)||'-'||substr(to_char(r.cuit),3,8)||'-'||substr(to_char(r.cuit),11,1), 55 )",
+            c2: "rpad(' ',7, ' ') ||'DIRECCION ' || upper(r.direccion)",
+            c3: "rpad(' ',7, ' ') ||'APELLIDO: ' || rpad(upper(p.apellido),18) || 'NOMBRE: ' || rpad(upper(p.nombre),35) ||  lpad('CUIL '|| substr(to_char(p.cuil),1,2)||'-'||substr(to_char(p.cuil),3,8)||'-'||substr(to_char(p.cuil),11,1), 19)",
+            c4:"rpad(' ',7, ' ') || rpad('ORDEN: ' ||c.ORDEN, 20) || rpad('AFILIADO: '||c.AFILIADO, 20) || rpad('CAT: '||C.CATEGORIA,20) || lpad(c.idte || c.idsitrev || c.idtipoos || c.salario, 30)",
+            c5: "rpad(' ',7, ' ') ||rpad('LIQUIDACION '|| tl.descripcion, 75) ||'PERIODO '||to_char(l.periodo,'MM/YYYY')"
+        },
+        sql:{
+            fromClause:[
+                'from liq l',
+                'inner join cargos c on c.idcargo = L.IDCARGO',
+                'inner join personas p on p.idpers = c.idpers',
+                'inner join reparticion r on r.idrep = c.idrep',
+                'inner join tipoliquidacion tl on tl.idtipoliq = l.idtipoliq'
+            ],
+            whereFields:{
+                IdLiq: "l.idliq"
+            }
+        }
+    },
+    boletaDetalle:{
+        fields:{
+            IdLiq: "li.idliq",
+            Cadena: `lpad(con.codigo,3,' ')||'  ' ||lpad(con.subcod,5,' ') ||' '|| rpad(li.descripcion,30,' ') || ' ' ||
+            lpad(li.cantidad,7,' ') || ' ' || lpad(nvl(to_char(li.vto,'mm/yyyy'),' '),7,' ')
+            ||'  '||lpad(to_char(sum(case when tc.idtipoconcepto in (1,2,4,7) then li.impticket else 0 end), '9,999,990.00' ),18,' ')
+            ||'  '||lpad(to_char(sum(case when tc.idtipoconcepto in (3,6) then li.impticket else 0 end), '9,999,990.00' ),18,' ')`,
+            Haberes: "sum(case when tc.idtipoconcepto in (1,2,4,7) then li.impticket else 0 end)",
+            Retenciones: "sum(case when tc.idtipoconcepto in (3,6) then li.impticket else 0 end)"
+        },
+        sql:{
+            fromClause: [
+                "from liqitem li",
+                "inner join concepto con on con.idconcepto = li.idconcepto",
+                "inner join tabtipoconcepto tc on tc.idtipoconcepto = con.idtipoconcepto and tc.idtipoconcepto <>5"
+            ],            
+            whereFields:{
+                IdLiq: "li.idliq"
+            },
+            groupClause:[
+                "group by (li.idliq, con.codigo, con.subcod, li.cantidad, li.vto, li.descripcion, tc.idtipoconcepto)",
+                "order by con.codigo, con.subcod"
+            ]
+        }   
     }
+
 
     /*,
     archivoAcred: {
