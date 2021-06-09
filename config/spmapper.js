@@ -180,9 +180,9 @@ module.exports.jsonStoreProcedure = {
         in_param: ['Id'],
         out_param: ['ValorSalida', 'ValorError']
     },
-    generaBoletasJSON:{
-        sp_name: 'MOD_REPORTES.CARGA_JSNOLIQ',
-        in_param:['Periodo','GrupoRepId','ReparticionId','PersonaId','CargoId', 'TipoLiquidacionId', 'GrupoAdicionalId' ]
+    generaResumenLiq:{
+        sp_name: 'MOD_REPORTES.carga_resumenliq',
+        in_param:['IdLiq','Periodo','TipoLiquidacionId', 'GrupoAdicionalId' ]
     },
     eliminaTipoRev: {
         sp_name: "MOD_MAESTROS.P_ELIMINA_TIPO_REV",

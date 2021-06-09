@@ -141,18 +141,6 @@ module.exports.jsonViewMap = {
             ]
         }
     },
-    jsonliq: {
-        fields: {
-            IdLiq: "idliq",
-            json: `'{ "liqcabecera":' || cab || ', "liqdetalle":' || det ||', "liqresumen":' ||res|| '}'`
-        },
-        key: { field: "IdLiq" },
-        sql: {
-            fromClause: [
-                "from liq_json"
-            ]
-        }
-    },
     djPrevLiqsPeriodoDJ: {
         fields: {
             Id: "DDJJ_Liquidaciones.Id",
@@ -276,32 +264,6 @@ module.exports.jsonViewMap = {
             orderBy: 'ORDER BY C.ORDEN'
         }
     },
-    /*
-    acredBancoDet: {
-        fields: {
-            AcredDetId: "ACRED_BCO_DET.IDACREDDET",
-            AcredCabId: "ACRED_BCO_DET.IDACREDCAB",
-            LiquidacionId: "ACRED_BCO_DET.IDLIQ",
-            PersonaId: "ACRED_BCO_DET.IDPERS",
-            Apellido: "PERSONAS.APELLIDO",
-            Nombre: "PERSONAS.NOMBRE",
-            Neto: "ACRED_BCO_DET.NETO",
-            ValorFijo: "ACRED_BCO_DET.VALFIJO",
-            Cuota: "ACRED_BCO_DET.CUOTA1",
-            UltCuota: "ACRED_BCO_DET.CUOTA2",
-            Cuenta: "ACRED_BCO_DET.CUENTA",
-            Estado: "ACRED_BCO_DET.ESTADO"
-        },
-        key: {
-            field: "AcredDetId"
-        },
-        sql: {
-            fromClause: [
-                "FROM ACRED_BCO_DET",
-                "INNER JOIN PERSONAS ON ACRED_BCO_DET.IDPERS = PERSONAS.IDPERS"
-            ]
-        }
-    }, */
     acredBancoDet: {
         fields: {
             AcredDetId: "ACRED_BCO_DET.IDACREDDET",
@@ -370,8 +332,8 @@ module.exports.jsonViewMap = {
     },
     boletas: {
         fields: {
-            LiquidacionId: "lj.idliq",
-            PersonaId: "lj.idpers",
+            LiquidacionId: "r.idliq",
+            PersonaId: "p.idpers",
             Documento: "p.dni",
             Apellido: "p.apellido",
             Nombre: "p.nombre",
@@ -380,124 +342,90 @@ module.exports.jsonViewMap = {
             Orden: "c.orden",
             Afiliado: "c.afiliado",
             TipoEmpleoId: "c.idte",
-            Periodo: "lj.periodo",
-            FechaDev: "lj.fechadev",
-            TipoLiquidacionId: "lj.idtipoliq",
+            Periodo: "r.periodo",
+            FechaDev: "r.fechadev",
+            TipoLiquidacionId: "r.idtipoliq",
             TipoLiquidacionDescripcion: "tl.descripcion",
-            GrupoAdicionalId: "lj.NROADICIONAL"
+            GrupoAdicionalId: "r.NROADICIONAL",
+            Neto: "r.NETO",
+            Estado: "r.IDESTADO"
         },
         key: {},
         sql: {
             fromClause: [
-                "from liq_json lj",
-                "inner join liq l on lj.idliq = l.idliq",
-                "inner join cargos c on L.IDCARGO = c.idcargo",
+                "from resumenliq r",
+                "inner join cargos c on c.IDCARGO = r.idcargo",
                 "inner join personas p on p.idpers = c.idpers",
-                "inner join tipoliquidacion tl on LJ.IDTIPOLIQ = tl.idtipoliq"
+                "inner join tipoliquidacion tl on r.IDTIPOLIQ = tl.idtipoliq"
             ],
             whereFields: {
-                LiquidacionId: "lj.idliq",
+                LiquidacionId: "r.idliq",
                 Documento: "p.dni",
                 ReparticionId: "c.idrep",
                 Orden: "c.orden",
-                Periodo: "lj.periodo",
-                TipoLiquidacionId: "lj.idtipoliq",
-                GrupoAdicionalId: "lj.NROADICIONAL"
+                Periodo: "r.periodo",
+                TipoLiquidacionId: "r.idtipoliq",
+                GrupoAdicionalId: "r.NROADICIONAL"
             },
-            orderBy: 'ORDER BY c.idrep,c.ORDEN, lj.periodo, lj.fechadev'
+            orderBy: 'ORDER BY c.idrep,c.ORDEN, r.periodo, r.fechadev'
         }
     },
-    boletaCabecera:{
-        fields:{
+    boletaCabPie: {
+        fields: {
             IdLiq: "l.idliq",
-            c1:"rpad(r.idrep,7) || rpad(r.descripcion,35) || lpad('CUIT ' || substr(to_char(r.cuit),1,2)||'-'||substr(to_char(r.cuit),3,8)||'-'||substr(to_char(r.cuit),11,1), 55 )",
+            c1: "rpad(r.idrep,7) || rpad(r.descripcion,35) || lpad('CUIT ' || substr(to_char(r.cuit),1,2)||'-'||substr(to_char(r.cuit),3,8)||'-'||substr(to_char(r.cuit),11,1), 57 )",
             c2: "rpad(' ',7, ' ') ||'DIRECCION ' || upper(r.direccion)",
-            c3: "rpad(' ',7, ' ') ||'APELLIDO: ' || rpad(upper(p.apellido),18) || 'NOMBRE: ' || rpad(upper(p.nombre),35) ||  lpad('CUIL '|| substr(to_char(p.cuil),1,2)||'-'||substr(to_char(p.cuil),3,8)||'-'||substr(to_char(p.cuil),11,1), 19)",
-            c4:"rpad(' ',7, ' ') || rpad('ORDEN: ' ||c.ORDEN, 20) || rpad('AFILIADO: '||c.AFILIADO, 20) || rpad('CAT: '||C.CATEGORIA,20) || lpad(c.idte || c.idsitrev || c.idtipoos || c.salario, 30)",
-            c5: "rpad(' ',7, ' ') ||rpad('LIQUIDACION '|| tl.descripcion, 75) ||'PERIODO '||to_char(l.periodo,'MM/YYYY')"
+            c3: "rpad(' ',7, ' ') ||'APELLIDO: ' || rpad(upper(p.apellido),18) || 'NOMBRE: ' || rpad(upper(p.nombre),35) ||  lpad('CUIL '|| substr(to_char(p.cuil),1,2)||'-'||substr(to_char(p.cuil),3,8)||'-'||substr(to_char(p.cuil),11,1), 21)",
+            c4: "rpad(' ',7, ' ') || rpad('ORDEN: ' ||c.ORDEN, 20) || rpad('AFILIADO: '||c.AFILIADO, 20) || rpad('CAT: '||C.CATEGORIA,20) || lpad(c.idte || c.idsitrev || c.idtipoos || c.salario, 32)",
+            c5: "rpad(' ',7, ' ') ||rpad('LIQUIDACION '|| tl.descripcion, 77) ||'PERIODO '||to_char(l.periodo,'MM/YYYY')",
+            habcap: "l.habcap",
+            habsap: "l.habsap",
+            habley: "l.habley",
+            descley: "l.descley",
+            descvarios: "l.descvarios",
+            neto: "l.neto",
+            habtxt: "lpad(to_char(l.habcap+l.habsap+l.habley, '9,999,990.00' ),18,' ')",
+            rettxt: "lpad(to_char(l.descley + l.descvarios, '9,999,990.00' ),18,' ')",
+            netotxt: "lpad(to_char(l.neto, '9,999,990.00' ),18,' ')",
+            filename: "to_char(l.periodo,'MMYYYY')||'_'||substr(tl.descripcion,0,3)||'_'||upper(p.apellido)||'_'||upper(p.nombre)"
         },
-        sql:{
-            fromClause:[
-                'from liq l',
+        sql: {
+            fromClause: [
+                'from resumenliq l',
                 'inner join cargos c on c.idcargo = L.IDCARGO',
                 'inner join personas p on p.idpers = c.idpers',
                 'inner join reparticion r on r.idrep = c.idrep',
                 'inner join tipoliquidacion tl on tl.idtipoliq = l.idtipoliq'
             ],
-            whereFields:{
+            whereFields: {
                 IdLiq: "l.idliq"
             }
         }
     },
-    boletaDetalle:{
-        fields:{
+    boletaDetalle: {
+        fields: {
             IdLiq: "li.idliq",
             Cadena: `lpad(con.codigo,3,' ')||'  ' ||lpad(con.subcod,5,' ') ||' '|| rpad(li.descripcion,30,' ') || ' ' ||
-            lpad(li.cantidad,7,' ') || ' ' || lpad(nvl(to_char(li.vto,'mm/yyyy'),' '),7,' ')
-            ||'  '||lpad(to_char(sum(case when tc.idtipoconcepto in (1,2,4,7) then li.impticket else 0 end), '9,999,990.00' ),18,' ')
-            ||'  '||lpad(to_char(sum(case when tc.idtipoconcepto in (3,6) then li.impticket else 0 end), '9,999,990.00' ),18,' ')`,
+            lpad(li.cantidad,7,' ') || ' ' || lpad(nvl(to_char(li.vto,'mm/yyyy'),' '),10,' ')
+            ||' '||lpad(to_char(sum(case when tc.idtipoconcepto in (1,2,4,7) then li.impticket else 0 end), '9,999,990.00' ),18,' ')
+            ||' '||lpad(to_char(sum(case when tc.idtipoconcepto in (3,6) then li.impticket else 0 end), '9,999,990.00' ),18,' ')`,
             Haberes: "sum(case when tc.idtipoconcepto in (1,2,4,7) then li.impticket else 0 end)",
             Retenciones: "sum(case when tc.idtipoconcepto in (3,6) then li.impticket else 0 end)"
         },
-        sql:{
+        sql: {
             fromClause: [
-                "from liqitem li",
+                "from resumenliq r",
+                "inner join liqitem li on li.idliq = r.idliq",
                 "inner join concepto con on con.idconcepto = li.idconcepto",
                 "inner join tabtipoconcepto tc on tc.idtipoconcepto = con.idtipoconcepto and tc.idtipoconcepto <>5"
-            ],            
-            whereFields:{
+            ],
+            whereFields: {
                 IdLiq: "li.idliq"
             },
-            groupClause:[
+            groupClause: [
                 "group by (li.idliq, con.codigo, con.subcod, li.cantidad, li.vto, li.descripcion, tc.idtipoconcepto)",
                 "order by con.codigo, con.subcod"
             ]
-        }   
-    }
-
-
-    /*,
-    archivoAcred: {
-        fields: {
-            Cadena: `LPAD(P.DNI,10,' ')||LPAD(NVL(P.CUIL,0),11,'0')||LPAD(ABD.CUENTA,15,' ')||'                      '||
-            (CASE WHEN :CUOTA = 0 THEN LPAD((ABD.VALFIJO*100),9,' ') ELSE 
-              (CASE WHEN :CUOTA = 1 THEN LPAD((ABD.CUOTA1*100),9,' ') ELSE LPAD((ABD.CUOTA2*100),9,' ') END)END) ||
-            RPAD(SUBSTR(P.APELLIDO,1,20),20,' ')||
-            RPAD(SUBSTR(P.NOMBRE,1,20),20,' ')|| 
-            '90909'`
-        },
-        sql:{
-            fromClause:[
-                'from US_SUELDO.ACRED_BCO_CAB ABC',
-                'INNER JOIN US_SUELDO.ACRED_BCO_DET ABD ON ABD.IDACREDCAB = ABC.IDACREDCAB',
-                'INNER JOIN US_SUELDO.PERSONAS P ON P.IDPERS = ABD.IDPERS',
-                'INNER JOIN US_SUELDO.LIQ L ON L.IDLIQ = ABD.IDLIQ',
-                'INNER JOIN US_SUELDO.CARGOS C ON C.IDCARGO = L.IDCARGO'
-            ]
         }
     }
-
-    SELECT LPAD(P.DNI, 10, ' ')||
-        LPAD(NVL(P.CUIL, 0), 11, '0') ||
-        LPAD(ABD.CUENTA, 15, ' ') ||
-        '                      ' ||
-        (CASE WHEN: CUOTA = 0 THEN LPAD((ABD.VALFIJO * 100), 9, ' ') ELSE
-            (CASE WHEN : CUOTA = 1 THEN LPAD((ABD.CUOTA1 * 100), 9, ' ') ELSE LPAD((ABD.CUOTA2 * 100), 9, ' ') END)END) ||
-                RPAD(SUBSTR(P.APELLIDO, 1, 20), 20, ' ') ||
-                RPAD(SUBSTR(P.NOMBRE, 1, 20), 20, ' ') ||
-                '90909' AS CADENA
-    from US_SUELDO.ACRED_BCO_CAB ABC
-    INNER JOIN US_SUELDO.ACRED_BCO_DET ABD ON ABD.IDACREDCAB = ABC.IDACREDCAB
-    INNER JOIN US_SUELDO.PERSONAS P ON P.IDPERS = ABD.IDPERS
-    INNER JOIN US_SUELDO.LIQ L ON L.IDLIQ = ABD.IDLIQ
-    INNER JOIN US_SUELDO.CARGOS C ON C.IDCARGO = L.IDCARGO
-    WHERE
-    ABC.PERIODO = to_date('01/03/2021', 'dd/mm/yyyy')
-    AND ABC.IDTIPOLIQ = 1
-    AND ABC.IDGRUPOADI = 0
-    AND NOT TRIM(ABD.CUENTA) IS NULL AND TRIM(ABD.CUENTA) > 0
-    AND(CASE WHEN : CUOTA = 0 THEN ABD.VALFIJO ELSE(CASE WHEN : CUOTA = 1 THEN ABD.CUOTA1 ELSE ABD.CUOTA2 END)END) > 0
-    ORDER BY C.ORDEN;
-    */
-
 }

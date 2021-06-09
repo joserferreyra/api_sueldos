@@ -741,53 +741,19 @@ module.exports.jsonEntityMap = {
         }
     }, 
     boletas: {
-        table: 'LIQ_JSON',
+        table: 'resumenliq ',
         fields: {
             IdLiq: 'IDLIQ',
-            PersonaId: 'IDPERS',
+            IdCargo: 'IDCARGO',
             TipoLiquidacionId: 'IDTIPOLIQ',
             GrupoAdicionalId: 'NROADICIONAL',
             Periodo: 'PERIODO',
             FechaDev: 'FECHADEV'
+        },
+        key: {
+            field: "IdLiq"
         }
     }
-
-    /*personaCargoFam: {
-          table: 'PERSONAS_CARGOS_FAM',
-          fields: {
-              Id: 'IDPERS', // Este se vincula a IDPERS
-              PersonaDocumento: {
-                  table: 'PERSONAS',
-                  parentKey: 'IDPERS',
-                  foringKey: 'IDPERS',
-                  fields: {
-                      Documento: 'DNI'
-                  }
-              },
-              PersonaApellidoYNombre: {
-                  table: 'PERSONAS',
-                  parentKey: 'IDPERS',
-                  foringKey: 'IDPERS',
-                  fields: {
-                      ApellidoYNombre: 'APEYNOM'
-                  }
-              },
-              CargoId: 'IDCARGO', // Este se vincula a IDCARGO
-              ReparticionId: '',
-              ReparticionDescripcion: '',
-              Orden: '',
-              Afiliado: '',
-              TipoEmpleoId: '',
-              TipoEmpleoDescripcion: {
-                  table: 'tabtipoempleo',
-                  parentKey: 'IDTE',
-                  foringKey: 'IDTE',
-                  fields: {
-                      Descripcion: 'DESCRIPCION'
-                  }
-              }
-          }
-      }*/
 }
 
 
