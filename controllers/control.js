@@ -16,6 +16,7 @@ const xlsxapi = require('../db_apis/xlsx');
 const boletaapi = require('../db_apis/boletaPDF');
 
 var fs = require('fs');
+const { PDFDocument, StandardFonts, rgb, PageSizes, BlendMode } = require('pdf-lib');
 var path = require('path');
 const { simpleExecute, getConnection } = require('../services/database');
 const database = require('../config/database');
@@ -549,7 +550,7 @@ async function getBoletaPDF(req, res, next) {
 
             res.setHeader('Content-Length', buf.length);
             res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', 'attachment; filename='+fileName+'.pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename=' + fileName + '.pdf');
             res.write(buf);
             res.end();
 
@@ -567,71 +568,186 @@ async function getBoletaPDF2(req, res, next) {
 
     try {
         let context = {};
-        let result, resultcab;
+        let result, resultcab, datosBoleta;
 
         context = req.query;
 
-        let entityNameCab = 'boletaCabecera';
+        let entityNameCab = 'boletaCabPie';
 
         if (mapperViews.jsonViewMap[entityNameCab]) {
             resultcab = await viewapi.getView(context, mapperViews.jsonViewMap[entityNameCab]);
-        }
-        //console.log(resultcab);
+        };
 
         let entityName = 'boletaDetalle';
 
         if (mapperViews.jsonViewMap[entityName]) {
             result = await viewapi.getView(context, mapperViews.jsonViewMap[entityName]);
-        }
+        };
 
-        let cadenacab = '';
+        let cadenacab = '', cadenapie = '', filename = '';
+        let idLiq = 0;
 
-        if (resultcab.rows.length = 1 && resultcab.rows.length>0){
+        if (resultcab.rows.length = 1 && resultcab.rows.length > 0) {
             const line = resultcab.rows[0];
-                     
+
             cadenacab += line['C1'] + '\n';
             cadenacab += line['C2'] + '\n';
             cadenacab += line['C3'] + '\n';
             cadenacab += line['C4'] + '\n';
             cadenacab += line['C5'] + '\n';
-            
+
+            idLiq = line['IDLIQ'];
+
+            cadenapie += line["HABTXT"].toString().padStart(79);
+            cadenapie += line["RETTXT"].toString().padStart(19) + '\n\n';
+            cadenapie += 'LIQUIDO: '.toString().padStart(79) + line["NETOTXT"].toString().padStart(19) + '\n';
+
+            filename = line['FILENAME'];
+
         }
 
-        let cadenadet = '';
+        let cadenadet = 'Cod Subcod  Descripción                      Cant        Vto            Haberes         Retenciones\n\n';
 
         let hab = 0, ret = 0;
 
         if (result && result.rows.length > 0) {
 
             result.rows.forEach(element => {
-                cadenadet += element['CADENA'].replace('  0.00', '      ')+'\n';
+                cadenadet += element['CADENA'].replace('  0.00', '      ') + '\n';
                 hab += element['HABERES'];
                 ret += element['RETENCIONES'];
             });
 
-            const liquid = hab -ret;
+            const liquid = hab - ret;
 
-            let cadenapie = Intl.NumberFormat('en-IN').format(hab.toFixed(2)).padStart(77) + Intl.NumberFormat('en-IN').format(ret.toFixed(2)).padStart(20)+'\n\n';
-            cadenapie += 'LIQUIDO: '.padStart(77) + Intl.NumberFormat('en-IN').format(liquid.toFixed(2)).padStart(20);
+            cadenapie += '\nRECIBO NRO: '.padStart(77) + idLiq;
 
-            const textByline = cadenacab.toString().split('\n');
+            const text = cadenacab + '\n' + cadenadet + '\n' + cadenapie;
 
-            var pdfDoc = new PDFDocument;
-            pdfDoc.pipe(fs.createWriteStream('output.pdf'));
+            const textByline = text.toString().split('\n');
 
-            for (let index = 0; index < textByline.length; index++) {
-                const element = textByline[index];
-                pdfDoc.text(element, { align: 'center'});
+            const textCab = cadenacab.toString().split('\n');
+            const textDet = cadenadet.toString().split('\n');
+            const textPie = cadenapie.toString().split('\n');
+
+            const pdfDoc = await PDFDocument.create()
+            const fontCur = await pdfDoc.embedFont(StandardFonts.Courier)
+            const fontBold = await pdfDoc.embedFont(StandardFonts.CourierBold)
+
+            const page = pdfDoc.addPage(PageSizes.A4)
+            const { width, height } = page.getSize();
+
+            // Image
+
+            const pngUrl = './escudo.png'
+
+            const pngImageBytes = fs.readFileSync(pngUrl)
+
+            const pngImage = await pdfDoc.embedPng(pngImageBytes)
+
+            const pngDims = pngImage.scale(1)
+
+            page.drawImage(pngImage, {
+                x: page.getWidth() / 2 - pngDims.width / 2,
+                y: (page.getHeight() - 20) / 2 - pngDims.height / 2 + 145,
+                width: pngDims.width,
+                height: pngDims.height,
+                opacity: 0.3,
+                blendMode: BlendMode.SoftLight
+            });
+
+            let fontSize = 9
+            let font = fontCur;
+
+            let xpos = 30;
+            let ypos = 25;
+            let tempHeight = height;
+            font = fontBold;
+
+            for (let index = 0; index < textCab.length; index++) {
+                const element = textCab[index];
+
+                ypos = (tempHeight - 25) - index * fontSize;
+
+                page.drawText(element, {
+                    x: xpos,
+                    y: ypos,
+                    size: fontSize,
+                    font: font,
+                    color: rgb(0, 0, 0),
+                });
+
             }
-            
 
-            //console.log(cadenacab);
-            //console.log(cadenadet);
-            //console.log(cadenapie);
+            page.drawLine({
+                start: { x: xpos, y: ypos },
+                end: { x: width - xpos, y: ypos },
+                thickness: 1,
+                //color: rgb(0.75, 0.2, 0.2),
+                opacity: 0.50,
+            });
 
-            
-            pdfDoc.end();
+            tempHeight = ypos;
 
+            for (let index = 0; index < textDet.length; index++) {
+                const element = textDet[index];
+
+                font = fontCur;
+                ypos = (tempHeight - index - 25) - index * fontSize;
+
+                page.drawText(element, {
+                    x: xpos,
+                    y: ypos,
+                    size: fontSize,
+                    font: font,
+                    color: rgb(0, 0, 0)
+                });
+
+            }
+
+            tempHeight = ypos;
+
+            for (let index = 0; index < (40 - textDet.length); index++) {
+                ypos = (tempHeight - index - 25) - index * fontSize;
+            }
+
+            page.drawLine({
+                start: { x: xpos, y: ypos },
+                end: { x: width - xpos, y: ypos },
+                thickness: 1,
+                //color: rgb(0.75, 0.2, 0.2),
+                opacity: 0.50
+            });
+
+            tempHeight = ypos;
+
+            for (let index = 0; index < textPie.length; index++) {
+                const element = textPie[index];
+
+                font = fontCur;
+                ypos = (tempHeight - index - 25) - index * fontSize;
+
+                page.drawText(element, {
+                    x: xpos,
+                    y: ypos,
+                    size: fontSize,
+                    font: font,
+                    color: rgb(0, 0, 0)
+                });
+
+            };
+
+            tempHeight = ypos;
+
+            const pdfBytes = await pdfDoc.save();
+
+            const buf = Buffer.from(pdfBytes);
+
+            res.setHeader('Content-Length', buf.length);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename=' + filename + '.pdf');
+            res.write(buf);
+            res.end();
 
             res.status(200).end();
 

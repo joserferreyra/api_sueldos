@@ -6,7 +6,7 @@ module.exports.jsonReportes = {
             PersonaApellido: "P.APELLIDO",
             PersonaNombre: "P.NOMBRE",
             SujetoAporte: "sum( case when CON.IDTIPOCONCEPTO = 1 THEN li.impticket ELSE 0 END)",
-            ExcentoAporte: "sum( case when CON.IDTIPOCONCEPTO = 2 THEN li.impticket ELSE 0 END)",
+            ExcentoAporte: "sum( case when CON.IDTIPOCONCEPTO in (2,7) THEN li.impticket ELSE 0 END)",
             AsignacionFamiliar: "sum( case when CON.IDTIPOCONCEPTO = 4 THEN li.impticket ELSE 0 END)",
             DescuentosLey: "sum( case when CON.IDTIPOCONCEPTO = 3 THEN li.impticket ELSE 0 END)",
             DescuentosVarios: "sum( case when CON.IDTIPOCONCEPTO = 6 THEN li.impticket ELSE 0 END) ",
