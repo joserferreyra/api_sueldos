@@ -188,5 +188,10 @@ module.exports.jsonStoreProcedure = {
         sp_name: "MOD_MAESTROS.P_ELIMINA_TIPO_REV",
         in_param: ["Id"],
         out_param: ["ValorSalida", "ValorError"]
+    },
+    estadoBoleta:{
+        sp_name: "MOD_REPORTES.ESTABLECE_CONF_BOLETA",
+        in_param:["IdLiq", "IdEstado"],
+        out_param: ["ValorSalida", "ValorError"]
     }
 }
