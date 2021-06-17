@@ -7,7 +7,6 @@ async function post(req, res, next) {
     let totalBytesInBuffer = 0;
     let contentType = req.headers['content-type'] || 'application/octet';
     let fileName = req.headers['x-file-name'];
-    let id = 2;
 
     if (fileName === '') {
       res.status(400).json({error: `The file name must be 
@@ -15,7 +14,7 @@ async function post(req, res, next) {
       return;
     }
 
-    req.on('data', chunk => {
+    req.on('data', chunk => {      
       contentBuffer.push(chunk);
       totalBytesInBuffer += chunk.length;
 
@@ -34,8 +33,10 @@ async function post(req, res, next) {
       contentBuffer = Buffer.concat(contentBuffer, totalBytesInBuffer);
       
       try {
-        const fileId = await files.create(id, fileName, contentType, contentBuffer);
 
+        //console.log(contentBuffer.toString() );
+
+        const fileId = await files.create(fileName, contentType, contentBuffer);
         res.status(201).json({fileId: fileId});
 
       } catch (err) {
