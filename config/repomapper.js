@@ -10,7 +10,7 @@ module.exports.jsonReportes = {
             AsignacionFamiliar: "sum( case when CON.IDTIPOCONCEPTO = 4 THEN li.impticket ELSE 0 END)",
             DescuentosLey: "sum( case when CON.IDTIPOCONCEPTO = 3 THEN li.impticket ELSE 0 END)",
             DescuentosVarios: "sum( case when CON.IDTIPOCONCEPTO = 6 THEN li.impticket ELSE 0 END) ",
-            Neto: "sum( case when CON.IDTIPOCONCEPTO in (1,2,4) THEN li.impticket ELSE li.impticket*(-1) END)",
+            Neto: "sum( case when CON.IDTIPOCONCEPTO in (1,2,4,7) THEN li.impticket else 0 end) - sum(case when CON.IDTIPOCONCEPTO in (3,6) then li.impticket else 0 END)",
             TipoTotal: "grouping(c.orden)"
         },
         whereFields: {

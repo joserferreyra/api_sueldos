@@ -8,25 +8,26 @@ const createSql =
     content_type,
     blob_data
   ) values (
-    :id,
+    TEMPFILES_SEQ.NEXTVAL,
     :file_name,
     :content_type,
     :content_buffer
   ) returning id into :id`;
 
-async function create(idFile, fileName, contentType, contentBuffer) {
+async function create(fileName, contentType, contentBuffer) {
   const binds = {
-    id: idFile,
     file_name: fileName,
     content_type: contentType,
     content_buffer: contentBuffer,
     id: {
       type: oracledb.NUMBER,
-      dir: oracledb.BIND_INOUT
+      dir: oracledb.BIND_OUT
     }
   };
   
   result = await database.simpleExecute(createSql, binds);
+
+  //console.log(result);
   
   return result.outBinds.id[0];
 }

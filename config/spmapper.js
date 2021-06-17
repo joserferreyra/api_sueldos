@@ -182,11 +182,16 @@ module.exports.jsonStoreProcedure = {
     },
     generaResumenLiq:{
         sp_name: 'MOD_REPORTES.carga_resumenliq',
-        in_param:['IdLiq','Periodo','TipoLiquidacionId', 'GrupoAdicionalId' ]
+        in_param:['IdLiq','Periodo','TipoLiquidacionId', 'GrupoAdicionalId', 'GrupoRep', 'Rep']
     },
     eliminaTipoRev: {
         sp_name: "MOD_MAESTROS.P_ELIMINA_TIPO_REV",
         in_param: ["Id"],
+        out_param: ["ValorSalida", "ValorError"]
+    },
+    estadoBoleta:{
+        sp_name: "MOD_REPORTES.ESTABLECE_CONF_BOLETA",
+        in_param:["IdLiq", "IdEstado"],
         out_param: ["ValorSalida", "ValorError"]
     }
 }

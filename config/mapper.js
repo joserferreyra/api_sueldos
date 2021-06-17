@@ -748,7 +748,9 @@ module.exports.jsonEntityMap = {
             TipoLiquidacionId: 'IDTIPOLIQ',
             GrupoAdicionalId: 'NROADICIONAL',
             Periodo: 'PERIODO',
-            FechaDev: 'FECHADEV'
+            FechaDev: 'FECHADEV',
+            Neto: 'NETO',
+            Estado: 'IDESTADO'
         },
         key: {
             field: "IdLiq"
