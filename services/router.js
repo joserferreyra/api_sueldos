@@ -78,9 +78,7 @@ app.route('/view/*').get(control.getView);
 
 app.route('/repo/*').get(control.getRepo);
 
-app.route('/files/:id?')
-    .get(files.get)
-    .post(files.post);
+app.route('/fileUpload').post(files.post);    
     
 app.route('/xlsx/*').get(control.getxlsx);
 
