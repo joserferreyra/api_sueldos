@@ -387,20 +387,21 @@ async function getTXT(req, res, next) {
                     }
                     ban = false;
                 }
-                txt = txt + element['CADENA'].toString() + '\n';
+                txt = txt + element['CADENA'] + '\n';
             });
 
-            const buf = Buffer.from(txt, 'latin1');
+            const buf = Buffer.from(txt,'latin1');
+            console.log(buf.toString('binary') );
 
             if (!fileName) {
                 fileName = yyyymmdd() + '_' + entityName + '.txt';
             }
 
-            res.setHeader('Content-Length', buf.length);
-            res.setHeader('Content-Type', 'application/text');
-            res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
-            res.write(buf);
-            res.end();
+            //res.setHeader('Content-Length', buf.length);
+            //res.setHeader('Content-Type', 'application/text; charset=latin-1');
+            res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);            
+            //res.write(buf.toString('latin1'));
+            res.end(buf.toString('binary'));
 
         } else {
             res.status(404).end();
@@ -432,7 +433,7 @@ async function getTXTipsst(req, res, next) {
             let txt = new String();
 
             content.forEach(element => {
-                txt = txt + element['CADENA'].toString() + '\n';
+                txt = txt + element['CADENA'] + '\n';
             });
 
             const buf = Buffer.from(txt, 'latin1');
@@ -445,7 +446,7 @@ async function getTXTipsst(req, res, next) {
             res.setHeader('Content-Length', buf.length);
             res.setHeader('Content-Type', 'application/text');
             res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
-            res.write(buf);
+            res.write(buf.toString('latin1'));
             res.end();
 
         } else {
@@ -504,7 +505,7 @@ async function getCursorFromSP(req, res, next) {
             res.setHeader('Content-Length', buf.length);
             res.setHeader('Content-Type', 'application/text');
             res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
-            res.write(buf);
+            res.write(buf.toString('latin1'));
             res.end();
 
         } else {

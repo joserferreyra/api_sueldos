@@ -62,12 +62,39 @@ module.exports.jsonReportes = {
                 "group by rollup((l.periodo,CON.IDTIPOCONCEPTO),(CON.CODIGO,CON.SUBCOD,CON.desc_boleta))"
             ]
         }
+    },
 
-        /*where
-        L.PERIODO = to_date('01/03/2021','dd/mm/yyyy')
-        and L.IDTIPOLIQ = 1
-        and CON.IDTIPOCONCEPTO <> 5
-        
-        order by CON.IDTIPOCONCEPTO,CON.CODIGO,CON.SUBCOD;*/
+    resumenCodIPSST: {
+        fields: {
+            Periodo: "c.periodo",
+            TipoLiquidacionId: "c.idtipoliq",
+            GrupoAdicionalId: "c.idgrupoadi",
+            NombreArchivo: "c.nombre",
+            Codigo: "CON.CODIGO",
+            SubCodigo: "CON.SUBCOD",
+            Descripcion: "CON.desc_boleta",
+            Cantidad: "COUNT(li.idliqitem)",
+            Importe: "sum(li.impticket)"
+        },
+        whereFields: {
+            Periodo: "l.periodo",
+            TipoLiquidacionId: "l.idtipoliq",
+            GrupoAdicionalId: "c.idgrupoadi"
+
+        },
+        key: { field: "" },
+        sql: {
+            fromClause: [
+                "FROM ipsst_cab c",
+                "INNER JOIN ipsst_det d ON D.idcab = c.idcab",
+                "INNER JOIN LIQITEM li ON li.IDLIQ = d.IDLIQ",
+                "INNER JOIN CONCEPTO CON ON con.IDCONCEPTO = li.idconcepto AND con.codigo IN (147,148,170)"
+            ],
+            groupClause: [
+                "GROUP BY rollup((c.periodo, c.idtipoliq, c.idgrupoadi, c.nombre), (CON.CODIGO, con.subcod, CON.desc_boleta))"
+            ]
+        }
+
     }
+
 }

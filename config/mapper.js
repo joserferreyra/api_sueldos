@@ -369,7 +369,7 @@ module.exports.jsonEntityMap = {
             Parametro1: 'PARM1',
             Parametro2: 'PARM2',
             Vencimiento: 'VTO',
-            Importe: 'IMPORTE',
+            Importe: 'ROUND(IMPORTE,2)',
             Periodo: 'PERIODO',
             GrupoAdicionalId: 'IDGRUPOADI',
             PenLey: 'PENLEY'
