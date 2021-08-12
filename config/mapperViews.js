@@ -427,5 +427,33 @@ module.exports.jsonViewMap = {
                 "order by con.codigo, con.subcod"
             ]
         }
+    },
+    cuilesFaltantes:{
+        fields:{
+            Dni: "p.dni",
+            Apellido: "p.apellido",
+            Nombre: "p.nombre",
+            CUIL: "rl.cuil",
+            TipoLiquidacionDescripcion: "(RL.IDTIPOLIQ || ' - ' || TL.DESCRIPCION)",
+            TipoLiquidacionId: "rl.idtipoliq",
+            GrupoAdicionalId: "rl.idgrupoadi",
+            Fechaemision: "rl.fechaemision",
+            FechaDev: "rl.fechadev",
+            FechaAplica: "rl.fechaaplic",
+            Baja: "rl.baja",
+            TipoLiquidacionId: "rl.idtipoliq"
+        },
+        sql:{
+            fromClause:[
+                "from ddjj_resumenliq rl",
+                "inner join personas p on p.idpers = rl.idpers and pkg_ddjj_previsional.validacuil(rl.cuil) = 0",
+                "inner join tipoliquidacion tl on rl.idtipoliq = tl.idtipoliq"
+            ]
+        },
+        whereFields: {
+            FechaAplica: "rl.fechaaplic",
+            TipoLiquidacionId: "rl.idtipoliq",
+            GrupoAdicionalId: "rl.idgrupoadi"
+        }
     }
 }
