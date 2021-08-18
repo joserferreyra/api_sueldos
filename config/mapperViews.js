@@ -376,7 +376,7 @@ module.exports.jsonViewMap = {
             c1: "rpad(r.idrep,7) || rpad(r.descripcion,35) || lpad('CUIT ' || substr(to_char(r.cuit),1,2)||'-'||substr(to_char(r.cuit),3,8)||'-'||substr(to_char(r.cuit),11,1), 57 )",
             c2: "rpad(' ',7, ' ') ||'DIRECCION ' || upper(r.direccion)",
             c3: "rpad(' ',7, ' ') ||'APELLIDO: ' || rpad(upper(p.apellido),18) || 'NOMBRE: ' || rpad(upper(p.nombre),35) ||  lpad('CUIL '|| substr(to_char(p.cuil),1,2)||'-'||substr(to_char(p.cuil),3,8)||'-'||substr(to_char(p.cuil),11,1), 21)",
-            c4: "rpad(' ',7, ' ') || rpad('ORDEN: ' ||c.ORDEN, 20) || rpad('AFILIADO: '||c.AFILIADO, 20) || rpad('CAT: '||C.CATEGORIA,20) || lpad(c.idte || c.idsitrev || c.idtipoos || c.salario, 32)",
+            c4: "rpad(' ',7, ' ') ||rpad('ORDEN: ' ||c.ORDEN, 15) || rpad('AFILIADO: '||c.AFILIADO, 18) || rpad('CAT: '||C.CATEGORIA, 10) || rpad('INGRESO: '||to_char(p.fechaingreso,'MM/YYYY'),16) || lpad(c.idte || c.idsitrev || c.idtipoos || c.salario, 33)",
             c5: "rpad(' ',7, ' ') ||rpad('LIQUIDACION '|| tl.descripcion, 77) ||'PERIODO '||to_char(l.periodo,'MM/YYYY')",
             habcap: "l.habcap",
             habsap: "l.habsap",
