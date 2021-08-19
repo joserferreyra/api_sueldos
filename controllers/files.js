@@ -1,4 +1,5 @@
 const files = require('../db_apis/files.js');
+const { jsonParser } = require("../config/parser");
 
 async function post(req, res, next) {
   try {
@@ -36,8 +37,14 @@ async function post(req, res, next) {
 
         //console.log(contentBuffer.toString() );
 
-        const fileId = await files.create(fileName, contentType, contentBuffer);
-        res.status(201).json({fileId: fileId});
+        //const fileId = await files.create(fileName, contentType, contentBuffer);
+        //res.status(201).json({fileId: fileId});
+
+        const data = files.getObjects(contentBuffer.toString(), jsonParser.novipsst);
+        
+        //console.log(JSON.stringify(data));
+
+        res.status(201).json(data);
 
       } catch (err) {
         console.log(err);

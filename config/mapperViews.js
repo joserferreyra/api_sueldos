@@ -376,7 +376,7 @@ module.exports.jsonViewMap = {
             c1: "rpad(r.idrep,7) || rpad(r.descripcion,35) || lpad('CUIT ' || substr(to_char(r.cuit),1,2)||'-'||substr(to_char(r.cuit),3,8)||'-'||substr(to_char(r.cuit),11,1), 57 )",
             c2: "rpad(' ',7, ' ') ||'DIRECCION ' || upper(r.direccion)",
             c3: "rpad(' ',7, ' ') ||'APELLIDO: ' || rpad(upper(p.apellido),18) || 'NOMBRE: ' || rpad(upper(p.nombre),35) ||  lpad('CUIL '|| substr(to_char(p.cuil),1,2)||'-'||substr(to_char(p.cuil),3,8)||'-'||substr(to_char(p.cuil),11,1), 21)",
-            c4: "rpad(' ',7, ' ') || rpad('ORDEN: ' ||c.ORDEN, 20) || rpad('AFILIADO: '||c.AFILIADO, 20) || rpad('CAT: '||C.CATEGORIA,20) || lpad(c.idte || c.idsitrev || c.idtipoos || c.salario, 32)",
+            c4: "rpad(' ',7, ' ') ||rpad('ORDEN: ' ||c.ORDEN, 15) || rpad('AFILIADO: '||c.AFILIADO, 18) || rpad('CAT: '||C.CATEGORIA, 10) || rpad('INGRESO: '||to_char(p.fechaingreso,'MM/YYYY'),16) || lpad(c.idte || c.idsitrev || c.idtipoos || c.salario, 33)",
             c5: "rpad(' ',7, ' ') ||rpad('LIQUIDACION '|| tl.descripcion, 77) ||'PERIODO '||to_char(l.periodo,'MM/YYYY')",
             habcap: "l.habcap",
             habsap: "l.habsap",
@@ -427,5 +427,67 @@ module.exports.jsonViewMap = {
                 "order by con.codigo, con.subcod"
             ]
         }
+    },
+    cuilesFaltantes:{
+        fields:{
+            Dni: "p.dni",
+            Apellido: "p.apellido",
+            Nombre: "p.nombre",
+            CUIL: "rl.cuil",
+            TipoLiquidacionDescripcion: "(RL.IDTIPOLIQ || ' - ' || TL.DESCRIPCION)",
+            TipoLiquidacionId: "rl.idtipoliq",
+            GrupoAdicionalId: "rl.idgrupoadi",
+            Fechaemision: "rl.fechaemision",
+            FechaDev: "rl.fechadev",
+            FechaAplica: "rl.fechaaplic",
+            Baja: "rl.baja",
+            TipoLiquidacionId: "rl.idtipoliq"
+        },
+        sql:{
+            fromClause:[
+                "from ddjj_resumenliq rl",
+                "inner join personas p on p.idpers = rl.idpers and pkg_ddjj_previsional.validacuil(rl.cuil) = 0",
+                "inner join tipoliquidacion tl on rl.idtipoliq = tl.idtipoliq"
+            ]
+        },
+        whereFields: {
+            FechaAplica: "rl.fechaaplic",
+            TipoLiquidacionId: "rl.idtipoliq",
+            GrupoAdicionalId: "rl.idgrupoadi"
+        }
+    },
+    conceptosNoLiq:{
+        fields:{
+            Orden: "c.orden",
+            Documento: "p.dni",
+            Apellido: "p.apellido",
+            Nombre: "p.nombre",
+            Codigo: "cl.codigo",
+            SubCodigo: "cl.subcod",
+            Param1: "cl.parm1",
+            Param2: "cl.parm2",
+            VTO: "cl.vto",
+            Importe: "cl.importe",
+            Periodo: "cl.periodo",
+            TipoLiquidacionId: "c.idtipoliq"
+        },
+        sql:{
+            fromClause:[
+                "FROM cargos c",
+                "inner join personas p on P.IDPERS = C.IDPERS",
+                "inner join conceptoliq cl on cl.idcargo = c.idcargo and fechabaja is null and idestadocargo = 1 and cl.importe>0",
+                "and not exists(select l.idliq from liq l inner join liqitem li on l.idliq = li.idliq",
+                    "where Li.IDCONCEPTOLIQ = CL.IDCONCEPTOLIQ",
+                    "and L.PERIODO = cl.periodo",
+                    "and l.idtipoliq = c.idtipoliq",
+                    "and l.idcargo = c.idcargo)"
+            ]
+        },
+        whereFields:{
+            Periodo: "cl.periodo",
+            TipoLiquidacionId: "c.idtipoliq"
+        },
+        orderBy:"order by c.orden, cl.codigo,cl.subcod"
     }
+
 }
