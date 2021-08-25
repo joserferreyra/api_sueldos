@@ -77,8 +77,8 @@ module.exports.jsonReportes = {
             Importe: "sum(li.impticket)"
         },
         whereFields: {
-            Periodo: "l.periodo",
-            TipoLiquidacionId: "l.idtipoliq",
+            Periodo: "c.periodo",
+            TipoLiquidacionId: "c.idtipoliq",
             GrupoAdicionalId: "c.idgrupoadi"
 
         },
