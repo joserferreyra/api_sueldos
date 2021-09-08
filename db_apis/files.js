@@ -1,5 +1,6 @@
 const oracledb = require('oracledb');
 const database = require('../services/database.js');
+const fm = require('./writeTempFile');
 
 const createSql =
   `insert into jsao_files (
@@ -99,7 +100,11 @@ function getArrayObjects(data, parser) {
 
     });
 
-    return { "resume": resume, "rows": rows };
+    let jsonOutput = JSON.stringify({ "resume": resume, "rows": rows });
+    
+    fm.writeFile(jsonOutput, 'ipsst.json');
+
+    return jsonOutput;
 
   } catch (error) {
 
