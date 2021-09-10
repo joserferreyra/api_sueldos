@@ -469,13 +469,16 @@ module.exports.jsonViewMap = {
             VTO: "cl.vto",
             Importe: "cl.importe",
             Periodo: "cl.periodo",
-            TipoLiquidacionId: "c.idtipoliq"
+            TipoLiquidacionId: "c.idtipoliq",
+            TipoLiquidacionDescripcion: "tl.descripcion",
+            GrupoAdicionalId: "cl.idgrupoadi"
         },
         sql:{
             fromClause:[
                 "FROM cargos c",
                 "inner join personas p on P.IDPERS = C.IDPERS",
                 "inner join conceptoliq cl on cl.idcargo = c.idcargo and fechabaja is null and idestadocargo = 1 and cl.importe>0",
+                "inner join tipoliquidacion tl on tl.idtipoliq = c.idtipoliq",
                 "and not exists(select l.idliq from liq l inner join liqitem li on l.idliq = li.idliq",
                     "where Li.IDCONCEPTOLIQ = CL.IDCONCEPTOLIQ",
                     "and L.PERIODO = cl.periodo",
@@ -485,7 +488,8 @@ module.exports.jsonViewMap = {
         },
         whereFields:{
             Periodo: "cl.periodo",
-            TipoLiquidacionId: "c.idtipoliq"
+            TipoLiquidacionId: "c.idtipoliq",
+            GrupoAdicionalId: "c.idgrupoadi"
         },
         orderBy:"order by c.orden, cl.codigo,cl.subcod"
     }
