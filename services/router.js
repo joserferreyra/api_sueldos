@@ -92,6 +92,8 @@ app.route('/adduser').post(controlUser.post);
 
 app.route('/boleta').get(control.getBoletaPDF2);
 
+app.route('/generaNovIPSST').get(files.getHojaId);
+
 /*
 app.post('/xlsx', function (req, res, next) {
     var url = URL.parse(req.url, true);
