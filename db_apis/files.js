@@ -1,5 +1,7 @@
 const oracledb = require('oracledb');
+//const { readFile } = require('xlsx/types');
 const database = require('../services/database.js');
+const fm = require('./writeTempFile');
 
 const createSql =
   `insert into jsao_files (
@@ -26,8 +28,6 @@ async function create(fileName, contentType, contentBuffer) {
   };
 
   result = await database.simpleExecute(createSql, binds);
-
-  //console.log(result);
 
   return result.outBinds.id[0];
 }
@@ -99,6 +99,10 @@ function getArrayObjects(data, parser) {
 
     });
 
+    let jsonOutput = JSON.stringify({ "resume": resume, "rows": rows });
+
+    fm.writeFile(jsonOutput, 'ipsst.json');
+
     return { "resume": resume, "rows": rows };
 
   } catch (error) {
@@ -110,3 +114,110 @@ function getArrayObjects(data, parser) {
 };
 
 module.exports.getObjects = getArrayObjects;
+
+
+async function crearHoja(tliq, gadi, per, thoja, tcarga, estado) {
+
+  let createSql =
+    `insert into HOJA_NOV(
+        IDHOJANOV,
+        IDTIPOLIQ, 
+        IDGRUPOADI, 
+        PERIODO, 
+        IDTIPOHOJA, 
+        IDTIPOCARGA, 
+        IDESTADOHOJA) 
+      values (
+        HOJA_NOV_SEQ.nextval,
+        :tipoLiq,
+        :grupoAdi,
+        to_date(:periodo,'dd/mm/yyyy'),
+        :tipoHoja,
+        :tipocarga,
+        :estadoHoja
+      ) returning IDHOJANOV into :idHoja`;
+
+
+  const binds = {
+    tipoLiq: tliq,
+    grupoAdi: gadi,
+    periodo: per,
+    tipoHoja: thoja,
+    tipoCarga: tcarga,
+    estadoHoja: estado,
+    idHoja: {
+      type: oracledb.NUMBER,
+      dir: oracledb.BIND_OUT
+    }
+  };
+
+  result = await database.simpleExecute(createSql, binds);
+
+  return result.outBinds.idHoja[0];
+
+}
+
+async function eliminaHoja(idhoja) {
+
+  let sql = `delete hoja where idhojanov = :idhojanov`;
+
+  const binds = {
+    idhojanov: idhoja
+  };
+
+  database.simpleExecute(sql, binds);
+  
+}
+
+async function getPeriodoActivo() {
+
+  let sql = `select to_char(periodo,'DD/MM/YYYY') as periodo
+              from tabperiodo
+              where activo = 1`;
+
+  const result = await database.simpleExecute(sql);
+
+  return result.rows[0].PERIODO;
+
+}
+
+
+async function generaNovedadIPSST() {
+
+  const per = await getPeriodoActivo();
+
+  const idHoja = await crearHoja(1, 0, per, 3, 1, 5);
+
+  if (idHoja > 0) {
+    try {
+      const binds = await fm.readFile('ipsst.json');
+
+      const options = {
+        autoCommit: true,
+        batchErrors: true
+      };
+
+      const sql = `INSERT INTO US_SUELDO.NOVIPSST(IDNOV,CELA,CUIL,APELLIDO,COD,SUBCOD,VTO,IMP, 
+                    PER_COMUN, PERIODO, IDHOJANOV, IDESTADOREG)
+               VALUES (NOVIPSST_SEQ.nextval, :cela, :cuil, :apeynom, :cod, :subcod, to_date(:vto,'YYYYMM'), ROUND(:imp/100, 2),
+                       to_date('${per}','dd/mm/yyyy'), to_date('${per}','dd/mm/yyyy'), ${idHoja}, 4)`;
+
+      const result = await (await database.getConnection()).executeMany(sql, binds, options);
+
+      let json = { 'nroHoja': idHoja, 'rowsAffected': result.rowsAffected, 'status': 200 };
+
+      return json;
+
+    } catch (error) {
+
+      eliminaHoja(idHoja);
+      let json = { 'nroHoja': idHoja, 'status': 401 };
+      return json;
+
+    }
+
+  }
+
+}
+
+module.exports.generaNovedadIPSST = generaNovedadIPSST;

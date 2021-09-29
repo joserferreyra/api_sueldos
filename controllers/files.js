@@ -62,7 +62,6 @@ async function post(req, res, next) {
 
 module.exports.post = post;
 
-
 async function get(req, res, next) {
     try {
       const id = parseInt(req.params.id, 10);
@@ -92,4 +91,26 @@ async function get(req, res, next) {
       next(err);
     }
   }
+  
   module.exports.get = get;
+
+  async function getHojaId(req, res, next) {
+    try {    
+      context = req.query;
+      console.log(context);
+      
+      const data = await files.generaNovedadIPSST();  
+      res.status(201).json(data);
+
+      //res.status(201).json();
+
+    } catch (err) {
+      console.log(err);
+
+      res.header('Connection', 'close');
+      res.status(500).json({error: 'Oops, something broke!'});
+
+      req.connection.destroy();
+    }
+  }
+  module.exports.getHojaId = getHojaId;
