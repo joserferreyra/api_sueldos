@@ -103,7 +103,7 @@ function getArrayObjects(data, parser) {
 
     fm.writeFile(jsonOutput, 'ipsst.json');
 
-    return jsonOutput;
+    return { "resume": resume, "rows": rows };
 
   } catch (error) {
 
