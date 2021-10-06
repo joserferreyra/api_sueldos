@@ -70,11 +70,11 @@ module.exports.jsonReportes = {
             TipoLiquidacionId: "c.idtipoliq",
             GrupoAdicionalId: "c.idgrupoadi",
             NombreArchivo: "c.nombre",
-            Codigo: "CON.CODIGO",
-            SubCodigo: "CON.SUBCOD",
-            Descripcion: "CON.desc_boleta",
-            Cantidad: "COUNT(li.idliqitem)",
-            Importe: "sum(li.impticket)"
+            Codigo: "d.CODIGO",
+            SubCodigo: "d.SUBCOD",
+            Descripcion: "d.desc_boleta",
+            Cantidad: "COUNT(d.idliqitem)",
+            Importe: "sum(d.impticket)"
         },
         whereFields: {
             Periodo: "c.periodo",
@@ -86,12 +86,10 @@ module.exports.jsonReportes = {
         sql: {
             fromClause: [
                 "FROM ipsst_cab c",
-                "INNER JOIN ipsst_det d ON D.idcab = c.idcab",
-                "INNER JOIN LIQITEM li ON li.IDLIQ = d.IDLIQ",
-                "INNER JOIN CONCEPTO CON ON con.IDCONCEPTO = li.idconcepto AND con.codigo IN (147,148,170)"
+                "INNER JOIN ipsst_det d ON D.idcab = c.idcab"
             ],
             groupClause: [
-                "GROUP BY rollup((c.periodo, c.idtipoliq, c.idgrupoadi, c.nombre), (CON.CODIGO, con.subcod, CON.desc_boleta))"
+                "GROUP BY rollup((c.periodo, c.idtipoliq, c.idgrupoadi, c.nombre), (d.CODIGO, d.subcod, d.desc_boleta))"
             ]
         }
 
