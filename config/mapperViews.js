@@ -428,8 +428,8 @@ module.exports.jsonViewMap = {
             ]
         }
     },
-    cuilesFaltantes:{
-        fields:{
+    cuilesFaltantes: {
+        fields: {
             Dni: "p.dni",
             Apellido: "p.apellido",
             Nombre: "p.nombre",
@@ -443,8 +443,8 @@ module.exports.jsonViewMap = {
             Baja: "rl.baja",
             TipoLiquidacionId: "rl.idtipoliq"
         },
-        sql:{
-            fromClause:[
+        sql: {
+            fromClause: [
                 "from ddjj_resumenliq rl",
                 "inner join personas p on p.idpers = rl.idpers and pkg_ddjj_previsional.validacuil(rl.cuil) = 0",
                 "inner join tipoliquidacion tl on rl.idtipoliq = tl.idtipoliq"
@@ -456,8 +456,8 @@ module.exports.jsonViewMap = {
             GrupoAdicionalId: "rl.idgrupoadi"
         }
     },
-    conceptosNoLiq:{
-        fields:{
+    conceptosNoLiq: {
+        fields: {
             Orden: "c.orden",
             Documento: "p.dni",
             Apellido: "p.apellido",
@@ -473,25 +473,53 @@ module.exports.jsonViewMap = {
             TipoLiquidacionDescripcion: "tl.descripcion",
             GrupoAdicionalId: "cl.idgrupoadi"
         },
-        sql:{
-            fromClause:[
+        sql: {
+            fromClause: [
                 "FROM cargos c",
                 "inner join personas p on P.IDPERS = C.IDPERS",
                 "inner join conceptoliq cl on cl.idcargo = c.idcargo and fechabaja is null and idestadocargo = 1 and cl.importe>0",
                 "inner join tipoliquidacion tl on tl.idtipoliq = c.idtipoliq",
                 "and not exists(select l.idliq from liq l inner join liqitem li on l.idliq = li.idliq",
-                    "where Li.IDCONCEPTOLIQ = CL.IDCONCEPTOLIQ",
-                    "and L.PERIODO = cl.periodo",
-                    "and l.idtipoliq = c.idtipoliq",
-                    "and l.idcargo = c.idcargo)"
+                "where Li.IDCONCEPTOLIQ = CL.IDCONCEPTOLIQ",
+                "and L.PERIODO = cl.periodo",
+                "and l.idtipoliq = c.idtipoliq",
+                "and l.idcargo = c.idcargo)"
             ]
         },
-        whereFields:{
+        whereFields: {
             Periodo: "cl.periodo",
             TipoLiquidacionId: "c.idtipoliq",
             GrupoAdicionalId: "c.idgrupoadi"
         },
-        orderBy:"order by c.orden, cl.codigo,cl.subcod"
+        orderBy: "order by c.orden, cl.codigo,cl.subcod"
+    },
+    novIPSST: {
+        fields: {
+            Id: 'IDNOV',
+            CELA: 'CELA',
+            CUIL: 'CUIL',
+            Apellido: 'APELLIDO',
+            Codigo: 'COD',
+            Subcodigo: 'SUBCOD',
+            Vencimiento: 'VTO',
+            Importe: 'IMP',
+            PerComun: 'PER_COMUN',
+            Periodo: 'PERIODO',
+            HojaId: 'IDHOJANOV',
+            FechaGrabacion: 'FECHAGRABA',
+            EstadoRegistro: 'IDESTADOREG'
+        },
+        sql: {
+            fromClause: [
+                "FROM NOVIPSST"
+            ]
+        },
+        whereFields: {
+            Periodo: "PERIODO",
+            HojaId: "IDHOJANOV"
+        }
+
     }
+
 
 }
