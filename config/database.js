@@ -1,10 +1,8 @@
 module.exports = {
   dbPool: {
-    user: 'US_SUELDO',
-    password: 'usuario',
-    connectString: 'www.sueldos.duckdns.org:1521/DESA',
-    //connectString: 'www.sueldos.duckdns.org:1521/ORCL',
-    //connectString: '192.168.1.8:1521/ORCL',
+    user: "US_SUELDO",
+    password: "usuario",
+    connectString: "www.servertrancas.duckdns.org:1521/LIQUID",
     poolMin: 10,
     poolMax: 10,
     poolIncrement: 0,

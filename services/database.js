@@ -2,7 +2,6 @@ const oracledb = require('oracledb');
 const dbConfig = require('../config/database');
 
 async function initialize() {
-    //oracledb.fetchAsString = [oracledb.NUMBER];
     const pool = await oracledb.createPool(dbConfig.dbPool);
     console.log('Conexión a BD establecida.');
 }
@@ -36,10 +35,8 @@ function simpleExecute(statement, binds = [], opts = {}) {
                 query = getQueryLimits(statement);
             } else {
                 query = statement;
-            }
-            //console.log("Inicio de la ejecución");            
+            }         
             const result = await conn.execute(query, binds, opts);
-            //console.log("Fin de la ejecución");
             resolve(result);
         } catch (err) {
             reject(err);
@@ -65,9 +62,7 @@ function simpleExecuteNoLimit(statement, binds = [], opts = {}) {
         opts.outFormat = oracledb.OBJECT;
         opts.autoCommit = true;
         try {
-            conn = await oracledb.getConnection();
-            //console.log(statement);
-            //console.log(binds);
+            conn = await oracledb.getConnection();          
             const result = await conn.execute(statement, binds, opts);
             resolve(result);
         } catch (err) {

@@ -553,3 +553,4 @@
 127.0.0.1 - - [23/Apr/2021:12:41:30 +0000] "GET /api/view/list HTTP/1.1" 200 8334 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0"
 127.0.0.1 - - [23/Apr/2021:12:41:41 +0000] "GET /api/view/tipoLiq HTTP/1.1" 404 - "-" "Mozilla/5.0 (X11; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0"
 127.0.0.1 - - [23/Apr/2021:12:41:51 +0000] "GET /api/txt/djPrevTxtDDJJ HTTP/1.1" 200 257056 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0"
+::ffff:127.0.0.1 - - [22/Dec/2023:15:00:14 +0000] "GET /api/en/list HTTP/1.1" 200 13411 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0"
